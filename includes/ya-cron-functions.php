@@ -97,7 +97,7 @@ function sf_synchronize_products()
         }
 
         echo "<pre>";
-        print_r( '$responce: ' . $responce ); exit;
+        print_r( $responce ); exit;
         echo "</pre>";
 
     }

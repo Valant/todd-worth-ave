@@ -71,11 +71,12 @@ class SalesForceApi {
         }
 
         try {
-            if ( $this->mode == 'dev' ) {
-                $this->connection->login(self::USER_NAME_DEV, self::PASSWORD_DEV . self::SECURITY_TOKEN_DEV);
-            } else if( $this->mode == 'prod' ) {
-                $this->connection->login(self::USER_NAME_PROD, self::PASSWORD_PROD . self::SECURITY_TOKEN_PROD);
-            }
+            $this->connection->login(self::USER_NAME_DEV, self::PASSWORD_DEV . self::SECURITY_TOKEN_DEV);
+//            if ( $this->mode == 'dev' ) {
+//                $this->connection->login(self::USER_NAME_DEV, self::PASSWORD_DEV . self::SECURITY_TOKEN_DEV);
+//            } else if( $this->mode == 'prod' ) {
+//                $this->connection->login(self::USER_NAME_PROD, self::PASSWORD_PROD . self::SECURITY_TOKEN_PROD);
+//            }
         } catch(Exception $e) {
             throw new Exception($e->getMessage(),'400');
         }

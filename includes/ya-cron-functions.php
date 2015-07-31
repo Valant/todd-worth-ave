@@ -42,7 +42,7 @@ function sf_synchronize_products()
                      m2.meta_value as '$SFProductId_key',
                      m3.meta_value as 'Update_Version' FROM {$wpdb->posts}
                 LEFT JOIN {$wpdb->postmeta} m1
-                    ON ( {$wpdb->posts}.ID = m1.post_id AND m1.meta_key =  'vessel_detail' )
+                    ON ( {$wpdb->posts}.ID = m1.post_id AND m1.meta_key = 'vessel_detail' )
                 LEFT JOIN {$wpdb->postmeta} m2
                     ON ( {$wpdb->posts}.ID = m2.post_id AND m2.meta_key = '$SFProductId_key' )
                 LEFT JOIN {$wpdb->postmeta} m3
@@ -61,11 +61,6 @@ function sf_synchronize_products()
 
     foreach ( $vessels as $item )
     {
-
-        echo "<pre>";
-        print_r( $item );
-        echo "</pre>";
-
         $SFProductId = '';
         $SFProductId = get_post_meta( $item->post_id , $SFProductId_key, true );
         $product_update_version = $current_update_version;
@@ -91,7 +86,9 @@ function sf_synchronize_products()
             }
         }
 
-        update_post_meta( $item->post_id, 'Update_Version', $product_update_version );
+        if( $responce['status'] == 'error' ) {
+            update_post_meta( $item->post_id, 'Update_Version', $product_update_version );
+        }
         if ( $salesForceApi->mode == 'dev' ) {
             update_post_meta( $item->post_id, 'SFProductId_sandbox', $SFProductId );
         } else if ( $salesForceApi->mode == 'prod' ) {

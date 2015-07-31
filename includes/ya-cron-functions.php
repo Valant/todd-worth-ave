@@ -68,6 +68,7 @@ function sf_synchronize_products()
         $vessel_detail = unserialize( $item->vessel_detail );
         $vessel_detail['ForSale'] = true;
         $vessel_detail['Boatname'] = $item->post_title;
+        $vessel_detail['Update_Version'] = $current_update_version;
         $vessel_detail = (object)$vessel_detail;
 
         if ( $SFProductId != '' ) {
@@ -86,7 +87,7 @@ function sf_synchronize_products()
             }
         }
 
-        if( $responce['status'] == 'error' ) {
+        if( $responce['status'] == 'success' ) {
             update_post_meta( $item->post_id, 'Update_Version', $product_update_version );
         }
         if ( $salesForceApi->mode == 'dev' ) {

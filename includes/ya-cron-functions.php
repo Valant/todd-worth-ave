@@ -4,23 +4,27 @@
  */
 function ya_load_modification_list()
 {
-	include_once( 'admin/class-ya-admin.php' );
-	$api = new YA_API();
-    $salesForceApi = new SalesForceApi();
-	$modification_list = $api->load_modification_list();
+    include_once( 'admin/class-ya-admin.php' );
+    $api = new YA_API();
+    //$salesForceApi = new SalesForceApi();
+    $modification_list = $api->load_modification_list();
 
-	// $modification_list = array_splice($modification_list,2);
-	if($modification_list) {
-		foreach ($modification_list as $VesselID) {
-			$vessel_detail                 = $api->load_vessel_detail($VesselID);
-            $vessel_detail->Update_Version = $salesForceApi->update_version;
-            $vessel_detail->ForSale        = true;
+    // $modification_list = array_splice($modification_list,2);
+    if($modification_list) {
+        foreach ($modification_list as $VesselID) {
+            $vessel_detail          = $api->load_vessel_detail($VesselID);
+            // $vessel_detail->Update_Version = $salesForceApi->update_version;
+            $vessel_detail->ForSale = true;
 
-			if($vessel_detail !== false) {
-				$api->save_vessel( $vessel_detail );
+            if($vessel_detail !== false) {
+                $api->save_vessel( $vessel_detail );
+
+                echo "<pre>";
+                print_r( $vessel_detail ); exit;
+                echo "</pre>";
             }
-		}
-	}
+        }
+    }
 }
 add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list');
 

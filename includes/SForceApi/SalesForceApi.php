@@ -6,6 +6,7 @@ class SalesForceApi {
 
     // Mode: 'dev' or 'prod'
     public $mode = 'dev';
+    // shouldn't be null ( integer ) !
     public $update_version = 1;
     private $connection;
     private $productFieldsRelations = [

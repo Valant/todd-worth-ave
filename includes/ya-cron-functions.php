@@ -74,7 +74,7 @@ function sf_synchronize_products()
         $vessel_detail['Boatname'] = $item->post_title;
         $vessel_detail = (object)$vessel_detail;
 
-        if ( $SFProductId ) {
+        if ( $SFProductId != '' ) {
             $responce = $salesForceApi->updateProduct( $SFProductId, $vessel_detail );
 
             if( $responce['status'] == 'error' ) {
@@ -97,7 +97,7 @@ function sf_synchronize_products()
         }
 
         echo "<pre>";
-        print_r( 'finish: ' . $SFProductId ); exit;
+        print_r( '$responce: ' . $responce ); exit;
         echo "</pre>";
 
     }

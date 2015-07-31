@@ -68,6 +68,7 @@ function sf_synchronize_products()
 
         $SFProductId = '';
         $SFProductId = get_post_meta( $item->post_id , $SFProductId_key, true );
+        $product_update_version = $current_update_version;
 
         $vessel_detail = unserialize( $item->vessel_detail );
         $vessel_detail['ForSale'] = true;
@@ -90,6 +91,7 @@ function sf_synchronize_products()
             }
         }
 
+        update_post_meta( $item->post_id, 'Update_Version', $product_update_version );
         if ( $salesForceApi->mode == 'dev' ) {
             update_post_meta( $item->post_id, 'SFProductId_sandbox', $SFProductId );
         } else if ( $salesForceApi->mode == 'prod' ) {

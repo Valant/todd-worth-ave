@@ -132,7 +132,7 @@ class SalesForceApi {
             }
         }
 
-        echo "< $record >";
+        echo "< record >";
         echo "<pre>";
         print_r( $record );
         echo "</pre>";
@@ -140,7 +140,7 @@ class SalesForceApi {
         try{
             $result = $this->connection->update($record, 'Product2');
 
-            echo "< $result >";
+            echo "< result >";
             echo "<pre>";
             print_r( $result );
             echo "</pre>";

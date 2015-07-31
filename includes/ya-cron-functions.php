@@ -94,13 +94,6 @@ function sf_synchronize_products()
         } else if ( $salesForceApi->mode == 'prod' ) {
             update_post_meta( $item->post_id, 'SFProductId', $SFProductId );
         }
-
-        echo "< vessel_detail >";
-        echo "<pre>";
-        print_r( $vessel_detail ); exit;
-        echo "</pre>";
-
-
     }
 
 }

@@ -100,6 +100,11 @@ class SalesForceApi {
             }
         }
 
+        echo "< record >";
+        echo "<pre>";
+        print_r( $record );
+        echo "</pre>";
+
         try {
             $result = $this->connection->create($record, 'Product2');
         }

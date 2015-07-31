@@ -109,6 +109,11 @@ class SalesForceApi {
             return array( 'status' => 'error', 'message' => $message);
         }
 
+        echo "< result >";
+        echo "<pre>";
+        print_r( $result );
+        echo "</pre>";
+
         return array( 'status' => 'success', 'id' => $result[0]->id );
     }
 

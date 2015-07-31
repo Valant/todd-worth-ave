@@ -59,12 +59,13 @@ function sf_synchronize_products()
 
     $vessels = $wpdb->get_results( $query );
 
-    echo "<pre>";
-    print_r( $vessels ); exit;
-    echo "</pre>";
-
     foreach ( $vessels as $item )
     {
+
+        echo "<pre>";
+        print_r( $item );
+        echo "</pre>";
+
         $SFProductId = '';
         $SFProductId = get_post_meta( $item->post_id , $SFProductId_key, true );
 
@@ -94,6 +95,11 @@ function sf_synchronize_products()
         } else if ( $salesForceApi->mode == 'prod' ) {
             update_post_meta( $item->post_id, 'SFProductId', $SFProductId );
         }
+
+        echo "<pre>";
+        print_r( 'finish: ' . $SFProductId ); exit;
+        echo "</pre>";
+
     }
 
 }

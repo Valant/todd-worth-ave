@@ -111,7 +111,7 @@ class SalesForceApi {
 
         echo "< result >";
         echo "<pre>";
-        print_r( $result );
+        print_r( $result );  exit;
         echo "</pre>";
 
         return array( 'status' => 'success', 'id' => $result[0]->id );
@@ -147,7 +147,7 @@ class SalesForceApi {
 
             echo "< result >";
             echo "<pre>";
-            print_r( $result );
+            print_r( $result ); exit;
             echo "</pre>";
 
         }

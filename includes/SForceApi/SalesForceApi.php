@@ -100,11 +100,6 @@ class SalesForceApi {
             }
         }
 
-        echo "< record >";
-        echo "<pre>";
-        print_r( $record );
-        echo "</pre>";
-
         try {
             $result = $this->connection->create($record, 'Product2');
         }
@@ -112,11 +107,6 @@ class SalesForceApi {
             $message = $e->getMessage();
             return array( 'status' => 'error', 'message' => $message);
         }
-
-        echo "< result >";
-        echo "<pre>";
-        print_r( $result );  exit;
-        echo "</pre>";
 
         return array( 'status' => 'success', 'id' => $result[0]->id );
     }
@@ -141,19 +131,8 @@ class SalesForceApi {
             }
         }
 
-        echo "< record >";
-        echo "<pre>";
-        print_r( $record );
-        echo "</pre>";
-
         try{
             $result = $this->connection->update($record, 'Product2');
-
-            echo "< result >";
-            echo "<pre>";
-            print_r( $result ); exit;
-            echo "</pre>";
-
         }
         catch (Exception $e) {
 

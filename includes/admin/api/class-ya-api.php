@@ -384,7 +384,10 @@ class YA_API {
                 $result->Update_Version = $this->salesForce->update_version;
             }
 
-            $result->Image_URL = wp_get_attachment_image(get_post_thumbnail_id($post_id), 'medium');
+            $image_src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
+            if (!empty($image_src[0])) {
+                $result->Image_URL = $image_src[0];
+            }
 
             if ( $SFProductId ) {
                 $responce = $this->salesForce->updateProduct($SFProductId, $result);

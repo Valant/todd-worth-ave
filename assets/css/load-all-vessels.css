@@ -1,0 +1,29 @@
+#loadvessel-bar{
+    background: none repeat scroll 0 0 #fcfdfd;
+    border: 1px solid #a6c9e2;
+    color: #222222;
+    height: 25px;
+    position: relative;
+}
+#loadvessel-bar-percent {
+    font-weight: bold;
+    height: 25px;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -9px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 300px;
+}
+#loadvessel-progressbar-value {
+    background: none repeat scroll 0 0 #5c9ccc;
+    color: #ffffff;
+    display: block;
+    font-weight: bold;
+    height: 100%;
+    width: 0;
+}
+#loadvessel_progressbar{
+    display: none;
+}

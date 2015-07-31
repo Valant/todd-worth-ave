@@ -309,21 +309,36 @@ class YA_API {
             'post_author'    => $this->get_admin_id()
         );
 
-        $SFProductId_key = '';
-        if ( $this->salesForce->mode == 'dev' ) {
-            $SFProductId_key = 'SFProductId_sandbox';
-        } else if ( $this->salesForce->mode == 'prod' ) {
-            $SFProductId_key = 'SFProductId';
-        }
-
-        $SFProductId = '';
-        $current_update_version = $this->salesForce->update_version;
-
         if($post_id = $this->vessel_exist($result->VesselID)) {
 
             $post['ID']                = $post_id;
             $post['post_modified']     = current_time( 'mysql' );
             $post['post_modified_gmt'] = current_time( 'mysql', 1 );
+
+            wp_update_post($post);
+
+            $answer['status'] = 'updated';
+        } else {
+
+            $result->Update_Version = $this->salesForce->update_version;
+            $responce = $this->salesForce->addNewProduct($result);
+            $post_id = wp_insert_post($post);
+
+            $answer['status'] = 'added';
+        }
+
+        if($post_id) {
+
+            ///--- START save data to SaleForce
+
+            $SFProductId_key = '';
+            if ( $this->salesForce->mode == 'dev' ) {
+                $SFProductId_key = 'SFProductId_sandbox';
+            } else if ( $this->salesForce->mode == 'prod' ) {
+                $SFProductId_key = 'SFProductId';
+            }
+
+            $current_update_version = $this->salesForce->update_version;
 
             $SFProductId         = get_post_meta($post_id , $SFProductId_key, true);
             $post_update_version = get_post_meta($post_id , 'Update_Version', true);
@@ -332,7 +347,7 @@ class YA_API {
                 $result->Update_Version = $this->salesForce->update_version;
             }
 
-            if ( $SFProductId != '' ) {
+            if ( $SFProductId ) {
                 $responce = $this->salesForce->updateProduct($SFProductId, $result);
 
                 if( $responce['status'] == 'error' ) {
@@ -347,32 +362,6 @@ class YA_API {
                 }
             }
 
-            wp_update_post($post);
-
-            if ( $this->salesForce->mode == 'dev' ) {
-                update_post_meta( $post_id, 'SFProductId_sandbox', $SFProductId );
-            } else if ( $this->salesForce->mode == 'prod' ) {
-                update_post_meta( $post_id, 'SFProductId', $SFProductId );
-            }
-
-            $answer['status'] = 'updated';
-        } else {
-
-            $result->Update_Version = $this->salesForce->update_version;
-            $responce = $this->salesForce->addNewProduct($result);
-            $post_id = wp_insert_post($post);
-
-            if( $responce['status'] == 'error' ) {
-                update_post_meta( $post_id, 'error_message', $responce['message'] );
-            } else {
-                $SFProductId = $responce['id'];
-            }
-
-            $answer['status'] = 'added';
-        }
-
-        if($post_id) {
-
             if ( $this->salesForce->mode == 'dev' ) {
                 update_post_meta( $post_id, 'SFProductId_sandbox', $SFProductId );
             } else if ( $this->salesForce->mode == 'prod' ) {
@@ -380,6 +369,9 @@ class YA_API {
             }
 
             update_post_meta( $post_id, 'Update_Version', $current_update_version );
+
+            ///--- END save data to SaleForce
+
 
             $individual_meta = ya_get_individual_meta();
             if(!empty($individual_meta) && is_array($individual_meta)){
@@ -406,7 +398,7 @@ class YA_API {
                 wp_delete_attachment( $old_thumbnail_id, true );
             }
             if(isset($result->ProfileURL) && !empty($result->ProfileURL)){
-                $this->save_attachment($result->ProfileURL);
+                $this->save_attachment($result->ProfileURL, $post_id);
             }
             if(isset($result->Videos) && !empty($result->Videos)){
                 $vessel_video_url = array();

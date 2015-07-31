@@ -61,7 +61,6 @@ function sf_synchronize_products()
 
     foreach ( $vessels as $item )
     {
-        $SFProductId = '';
         $SFProductId = get_post_meta( $item->post_id , $SFProductId_key, true );
         $product_update_version = $current_update_version;
 
@@ -71,7 +70,7 @@ function sf_synchronize_products()
         $vessel_detail['Update_Version'] = $current_update_version;
         $vessel_detail = (object)$vessel_detail;
 
-        if ( $SFProductId != '' ) {
+        if ( $SFProductId ) {
             $responce = $salesForceApi->updateProduct( $SFProductId, $vessel_detail );
 
             if( $responce['status'] == 'error' ) {

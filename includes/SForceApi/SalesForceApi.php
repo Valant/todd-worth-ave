@@ -25,7 +25,7 @@ class SalesForceApi {
         'EngineManufacturer'             => 'EngineManufacturer__c',
         'Flag'                           => 'Flag__c',
         'ForSale'                        => 'For_Sale__c',
-        'Image_URL'                      => 'Image_URL__c',
+        'ProfileURL'                     => 'Image_URL__c',
         'Update_Version'                 => 'Update_Version__c',
         'GrossTonnage'                   => 'GrossTonnage__c',
         'HullHullDesigner'               => 'HullHullDesigner__c',
@@ -53,9 +53,9 @@ class SalesForceApi {
         'YearBuilt'                      => 'YearBuilt__c'
     ];
 
-//    const USER_NAME_PROD = "antonvovchenko+sfdev@gmail.com";
-//    const PASSWORD_PROD = "Polatsk23";
-//    const SECURITY_TOKEN_PROD = "wVlxuDsKvcUdk70VwwNk8E3a";
+    const USER_NAME_PROD = "debi@worthavenueyachts.com";
+    const PASSWORD_PROD = "De3344Gi";
+    const SECURITY_TOKEN_PROD = "DJf8KLHMQjkChP6VUZjxTcWL";
 
     const USER_NAME_DEV      = "debi@worthavenueyachts.com.sandbox1";
     const PASSWORD_DEV       = "De3344Gi";

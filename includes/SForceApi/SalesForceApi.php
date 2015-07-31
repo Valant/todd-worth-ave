@@ -53,13 +53,13 @@ class SalesForceApi {
         'YearBuilt'                      => 'YearBuilt__c'
     ];
 
-//    const USER_NAME = "antonvovchenko+sfdev@gmail.com";
-//    const PASSWORD = "Polatsk23";
-//    const SECURITY_TOKEN = "wVlxuDsKvcUdk70VwwNk8E3a";
+//    const USER_NAME_PROD = "antonvovchenko+sfdev@gmail.com";
+//    const PASSWORD_PROD = "Polatsk23";
+//    const SECURITY_TOKEN_PROD = "wVlxuDsKvcUdk70VwwNk8E3a";
 
-    const USER_NAME      = "debi@worthavenueyachts.com.sandbox1";
-    const PASSWORD       = "De3344Gi";
-    const SECURITY_TOKEN = "DJf8KLHMQjkChP6VUZjxTcWL";
+    const USER_NAME_DEV      = "debi@worthavenueyachts.com.sandbox1";
+    const PASSWORD_DEV       = "De3344Gi";
+    const SECURITY_TOKEN_DEV = "DJf8KLHMQjkChP6VUZjxTcWL";
 
     public function __construct()
     {
@@ -71,7 +71,11 @@ class SalesForceApi {
         }
 
         try {
-            $this->connection->login(self::USER_NAME, self::PASSWORD . self::SECURITY_TOKEN);
+            if ( $this->mode == 'dev' ) {
+                $this->connection->login(self::USER_NAME_DEV, self::PASSWORD_DEV . self::SECURITY_TOKEN_DEV);
+            } else if( $this->mode == 'prod' ) {
+                $this->connection->login(self::USER_NAME_PROD, self::PASSWORD_PROD . self::SECURITY_TOKEN_PROD);
+            }
         } catch(Exception $e) {
             throw new Exception($e->getMessage(),'400');
         }

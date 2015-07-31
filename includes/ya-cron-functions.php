@@ -56,11 +56,11 @@ function sf_synchronize_products()
                 GROUP BY {$wpdb->posts}.ID
                 ORDER BY {$wpdb->posts}.ID
                 DESC LIMIT 10";
-
+    
     $vessels = $wpdb->get_results( $query );
 
     echo "<pre>";
-    print_r( 'vessels => ' . $vessels ); exit;
+    print_r( $vessels ); exit;
     echo "</pre>";
 
     foreach ( $vessels as $item )

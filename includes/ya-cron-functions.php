@@ -51,13 +51,11 @@ function sf_synchronize_products()
                     {$wpdb->posts}.post_type = 'vessel'
                 AND {$wpdb->posts}.post_status = 'publish'
                 AND ( m1.meta_value != '' )
-                AND ( m2.meta_value IS NULL )
-                AND ( m3.meta_value IS NULL OR m3.meta_value < '$current_update_version' OR m3.meta_value == '' )
+                AND ( m2.meta_value IS NULL OR m2.meta_value = '' )
+                AND ( m3.meta_value IS NULL OR m3.meta_value < '$current_update_version' OR m3.meta_value = '' )
                 GROUP BY {$wpdb->posts}.ID
                 ORDER BY {$wpdb->posts}.ID
                 DESC LIMIT 10";
-
-    print_r( 'query => ' . $query );
 
     $vessels = $wpdb->get_results( $query );
 

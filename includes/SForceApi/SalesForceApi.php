@@ -132,8 +132,19 @@ class SalesForceApi {
             }
         }
 
+        echo "< $record >";
+        echo "<pre>";
+        print_r( $record );
+        echo "</pre>";
+
         try{
             $result = $this->connection->update($record, 'Product2');
+
+            echo "< $result >";
+            echo "<pre>";
+            print_r( $result );
+            echo "</pre>";
+
         }
         catch (Exception $e) {
 

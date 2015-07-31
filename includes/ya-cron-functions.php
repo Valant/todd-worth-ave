@@ -98,16 +98,9 @@ function sf_synchronize_products()
 
         echo "< vessel_detail >";
         echo "<pre>";
-        print_r( $vessel_detail );
+        print_r( $vessel_detail ); exit;
         echo "</pre>";
-        echo "< responce >";
-        echo "<pre>";
-        print_r( $responce );
-        echo "</pre>";
-        echo "< SFProductId >";
-        echo "<pre>";
-        print_r( $SFProductId ); exit;
-        echo "</pre>";
+
 
     }
 

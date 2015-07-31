@@ -36,23 +36,34 @@ function sf_synchronize_products()
 
     $current_update_version = $salesForceApi->update_version;
 
-    print_r( 'cur_upd_ver => ' . $current_update_version ); exit;
-
-    $query = "SELECT {$wpdb->posts}.ID as 'post_id', {$wpdb->posts}.post_title, m1.meta_value as 'vessel_detail', m2.meta_value as '$SFProductId_key' FROM {$wpdb->posts}
+    $query = "SELECT {$wpdb->posts}.ID as 'post_id',
+                     {$wpdb->posts}.post_title,
+                     m1.meta_value as 'vessel_detail',
+                     m2.meta_value as '$SFProductId_key',
+                     m3.meta_value as 'Update_Version' FROM {$wpdb->posts}
                 LEFT JOIN {$wpdb->postmeta} m1
                     ON ( {$wpdb->posts}.ID = m1.post_id AND m1.meta_key =  'vessel_detail' )
                 LEFT JOIN {$wpdb->postmeta} m2
                     ON ( {$wpdb->posts}.ID = m2.post_id AND m2.meta_key = '$SFProductId_key' )
+                LEFT JOIN {$wpdb->postmeta} m3
+                    ON ( {$wpdb->posts}.ID = m3.post_id AND m3.meta_key = 'Update_Version' )
                 WHERE
                     {$wpdb->posts}.post_type = 'vessel'
                 AND {$wpdb->posts}.post_status = 'publish'
                 AND ( m1.meta_value != '' )
                 AND ( m2.meta_value IS NULL )
+                AND ( m3.meta_value IS NULL OR m3.meta_value < '$current_update_version' OR m3.meta_value == '' )
                 GROUP BY {$wpdb->posts}.ID
                 ORDER BY {$wpdb->posts}.ID
                 DESC LIMIT 10";
 
+    print_r( 'query => ' . $query );
+
     $vessels = $wpdb->get_results( $query );
+
+    echo "<pre>";
+    print_r( 'vessels => ' . $vessels ); exit;
+    echo "</pre>";
 
     foreach ( $vessels as $item )
     {

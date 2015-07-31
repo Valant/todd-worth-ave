@@ -88,6 +88,9 @@ class SalesForceApi {
     public function addNewProduct($data)
     {
         $record[0] = new stdclass();
+
+        $data = $this->_formatData($data);
+
         foreach ($this->productFieldsRelations as $key => $productItem)
         {
             if ( isset( $data->{$key} ) && !empty( $data->{$key} ) )
@@ -119,6 +122,9 @@ class SalesForceApi {
     {
         $record[0] = new stdclass();
         $record[0]->Id = $productId;
+
+        $productData = $this->_formatData($productData);
+
         foreach ($this->productFieldsRelations as $key => $productItem)
         {
             if ( isset( $productData->{$key} ) && !empty( $productData->{$key} ) )
@@ -171,5 +177,12 @@ class SalesForceApi {
 
             return (integer)$convertedValue;
         }
+    }
+
+    private function _formatData ($data) {
+
+        $data->AskingPrice = (int) $data->AskingPrice;
+
+        return $data;
     }
 }

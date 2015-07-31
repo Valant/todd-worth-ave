@@ -68,6 +68,12 @@ function sf_synchronize_products()
         $vessel_detail['ForSale'] = true;
         $vessel_detail['Boatname'] = $item->post_title;
         $vessel_detail['Update_Version'] = $current_update_version;
+
+        $image_src = wp_get_attachment_image_src(get_post_thumbnail_id($item->post_id), 'large');
+        if (!empty($image_src[0])) {
+            $vessel_detail['Image_URL'] = $image_src[0];
+        }
+
         $vessel_detail = (object)$vessel_detail;
 
         if ( $SFProductId ) {

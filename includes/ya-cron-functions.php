@@ -8,21 +8,13 @@ function ya_load_modification_list()
     $api = new YA_API();
     $modification_list = $api->load_modification_list();
 
-    if($modification_list) {
-        foreach ($modification_list as $VesselID) {
+    if ( $modification_list ) {
+        foreach ( $modification_list as $VesselID ) {
             $vessel_detail          = $api->load_vessel_detail($VesselID);
             $vessel_detail->ForSale = true;
 
-            echo "<pre>";
-            print_r( $vessel_detail->Boatname );
-            echo "</pre>";
-
-            if($vessel_detail !== false) {
+            if( $vessel_detail !== false ) {
                 $api->save_vessel( $vessel_detail );
-
-                echo "<pre>";
-                print_r( $vessel_detail ); exit;
-                echo "</pre>";
             }
         }
     }
@@ -35,13 +27,16 @@ function sf_synchronize_products()
     $salesForceApi = new SalesForceApi();
     global $wpdb;
 
-
     $SFProductId_key = '';
     if ( $salesForceApi->mode == 'dev' ) {
         $SFProductId_key = 'SFProductId_sandbox';
     } else if ( $salesForceApi->mode == 'prod' ) {
         $SFProductId_key = 'SFProductId';
     }
+
+    $current_update_version = $salesForceApi->update_version;
+
+    print_r( 'cur_upd_ver => ' . $current_update_version ); exit;
 
     $query = "SELECT {$wpdb->posts}.ID as 'post_id', {$wpdb->posts}.post_title, m1.meta_value as 'vessel_detail', m2.meta_value as '$SFProductId_key' FROM {$wpdb->posts}
                 LEFT JOIN {$wpdb->postmeta} m1

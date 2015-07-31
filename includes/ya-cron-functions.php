@@ -96,8 +96,17 @@ function sf_synchronize_products()
             update_post_meta( $item->post_id, 'SFProductId', $SFProductId );
         }
 
+        echo "< vessel_detail >";
         echo "<pre>";
-        print_r( $responce ); exit;
+        print_r( $vessel_detail );
+        echo "</pre>";
+        echo "< responce >";
+        echo "<pre>";
+        print_r( $responce );
+        echo "</pre>";
+        echo "< SFProductId >";
+        echo "<pre>";
+        print_r( $SFProductId ); exit;
         echo "</pre>";
 
     }

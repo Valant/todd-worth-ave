@@ -320,58 +320,12 @@ class YA_API {
             $answer['status'] = 'updated';
         } else {
 
-            $result->Update_Version = $this->salesForce->update_version;
-            $responce = $this->salesForce->addNewProduct($result);
             $post_id = wp_insert_post($post);
 
             $answer['status'] = 'added';
         }
 
         if($post_id) {
-
-            ///--- START save data to SaleForce
-
-            $SFProductId_key = '';
-            if ( $this->salesForce->mode == 'dev' ) {
-                $SFProductId_key = 'SFProductId_sandbox';
-            } else if ( $this->salesForce->mode == 'prod' ) {
-                $SFProductId_key = 'SFProductId';
-            }
-
-            $current_update_version = $this->salesForce->update_version;
-
-            $SFProductId         = get_post_meta($post_id , $SFProductId_key, true);
-            $post_update_version = get_post_meta($post_id , 'Update_Version', true);
-
-            if ( $post_update_version == '' || $post_update_version < $current_update_version ) {
-                $result->Update_Version = $this->salesForce->update_version;
-            }
-
-            if ( $SFProductId ) {
-                $responce = $this->salesForce->updateProduct($SFProductId, $result);
-
-                if( $responce['status'] == 'error' ) {
-                    update_post_meta( $post_id, 'error_message', $responce['message'] );
-                }
-            } else {
-                $responce = $this->salesForce->addNewProduct($result);
-                if( $responce['status'] == 'error' ) {
-                    update_post_meta( $post_id, 'error_message', $responce['message'] );
-                } else {
-                    $SFProductId = $responce['id'];
-                }
-            }
-
-            if ( $this->salesForce->mode == 'dev' ) {
-                update_post_meta( $post_id, 'SFProductId_sandbox', $SFProductId );
-            } else if ( $this->salesForce->mode == 'prod' ) {
-                update_post_meta( $post_id, 'SFProductId', $SFProductId );
-            }
-
-            update_post_meta( $post_id, 'Update_Version', $current_update_version );
-
-            ///--- END save data to SaleForce
-
 
             $individual_meta = ya_get_individual_meta();
             if(!empty($individual_meta) && is_array($individual_meta)){
@@ -410,6 +364,49 @@ class YA_API {
                 }
                 update_post_meta( $post_id, 'vessel_video_url', $vessel_video_url );
             }
+
+
+            ///--- START save data to SaleForce
+
+            $SFProductId_key = '';
+            if ( $this->salesForce->mode == 'dev' ) {
+                $SFProductId_key = 'SFProductId_sandbox';
+            } else if ( $this->salesForce->mode == 'prod' ) {
+                $SFProductId_key = 'SFProductId';
+            }
+
+            $current_update_version = $this->salesForce->update_version;
+
+            $SFProductId         = get_post_meta($post_id , $SFProductId_key, true);
+            $post_update_version = get_post_meta($post_id , 'Update_Version', true);
+
+            if ( $post_update_version == '' || $post_update_version < $current_update_version ) {
+                $result->Update_Version = $this->salesForce->update_version;
+            }
+
+            $result->Image_URL = wp_get_attachment_image(get_post_thumbnail_id($post_id), 'medium');
+
+            if ( $SFProductId ) {
+                $responce = $this->salesForce->updateProduct($SFProductId, $result);
+
+                if( $responce['status'] == 'error' ) {
+                    update_post_meta( $post_id, 'error_message', $responce['message'] );
+                }
+            } else {
+                $responce = $this->salesForce->addNewProduct($result);
+                if( $responce['status'] == 'error' ) {
+                    update_post_meta( $post_id, 'error_message', $responce['message'] );
+                } else {
+                    $SFProductId = $responce['id'];
+                }
+            }
+
+            update_post_meta( $post_id, $SFProductId_key, $SFProductId );
+            update_post_meta( $post_id, 'Update_Version', $current_update_version );
+
+            ///--- END save data to SaleForce
+
+
             $remove_fields = ya_remove_api_filds();
             if($remove_fields && !empty($remove_fields) && is_array($remove_fields)){
                 foreach ($remove_fields as $field) {

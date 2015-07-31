@@ -25,7 +25,7 @@ class SalesForceApi {
         'EngineManufacturer'             => 'EngineManufacturer__c',
         'Flag'                           => 'Flag__c',
         'ForSale'                        => 'For_Sale__c',
-        'ProfileURL'                     => 'Image_URL__c',
+        'Image_URL'                      => 'Image_URL__c',
         'Update_Version'                 => 'Update_Version__c',
         'GrossTonnage'                   => 'GrossTonnage__c',
         'HullHullDesigner'               => 'HullHullDesigner__c',

@@ -51,7 +51,6 @@ function sf_synchronize_products()
         }
 
         $SFProductId = get_post_meta( $item->post_id , $salesForceApi->getSynchIdKey(), true );
-
         $vessel_detail['ForSale'] = true;
         $vessel_detail['Boatname'] = $item->post_title;
 
@@ -64,14 +63,6 @@ function sf_synchronize_products()
 
         if ( $SFProductId ) {
             $responce = $salesForceApi->updateProduct( $SFProductId, $vessel_detail );
-
-
-
-//            if( $responce['status'] == 'error' ) {
-//                update_post_meta( $item->post_id, 'error_message', $responce['message'] );
-//            } else {
-//                update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
-//            }
         } else {
             $responce = $salesForceApi->addNewProduct( $vessel_detail );
         }
@@ -82,8 +73,6 @@ function sf_synchronize_products()
             update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
             update_post_meta( $item->post_id, $salesForceApi->getSynchIdKey(), $responce['id'] );
         }
-
     }
-
 }
 add_action( 'salesforce_synchronize_products', 'sf_synchronize_products');

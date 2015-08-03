@@ -22,13 +22,11 @@ class YA_API {
     protected $cron_recurrence = '';
     protected $admin_id = 0;
     protected $vessel_detail = false;
-    private   $salesForce;
 
     /**
      * Constructor
      */
     public function __construct() {
-        $this->salesForce = new SalesForceApi((__DIR__)."/../../SForceApi/enterprice.wsdl.jsp.xml");
         $this->apikey = get_option('yatco_api_key');
 
         $recurrence = get_option( 'yatco_cron_schedule' );

@@ -203,16 +203,7 @@ class SalesForceApi {
         }
     }
 
-    public function getSynchId()
-    {
-        if ( $this->mode == 'dev' ) {
-            return $this->SFProductId_sandbox;
-        } else if( $this->mode == 'prod' ) {
-            return $this->SFProductId;
-        }
-    }
-
-    public function getSynchIdKey()
+    public function getSyncIdKey()
     {
         if ( $this->mode == 'dev' ) {
             return 'SFProductId_sandbox';

@@ -147,6 +147,10 @@ class SalesForceApi {
             return array( 'status' => 'error', 'message' => $message);
         }
 
+        echo "<pre>";
+        print_r( $result ); exit;
+        echo "</pre>";
+
         return array( 'status' => 'success' );
 
     }

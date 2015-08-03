@@ -62,31 +62,26 @@ function sf_synchronize_products()
 
         $vessel_detail = (object)$vessel_detail;
 
-        echo "<pre>";
-        print_r( $vessel_detail );
-        echo "</pre>";
-
         if ( $SFProductId ) {
             $responce = $salesForceApi->updateProduct( $SFProductId, $vessel_detail );
 
-            if( $responce['status'] == 'error' ) {
-                update_post_meta( $item->post_id, 'error_message', $responce['message'] );
-            }
-            update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
 
+
+//            if( $responce['status'] == 'error' ) {
+//                update_post_meta( $item->post_id, 'error_message', $responce['message'] );
+//            } else {
+//                update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
+//            }
         } else {
             $responce = $salesForceApi->addNewProduct( $vessel_detail );
-
-            if( $responce['status'] == 'error' ) {
-                update_post_meta( $item->post_id, 'error_message', $responce['message'] );
-            } else {
-
-                update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
-                update_post_meta( $item->post_id, $salesForceApi->getSynchIdKey(), $responce['id'] );
-            }
         }
 
-        print_r( 'finish' ); exit;
+        if( $responce['status'] == 'error' ) {
+            update_post_meta( $item->post_id, 'error_message', $responce['message'] );
+        } else {
+            update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
+            update_post_meta( $item->post_id, $salesForceApi->getSynchIdKey(), $responce['id'] );
+        }
 
     }
 

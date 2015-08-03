@@ -50,6 +50,10 @@ function sf_synchronize_products()
             continue;
         }
 
+        echo "<pre>";
+        print_r( $vessel_detail ); exit;
+        echo "</pre>";
+
         $SFProductId = get_post_meta( $item->post_id , $salesForceApi->getSynchIdKey(), true );
 
         $vessel_detail = unserialize( $vessel_detail );

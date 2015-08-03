@@ -7,7 +7,8 @@ class SalesForceApi {
     // Mode: 'dev' or 'prod'
     public $mode = 'dev';
     // shouldn't be null ( integer ) !
-    public $update_version = 1;
+    public $SFSyncVersion = 1;
+    public $SFSyncVersion_sandbox = 1;
     private $connection;
     private $productFieldsRelations = [
         'Boatname'                       => 'Name',
@@ -26,7 +27,6 @@ class SalesForceApi {
         'Flag'                           => 'Flag__c',
         'ForSale'                        => 'For_Sale__c',
         'Image_URL'                      => 'Image_URL__c',
-        'Update_Version'                 => 'Update_Version__c',
         'GrossTonnage'                   => 'GrossTonnage__c',
         'HullHullDesigner'               => 'HullHullDesigner__c',
         'ListingDate'                    => 'ListingDate__c',
@@ -179,10 +179,47 @@ class SalesForceApi {
         }
     }
 
-    private function _formatData ($data) {
-
+    private function _formatData ($data)
+    {
         $data->AskingPrice = (int) $data->AskingPrice;
 
         return $data;
     }
+
+    public function getSyncVersion()
+    {
+        if ( $this->mode == 'dev' ) {
+            return $this->SFSyncVersion_sandbox;
+        } else if( $this->mode == 'prod' ) {
+            return $this->SFSyncVersion;
+        }
+    }
+
+    public function getSyncVersionKey()
+    {
+        if ( $this->mode == 'dev' ) {
+            return 'SFSyncVersion_sandbox';
+        } else if( $this->mode == 'prod' ) {
+            return 'SFSyncVersion';
+        }
+    }
+
+    public function getSynchId()
+    {
+        if ( $this->mode == 'dev' ) {
+            return $this->SFProductId_sandbox;
+        } else if( $this->mode == 'prod' ) {
+            return $this->SFProductId;
+        }
+    }
+
+    public function getSynchIdKey()
+    {
+        if ( $this->mode == 'dev' ) {
+            return 'SFProductId_sandbox';
+        } else if( $this->mode == 'prod' ) {
+            return 'SFProductId';
+        }
+    }
+
 }

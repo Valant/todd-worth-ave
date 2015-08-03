@@ -365,51 +365,6 @@ class YA_API {
                 update_post_meta( $post_id, 'vessel_video_url', $vessel_video_url );
             }
 
-
-            ///--- START save data to SaleForce
-
-            $SFProductId_key = '';
-            if ( $this->salesForce->mode == 'dev' ) {
-                $SFProductId_key = 'SFProductId_sandbox';
-            } else if ( $this->salesForce->mode == 'prod' ) {
-                $SFProductId_key = 'SFProductId';
-            }
-
-            $current_update_version = $this->salesForce->update_version;
-
-            $SFProductId         = get_post_meta($post_id , $SFProductId_key, true);
-            $post_update_version = get_post_meta($post_id , 'Update_Version', true);
-
-            if ( $post_update_version == '' || $post_update_version < $current_update_version ) {
-                $result->Update_Version = $this->salesForce->update_version;
-            }
-
-            $image_src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
-            if (!empty($image_src[0])) {
-                $result->Image_URL = $image_src[0];
-            }
-
-            if ( $SFProductId ) {
-                $responce = $this->salesForce->updateProduct($SFProductId, $result);
-
-                if( $responce['status'] == 'error' ) {
-                    update_post_meta( $post_id, 'error_message', $responce['message'] );
-                }
-            } else {
-                $responce = $this->salesForce->addNewProduct($result);
-                if( $responce['status'] == 'error' ) {
-                    update_post_meta( $post_id, 'error_message', $responce['message'] );
-                } else {
-                    $SFProductId = $responce['id'];
-                }
-            }
-
-            update_post_meta( $post_id, $SFProductId_key, $SFProductId );
-            update_post_meta( $post_id, 'Update_Version', $current_update_version );
-
-            ///--- END save data to SaleForce
-
-
             $remove_fields = ya_remove_api_filds();
             if($remove_fields && !empty($remove_fields) && is_array($remove_fields)){
                 foreach ($remove_fields as $field) {

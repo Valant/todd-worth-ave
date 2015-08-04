@@ -77,10 +77,8 @@ function sf_synchronize_products()
 }
 add_action( 'salesforce_synchronize_products', 'sf_synchronize_products');
 
-function cron_with_params()
+function ya_cron_with_params()
 {
-    // check dev or prod and than set key for SyncVersion
-
     echo "< mode >";
     echo "<pre>";
     print_r(111);
@@ -90,6 +88,5 @@ function cron_with_params()
     echo "<pre>";
     print_r(222); exit;
     echo "</pre>";
-
 }
-add_action( 'new_cron_with_params', 'cron_with_params');
+add_action( 'yatco_cron_update_vassel', 'ya_cron_with_params');

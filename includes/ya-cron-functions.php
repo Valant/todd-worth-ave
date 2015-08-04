@@ -82,7 +82,7 @@ function ya_cron_with_params( $mode, $version  )
 {
     $salesForceApi = new SalesForceApi();
     $salesForceApi->setSyncMode( $mode );
-
+    $salesForceApi->setSyncVersionValue( $version );
 
     echo "< mode >";
     echo "<pre>";

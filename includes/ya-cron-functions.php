@@ -81,12 +81,12 @@ function ya_cron_with_params( $mode, $version )
 {
     echo "< mode >";
     echo "<pre>";
-    print_r(111);
+    print_r( $mode );
     echo "</pre>";
 
     echo "< SyncVersion >";
     echo "<pre>";
-    print_r(222); exit;
+    print_r( $version ); exit;
     echo "</pre>";
 }
 add_action( 'yatco_cron_with_params', 'ya_cron_with_params' , 10, 2 );

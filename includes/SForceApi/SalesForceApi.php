@@ -215,7 +215,7 @@ class SalesForceApi {
     public function setSyncMode( $mode )
     {
         $this->mode = $mode;
-        
+
         print_r( $this->mode ); exit;
     }
 

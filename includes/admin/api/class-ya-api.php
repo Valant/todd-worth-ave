@@ -145,8 +145,13 @@ class YA_API {
     {
         if($VesselID){
             global $wpdb;
-            $sql    = "SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key='VesselID' AND meta_value = {$VesselID} ";
-            $result = $wpdb->get_results($sql);
+            $sql    = "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='VesselID' AND meta_value = {$VesselID} ";
+            $result = $wpdb->get_var( $sql );
+
+            echo "<pre>";
+            print_r( $result ); exit;
+            echo "</pre>";
+
             $post_id = 0;
             $remove  = array();
             if($result){
@@ -165,6 +170,14 @@ class YA_API {
                 return $post_id;
         }
         return false;
+    }
+
+    public function move_to_trash(  ) {
+        if ( !empty( $exist_vassel ) ) {
+            global $wpdb;
+
+
+        }
     }
 
     public function remove_vessel($exist_vassel = array())

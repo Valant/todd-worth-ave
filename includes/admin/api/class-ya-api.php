@@ -298,7 +298,6 @@ class YA_API {
         if($post_id = $this->vessel_exist($result->VesselID)) {
 
             $post['ID']                = $post_id;
-            $post['post_status']       = 'trash';
             $post['post_modified']     = current_time( 'mysql' );
             $post['post_modified_gmt'] = current_time( 'mysql', 1 );
 

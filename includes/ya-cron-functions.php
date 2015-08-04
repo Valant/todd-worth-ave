@@ -80,13 +80,11 @@ add_action( 'salesforce_synchronize_products', 'sf_synchronize_products');
 
 function ya_cron_with_params( $a, $b  )
 {
-    echo "< mode >";
-    echo "<pre>";
-    print_r( $a );
-    echo "</pre>";
+    $salesForceApi = new SalesForceApi();
+
     echo "< SyncVersion >";
     echo "<pre>";
-    print_r( $b ); exit;
+    print_r( $salesForceApi ); exit;
     echo "</pre>";
 }
 add_action( 'yatco_cron_with_params', 'ya_cron_with_params', 999, 2);

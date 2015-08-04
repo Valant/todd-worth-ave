@@ -26,15 +26,12 @@ function sf_synchronize_products( $mode, $version )
     $salesForceApi = new SalesForceApi();
     global $wpdb;
 
-    $salesForceApi->setSyncMode( $mode );
-    $salesForceApi->setSyncVersion( $version );
-
-    echo "<pre>";
-    print_r( $salesForceApi->mode );
-    echo "</pre>";
-    echo "<pre>";
-    print_r( $salesForceApi->SFSyncVersion );
-    echo "</pre>";
+    if ( $mode ) {
+        $salesForceApi->setSyncMode( $mode );
+    }
+    if ( $version ) {
+        $salesForceApi->setSyncVersion( $version );
+    }
 
     $query = "SELECT {$wpdb->posts}.ID as 'post_id',
                      {$wpdb->posts}.post_title,
@@ -48,10 +45,6 @@ function sf_synchronize_products( $mode, $version )
                 GROUP BY {$wpdb->posts}.ID
                 ORDER BY {$wpdb->posts}.ID
                 DESC LIMIT 10";
-
-    echo "<pre>";
-    print_r( $query ); exit;
-    echo "</pre>";
 
     $vessels = $wpdb->get_results( $query );
 

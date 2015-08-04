@@ -207,13 +207,11 @@ class SalesForceApi {
 
     public function setSyncMode( $mode )
     {
-        if ( !$mode ) return false;
         $this->mode = $mode;
     }
 
     public function setSyncVersion( $version )
     {
-        if ( !$version ) return false;
         $this->SFSyncVersion = $version;
     }
 }

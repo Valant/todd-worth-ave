@@ -81,8 +81,8 @@ add_action( 'salesforce_synchronize_products', 'sf_synchronize_products');
 function ya_cron_with_params( $mode, $version  )
 {
     $salesForceApi = new SalesForceApi();
-
     $salesForceApi->setSyncMode( $mode );
+
 
     echo "< mode >";
     echo "<pre>";

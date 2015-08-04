@@ -8,7 +8,7 @@ class SalesForceApi {
     public $mode = 'dev';
     // shouldn't be null ( integer ) !
     public $SFSyncVersion = 1;
-    public $SFSyncVersion_sandbox = 1;
+    public $SFSyncVersion_sandbox = 0;
     private $connection;
     private $productFieldsRelations = [
         'Boatname'                       => 'Name',
@@ -214,9 +214,19 @@ class SalesForceApi {
 
     public function setSyncMode( $mode )
     {
+        if ( !$mode ) return false;
         $this->mode = $mode;
-
-        print_r( $this->mode ); exit;
     }
 
+    public function setSyncVersionValue( $version )
+    {
+        if ( !$version ) return false;
+        if ( $this->mode == 'dev' ) {
+            $this->SFSyncVersion_sandbox = $version;
+
+            print_r( $version ); exit;
+        } else if( $this->mode == 'prod' ) {
+            $this->SFSyncVersion_sandbox = $version;
+        }
+    }
 }

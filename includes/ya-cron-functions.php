@@ -23,7 +23,7 @@ add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list');
 
 function sf_synchronize_products( $mode, $version )
 {
-    $salesForceApi = new SalesForceApi();
+    $salesForceApi = new SalesForceApi($mode);
     global $wpdb;
 
     if ( $mode ) {
@@ -78,10 +78,6 @@ function sf_synchronize_products( $mode, $version )
             $response = $salesForceApi->updateProduct( $SFProductId, $vessel_detail );
         } else {
             $response = $salesForceApi->addNewProduct( $vessel_detail );
-        }
-
-        if ( function_exists("SimpleLogger") ) {
-            SimpleLogger()->info('response: '.json_encode($response));
         }
 
         if( $response['status'] == 'error' ) {

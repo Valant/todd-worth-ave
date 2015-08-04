@@ -89,4 +89,4 @@ function ya_cron_with_params()
     print_r(222); exit;
     echo "</pre>";
 }
-add_action( 'new_cron_with_params', 'ya_cron_with_params');
+add_action( 'new_cron_with_params', 'ya_cron_with_params' , 10, 2 );

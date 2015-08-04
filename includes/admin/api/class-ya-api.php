@@ -143,43 +143,16 @@ class YA_API {
 
     public function vessel_exist($VesselID = 0)
     {
-        if($VesselID){
+        if ( $VesselID ) {
             global $wpdb;
             $sql    = "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='VesselID' AND meta_value = {$VesselID} ";
             $result = $wpdb->get_var( $sql );
 
-
-            echo "< sql  >";
-            echo "<pre>";
-            print_r( $sql ); exit;
-            echo "</pre>";
-
-            $post_id = 0;
-            $remove  = array();
-            if($result){
-                foreach ($result as $post) {
-                    if( $post_id == 0){
-                        $post_id = $post->post_id;
-                    }else{
-                        $remove[] = $post->post_id;
-                    }
-                }
+            if( $result ) {
+                return $result;
             }
-            if(!empty($remove))
-                $this->remove_vessel($remove);
-
-            if($post_id)
-                return $post_id;
         }
         return false;
-    }
-
-    public function move_to_trash(  ) {
-        if ( !empty( $exist_vassel ) ) {
-            global $wpdb;
-
-
-        }
     }
 
     public function remove_vessel($exist_vassel = array())
@@ -325,7 +298,7 @@ class YA_API {
         if($post_id = $this->vessel_exist($result->VesselID)) {
 
             $post['ID']                = $post_id;
-            $post['post_status']       = current_time( 'trash' );
+            $post['post_status']       = 'trash';
             $post['post_modified']     = current_time( 'mysql' );
             $post['post_modified_gmt'] = current_time( 'mysql', 1 );
 

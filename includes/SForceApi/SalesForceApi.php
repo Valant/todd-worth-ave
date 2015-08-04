@@ -4,11 +4,8 @@ require_once ('soapclient/SforceEnterpriseClient.php');
 
 class SalesForceApi {
 
-    // Mode: 'dev' or 'prod'
     public $mode = 'dev';
-    // shouldn't be null ( integer ) !
     public $SFSyncVersion = 1;
-    public $SFSyncVersion_sandbox = 1;
     private $connection;
     private $productFieldsRelations = [
         'Boatname'                       => 'Name',
@@ -187,11 +184,7 @@ class SalesForceApi {
 
     public function getSyncVersion()
     {
-        if ( $this->mode == 'dev' ) {
-            return $this->SFSyncVersion_sandbox;
-        } else if( $this->mode == 'prod' ) {
-            return $this->SFSyncVersion;
-        }
+        return $this->SFSyncVersion;
     }
 
     public function getSyncVersionKey()
@@ -218,13 +211,9 @@ class SalesForceApi {
         $this->mode = $mode;
     }
 
-    public function setSyncVersionValue( $version )
+    public function setSyncVersion( $version )
     {
         if ( !$version ) return false;
-        if ( $this->mode == 'dev' ) {
-            $this->SFSyncVersion_sandbox = $version;
-        } else if( $this->mode == 'prod' ) {
-            $this->SFSyncVersion_sandbox = $version;
-        }
+        $this->SFSyncVersion = $version;
     }
 }

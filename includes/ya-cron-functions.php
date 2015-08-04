@@ -21,11 +21,20 @@ function ya_load_modification_list()
 }
 add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list');
 
-function sf_synchronize_products()
+function sf_synchronize_products( $mode, $version )
 {
-    include_once( 'admin/class-ya-admin.php' );
     $salesForceApi = new SalesForceApi();
     global $wpdb;
+
+    $salesForceApi->setSyncMode( $mode );
+    $salesForceApi->setSyncVersion( $version );
+
+    echo "<pre>";
+    print_r( $salesForceApi->mode );
+    echo "</pre>";
+    echo "<pre>";
+    print_r( $salesForceApi->SFSyncVersion );
+    echo "</pre>";
 
     $query = "SELECT {$wpdb->posts}.ID as 'post_id',
                      {$wpdb->posts}.post_title,
@@ -39,6 +48,10 @@ function sf_synchronize_products()
                 GROUP BY {$wpdb->posts}.ID
                 ORDER BY {$wpdb->posts}.ID
                 DESC LIMIT 10";
+
+    echo "<pre>";
+    print_r( $query ); exit;
+    echo "</pre>";
 
     $vessels = $wpdb->get_results( $query );
 
@@ -75,23 +88,4 @@ function sf_synchronize_products()
         }
     }
 }
-add_action( 'salesforce_synchronize_products', 'sf_synchronize_products');
-
-
-function ya_cron_with_params( $mode, $version  )
-{
-    $salesForceApi = new SalesForceApi();
-    $salesForceApi->setSyncMode( $mode );
-    $salesForceApi->setSyncVersionValue( $version );
-
-    echo "< mode >";
-    echo "<pre>";
-    print_r( $mode );
-    echo "</pre>";
-
-    echo "< SyncVersion >";
-    echo "<pre>";
-    print_r( $version ); exit;
-    echo "</pre>";
-}
-add_action( 'yatco_cron_with_params', 'ya_cron_with_params', 10, 2);
+add_action( 'salesforce_synchronize_products', 'sf_synchronize_products', 10, 2);

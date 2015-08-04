@@ -49,7 +49,7 @@ function sf_synchronize_products( $mode, $version )
     $vessels = $wpdb->get_results( $query );
 
     if ( function_exists("SimpleLogger") ) {
-        SimpleLogger()->info('vessels count: '.count($vessels));
+        SimpleLogger()->info('mode: '.$mode.'; version: '.$version.'; vessels found: '.count($vessels));
     }
 
     foreach ( $vessels as $item )
@@ -81,7 +81,9 @@ function sf_synchronize_products( $mode, $version )
         }
 
         if( $response['status'] == 'error' ) {
-            update_post_meta( $item->post_id, 'error_message', $response['message'] );
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('error response (post_id='.$item->post_id.'): '.json_encode($response));
+            }
         } else {
             update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
             update_post_meta( $item->post_id, $salesForceApi->getSyncIdKey(), $response['id'] );

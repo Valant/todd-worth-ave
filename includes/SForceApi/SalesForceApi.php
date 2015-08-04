@@ -110,7 +110,11 @@ class SalesForceApi {
             return array( 'status' => 'error', 'message' => $message);
         }
 
-        return array( 'status' => 'success', 'id' => $result[0]->id );
+        if (!empty($result[0]) && $result[0]->success && $result[0]->id) {
+            return array( 'status' => 'success', 'id' => $result[0]->id );
+        } else {
+            return array( 'status' => 'error', 'message' => json_encode($result) );
+        }
     }
 
     /**
@@ -146,7 +150,11 @@ class SalesForceApi {
             return array( 'status' => 'error', 'message' => $message);
         }
 
-        return array( 'status' => 'success', 'id' => $result[0]->id );
+        if (!empty($result[0]) && $result[0]->success && $result[0]->id) {
+            return array( 'status' => 'success', 'id' => $result[0]->id );
+        } else {
+            return array( 'status' => 'error', 'message' => json_encode($result) );
+        }
     }
 
     /**

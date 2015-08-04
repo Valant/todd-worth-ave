@@ -81,6 +81,15 @@ function cron_with_params( $mode, $SyncVersion )
 {
     // check dev or prod and than set key for SyncVersion
 
+    echo "< mode >";
+    echo "<pre>";
+    print_r($mode);
+    echo "</pre>";
+
+    echo "< SyncVersion >";
+    echo "<pre>";
+    print_r($SyncVersion); exit;
+    echo "</pre>";
 
 }
 add_action( 'new_cron_with_params', 'cron_with_params');

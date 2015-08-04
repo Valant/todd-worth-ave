@@ -76,3 +76,11 @@ function sf_synchronize_products()
     }
 }
 add_action( 'salesforce_synchronize_products', 'sf_synchronize_products');
+
+function cron_with_params( $mode, $SyncVersion )
+{
+    // check dev or prod and than set key for SyncVersion
+
+
+}
+add_action( 'new_cron_with_params', 'cron_with_params');

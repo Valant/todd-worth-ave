@@ -148,8 +148,10 @@ class YA_API {
             $sql    = "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='VesselID' AND meta_value = {$VesselID} ";
             $result = $wpdb->get_var( $sql );
 
+
+            echo "< sql  >";
             echo "<pre>";
-            print_r( $result ); exit;
+            print_r( $sql ); exit;
             echo "</pre>";
 
             $post_id = 0;
@@ -323,6 +325,7 @@ class YA_API {
         if($post_id = $this->vessel_exist($result->VesselID)) {
 
             $post['ID']                = $post_id;
+            $post['post_status']       = current_time( 'trash' );
             $post['post_modified']     = current_time( 'mysql' );
             $post['post_modified_gmt'] = current_time( 'mysql', 1 );
 

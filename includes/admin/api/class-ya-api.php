@@ -299,6 +299,9 @@ class YA_API {
 
             $post['ID']                = $post_id;
             $post['post_modified']     = current_time( 'mysql' );
+            if( !$this->load_vessel_detail( $result->VesselID ) ) {
+                $post['post_status']   = 'trash';
+            }
             $post['post_modified_gmt'] = current_time( 'mysql', 1 );
 
             wp_update_post($post);

@@ -43,7 +43,7 @@ function sf_synchronize_products( $mode, $version )
                 AND {$wpdb->posts}.post_status = 'publish'
                 AND ( m.meta_value IS NULL OR m.meta_value = '' OR m.meta_value < '{$salesForceApi->getSyncVersion()}' )
                 GROUP BY {$wpdb->posts}.ID
-                ORDER BY {$wpdb->posts}.ID
+                ORDER BY {$wpdb->posts}.post_modified DESC
                 DESC LIMIT 10";
 
     $vessels = $wpdb->get_results( $query );

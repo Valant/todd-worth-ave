@@ -79,15 +79,9 @@ add_action( 'salesforce_synchronize_products', 'sf_synchronize_products');
 
 function ya_cron_with_params( $args )
 {
-    echo "< mode >";
-    echo "<pre>";
-    print_r( $args );
-    echo "</pre>";
-
     echo "< SyncVersion >";
     echo "<pre>";
     print_r( $args ); exit;
     echo "</pre>";
 }
-//wp_schedule_event (time(), 'in_5_minute', 'yatco_cron_with_params', $args);
-add_action( 'yatco_cron_with_params', 'ya_cron_with_params' , 10, 2 );
+add_action( 'yatco_cron_with_params', 'ya_cron_with_params' , 10, 1 );

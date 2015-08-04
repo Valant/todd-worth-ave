@@ -58,8 +58,10 @@ class SalesForceApi {
     const PASSWORD_DEV       = "De3344Gi";
     const SECURITY_TOKEN_DEV = "DJf8KLHMQjkChP6VUZjxTcWL";
 
-    public function __construct()
+    public function __construct($mode)
     {
+        $this->mode = $mode;
+
         $this->connection = new SforceEnterpriseClient();
         if ( $this->mode == 'dev' ) {
             $this->connection->createConnection(__DIR__."/sandbox-enterprise.wsdl.xml");

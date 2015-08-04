@@ -78,15 +78,15 @@ function sf_synchronize_products()
 add_action( 'salesforce_synchronize_products', 'sf_synchronize_products');
 
 
-function ya_cron_with_params( $mode, $version  )
+function ya_cron_with_params( $a, $b  )
 {
     echo "< mode >";
     echo "<pre>";
-    print_r( $mode );
+    print_r( $a );
     echo "</pre>";
     echo "< SyncVersion >";
     echo "<pre>";
-    print_r( $version ); exit;
+    print_r( $b ); exit;
     echo "</pre>";
 }
 add_action( 'yatco_cron_with_params', 'ya_cron_with_params', 999, 2);

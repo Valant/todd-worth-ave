@@ -84,7 +84,7 @@ function ya_cron_with_params( $a, $b  )
 
     echo "< SyncVersion >";
     echo "<pre>";
-    print_r( $salesForceApi ); exit;
+    print_r( $a ); exit;
     echo "</pre>";
 }
 add_action( 'yatco_cron_with_params', 'ya_cron_with_params', 999, 2);

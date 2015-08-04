@@ -90,4 +90,4 @@ function ya_cron_with_params( $args )
     echo "</pre>";
 }
 wp_schedule_event (time(), 'hourly', 'yatco_cron_with_params', $args);
-add_action( 'yatco_cron_with_params', 'ya_cron_with_params' , 10, 1 );
+add_action( 'yatco_cron_with_params', 'ya_cron_with_params' , 10, 2 );

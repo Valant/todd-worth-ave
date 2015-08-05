@@ -115,18 +115,30 @@ function sf_own_cron( $mode, $version ) {
         $salesForceApi->setSyncVersion( $version );
     }
 
-    $query = "SELECT {$wpdb->posts}.ID as 'post_id',
-                     {$wpdb->posts}.post_title,
-                     m.meta_value as '{$salesForceApi->getSyncVersionKey()}' FROM {$wpdb->posts}
-                LEFT JOIN {$wpdb->postmeta} m
-                    ON ( {$wpdb->posts}.ID = m.post_id AND m.meta_key = '{$salesForceApi->getSyncVersionKey()}' )
-                WHERE
-                    {$wpdb->posts}.post_type = 'vessel'
-                AND {$wpdb->posts}.post_status = 'publish'
-                AND ( m.meta_value IS NULL OR m.meta_value = '' OR m.meta_value < '{$salesForceApi->getSyncVersion()}' )
-                GROUP BY {$wpdb->posts}.ID
-                ORDER BY {$wpdb->posts}.post_modified DESC
-                LIMIT 10";
+//    $query = "SELECT {$wpdb->posts}.ID as 'post_id',
+//                     {$wpdb->posts}.post_title,
+//                     m.meta_value as '{$salesForceApi->getSyncVersionKey()}' FROM {$wpdb->posts}
+//                LEFT JOIN {$wpdb->postmeta} m
+//                    ON ( {$wpdb->posts}.ID = m.post_id AND m.meta_key = '{$salesForceApi->getSyncVersionKey()}' )
+//                WHERE
+//                    {$wpdb->posts}.post_type = 'vessel'
+//                AND {$wpdb->posts}.post_status = 'publish'
+//                AND ( m.meta_value IS NULL OR m.meta_value = '' OR m.meta_value < '{$salesForceApi->getSyncVersion()}' )
+//                GROUP BY {$wpdb->posts}.ID
+//                ORDER BY {$wpdb->posts}.post_modified DESC
+//                LIMIT 10";
+
+
+    $query = "SELECT {$wpdb->posts}.ID as 'post_id' FROM {$wpdb->posts}
+                 LEFT JOIN {$wpdb->postmeta} m1
+                     ON ( {$wpdb->posts}.ID = m1.post_id AND m1.meta_key =  'vessel_detail' )
+                 WHERE
+                     {$wpdb->posts}.post_type = 'vessel'
+                 AND {$wpdb->posts}.post_status = 'publish'
+                 AND ( m1.meta_value != '' )
+                 GROUP BY {$wpdb->posts}.ID
+                 ORDER BY {$wpdb->posts}.ID
+                 DESC";
 
     $vessels = $wpdb->get_results( $query );
 

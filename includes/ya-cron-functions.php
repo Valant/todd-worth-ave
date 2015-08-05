@@ -136,7 +136,17 @@ function sf_own_cron( $mode, $version ) {
 
     foreach ( $vessels as $item )
     {
-        $vessel_detail = get_post_meta( $item->post_id , 'vessel_detail', true );
+        $vessel_detail1 = get_post_meta( $item->post_id , 'vessel_detail', true );
+        $vessel_detail2 = get_post_meta( $item['post_id'] , 'vessel_detail', true );
+
+
+        echo "<pre>";
+        print_r( $vessel_detail1 );
+        echo "</pre>";
+
+        echo "<pre>";
+        print_r( $vessel_detail2 ); exit;
+        echo "</pre>";
 
         if( isset( $vessel_detail['LocationCity'] ) && !empty( $vessel_detail['LocationCity'] ) ) {
             if ( isset( $cities[$vessel_detail['LocationCity']] ) )  {
@@ -188,24 +198,24 @@ function sf_own_cron( $mode, $version ) {
         }
     }
 
-    //     $whole_info['countries'] = array_values( $countries );
+         $whole_info['countries'] = array_values( $countries );
     $whole_info['regions']   = array_values( $regions );
-    //     $whole_info['states']    = array_values( $states );
-    //     $whole_info['cities']    = array_values( $cities );
-    //     $whole_info['types']     = array_values( $types );
+         $whole_info['states']    = array_values( $states );
+         $whole_info['cities']    = array_values( $cities );
+         $whole_info['types']     = array_values( $types );
     $whole_info['builders']  = array_values( $builders );
 
-    $fp1 = fopen('1.csv', 'w');
-    foreach ( $whole_info['regions'] as $item ) {
-        fputcsv($fp1, split(',', $item));
-    }
-    fclose($fp1);
-
-    $fp2 = fopen('file2.csv', 'w');
-    foreach ( $whole_info['builders'] as $item ) {
-        fputcsv($fp2, split(',', $item));
-    }
-    fclose($fp2);
+//    $fp1 = fopen('1.csv', 'w');
+//    foreach ( $whole_info['regions'] as $item ) {
+//        fputcsv($fp1, split(',', $item));
+//    }
+//    fclose($fp1);
+//
+//    $fp2 = fopen('file2.csv', 'w');
+//    foreach ( $whole_info['builders'] as $item ) {
+//        fputcsv($fp2, split(',', $item));
+//    }
+//    fclose($fp2);
 
     echo "<pre>";
     print_r( $whole_info ); exit;

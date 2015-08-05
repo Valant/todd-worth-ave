@@ -148,49 +148,14 @@ function sf_own_cron( $mode, $version ) {
 
     foreach ( $vessels as $item )
     {
-        echo "<pre>";
-        print_r( $item );
-        echo "</pre>";
-
-
         $vessel_detail = get_post_meta( $item->post_id , 'vessel_detail', true );
 
-        echo "<pre>";
-        print_r( $vessel_detail ); exit;
-        echo "</pre>";
-
-
-
-        if( isset( $vessel_detail['LocationCity'] ) && !empty( $vessel_detail['LocationCity'] ) ) {
-            if ( isset( $cities[$vessel_detail['LocationCity']] ) )  {
-                $cities[$vessel_detail['LocationCity']]['amount'] += 1;
-            } else {
-                $cities[$vessel_detail['LocationCity']]['name']   = $vessel_detail['LocationCity'];
-                $cities[$vessel_detail['LocationCity']]['amount'] = 1;
-            }
-        }
-        if( isset( $vessel_detail['LocationCountry'] ) && !empty( $vessel_detail['LocationCountry'] ) ) {
-            if ( isset( $countries[$vessel_detail['LocationCountry']] ) )  {
-                $countries[$vessel_detail['LocationCountry']]['amount'] += 1;
-            } else {
-                $countries[$vessel_detail['LocationCountry']]['name']   = $vessel_detail['LocationCountry'];
-                $countries[$vessel_detail['LocationCountry']]['amount'] = 1;
-            }
-        }
         if( isset( $vessel_detail['LocationRegionName'] ) && !empty( $vessel_detail['LocationRegionName'] ) ) {
             if ( isset( $regions[$vessel_detail['LocationRegionName']] ) )  {
                 $regions[$vessel_detail['LocationRegionName']]['amount'] += 1;
             } else {
                 $regions[$vessel_detail['LocationRegionName']]['name']   = $vessel_detail['LocationRegionName'];
                 $regions[$vessel_detail['LocationRegionName']]['amount'] = 1;
-            }
-        }
-        if( isset( $vessel_detail['LocationState'] ) && !empty( $vessel_detail['LocationState'] ) ) {
-            if ( isset( $states[$vessel_detail['LocationState']] ) )  {
-                $states[$vessel_detail['LocationState']]['amount'] += 1;
-            } else {
-                $states[$vessel_detail['LocationState']]['name']   = $vessel_detail['LocationState'];
-                $states[$vessel_detail['LocationState']]['amount'] = 1;
             }
         }
         if( isset( $vessel_detail['Builder'] ) && !empty( $vessel_detail['Builder'] ) ) {
@@ -201,28 +166,16 @@ function sf_own_cron( $mode, $version ) {
                 $builders[$vessel_detail['Builder']]['amount'] = 1;
             }
         }
-        if( isset( $vessel_detail['VesselType'] ) && !empty( $vessel_detail['VesselType'] ) ) {
-            if ( isset( $types[$vessel_detail['VesselType']] ) )  {
-                $types[$vessel_detail['VesselType']]['amount'] += 1;
-            } else {
-                $types[$vessel_detail['VesselType']]['name']   = $vessel_detail['VesselType'];
-                $types[$vessel_detail['VesselType']]['amount'] = 1;
-            }
-        }
     }
 
-         $whole_info['countries'] = array_values( $countries );
     $whole_info['regions']   = array_values( $regions );
-         $whole_info['states']    = array_values( $states );
-         $whole_info['cities']    = array_values( $cities );
-         $whole_info['types']     = array_values( $types );
     $whole_info['builders']  = array_values( $builders );
 
-//    $fp1 = fopen('1.csv', 'w');
-//    foreach ( $whole_info['regions'] as $item ) {
-//        fputcsv($fp1, split(',', $item));
-//    }
-//    fclose($fp1);
+    $fp1 = fopen('1.csv', 'w');
+    foreach ( $whole_info['regions'] as $item ) {
+        fputcsv($fp1, explode(',', $item));
+    }
+    fclose($fp1);
 //
 //    $fp2 = fopen('file2.csv', 'w');
 //    foreach ( $whole_info['builders'] as $item ) {

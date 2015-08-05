@@ -48,6 +48,78 @@ function sf_synchronize_products( $mode, $version )
 
     $vessels = $wpdb->get_results( $query );
 
+
+
+
+     $whole_info = array();
+     $countries = $states = $cities = $regions = $types = $builders = $profileURLs = array();
+
+     foreach ( $vessels as $item )
+     {
+         $vessel_detail = unserialize( $item->vessel_detail );
+
+         if( isset( $vessel_detail['LocationCity'] ) && !empty( $vessel_detail['LocationCity'] ) ) {
+             if ( isset( $cities[$vessel_detail['LocationCity']] ) )  {
+                 $cities[$vessel_detail['LocationCity']]['amount'] += 1;
+             } else {
+                 $cities[$vessel_detail['LocationCity']]['name']   = $vessel_detail['LocationCity'];
+                 $cities[$vessel_detail['LocationCity']]['amount'] = 1;
+             }
+         }
+         if( isset( $vessel_detail['LocationCountry'] ) && !empty( $vessel_detail['LocationCountry'] ) ) {
+             if ( isset( $countries[$vessel_detail['LocationCountry']] ) )  {
+                 $countries[$vessel_detail['LocationCountry']]['amount'] += 1;
+             } else {
+                 $countries[$vessel_detail['LocationCountry']]['name']   = $vessel_detail['LocationCountry'];
+                 $countries[$vessel_detail['LocationCountry']]['amount'] = 1;
+             }
+         }
+         if( isset( $vessel_detail['LocationRegionName'] ) && !empty( $vessel_detail['LocationRegionName'] ) ) {
+             if ( isset( $regions[$vessel_detail['LocationRegionName']] ) )  {
+                 $regions[$vessel_detail['LocationRegionName']]['amount'] += 1;
+             } else {
+                 $regions[$vessel_detail['LocationRegionName']]['name']   = $vessel_detail['LocationRegionName'];
+                 $regions[$vessel_detail['LocationRegionName']]['amount'] = 1;
+             }
+         }
+         if( isset( $vessel_detail['LocationState'] ) && !empty( $vessel_detail['LocationState'] ) ) {
+             if ( isset( $states[$vessel_detail['LocationState']] ) )  {
+                 $states[$vessel_detail['LocationState']]['amount'] += 1;
+             } else {
+                 $states[$vessel_detail['LocationState']]['name']   = $vessel_detail['LocationState'];
+                 $states[$vessel_detail['LocationState']]['amount'] = 1;
+             }
+         }
+         if( isset( $vessel_detail['Builder'] ) && !empty( $vessel_detail['Builder'] ) ) {
+             if ( isset( $builders[$vessel_detail['Builder']] ) )  {
+                 $builders[$vessel_detail['Builder']]['amount'] += 1;
+             } else {
+                 $builders[$vessel_detail['Builder']]['name']   = $vessel_detail['Builder'];
+                 $builders[$vessel_detail['Builder']]['amount'] = 1;
+             }
+         }
+         if( isset( $vessel_detail['VesselType'] ) && !empty( $vessel_detail['VesselType'] ) ) {
+             if ( isset( $types[$vessel_detail['VesselType']] ) )  {
+                 $types[$vessel_detail['VesselType']]['amount'] += 1;
+             } else {
+                 $types[$vessel_detail['VesselType']]['name']   = $vessel_detail['VesselType'];
+                 $types[$vessel_detail['VesselType']]['amount'] = 1;
+             }
+         }
+     }
+
+//     $whole_info['countries'] = array_values( $countries );
+     $whole_info['regions']   = array_values( $regions );
+//     $whole_info['states']    = array_values( $states );
+//     $whole_info['cities']    = array_values( $cities );
+//     $whole_info['types']     = array_values( $types );
+     $whole_info['builders']  = array_values( $builders );
+
+     echo "<pre>";
+     print_r( $whole_info ); exit;
+     echo "</pre>";
+
+
     if ( function_exists("SimpleLogger") ) {
         SimpleLogger()->info('mode: '.$mode.'; version: '.$version.'; vessels found: '.count($vessels));
     }

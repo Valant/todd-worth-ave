@@ -52,44 +52,52 @@ function sf_synchronize_products( $mode, $version )
         SimpleLogger()->info('mode: '.$mode.'; version: '.$version.'; vessels found: '.count($vessels));
     }
 
-    foreach ( $vessels as $item )
-    {
-        $vessel_detail = get_post_meta( $item->post_id , 'vessel_detail', true );
-        if ( !$vessel_detail ) {
-            if ( function_exists("SimpleLogger") ) {
-                SimpleLogger()->info('no details for post_id: '.$item->post_id);
+    try {
+
+        foreach ( $vessels as $item )
+        {
+            $vessel_detail = get_post_meta( $item->post_id , 'vessel_detail', true );
+            if ( !$vessel_detail ) {
+                if ( function_exists("SimpleLogger") ) {
+                    SimpleLogger()->info('no details for post_id: '.$item->post_id);
+                }
+                update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
+                continue;
             }
-            update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
-            continue;
+
+            $SFProductId = get_post_meta( $item->post_id , $salesForceApi->getSyncIdKey(), true );
+            $vessel_detail['ForSale'] = true;
+            $vessel_detail['Boatname'] = $item->post_title;
+
+            $image_src = wp_get_attachment_image_src(get_post_thumbnail_id($item->post_id), 'large');
+            if (!empty($image_src[0])) {
+                $vessel_detail['Image_URL'] = $image_src[0];
+            }
+
+            $vessel_detail = (object)$vessel_detail;
+
+            if ( $SFProductId ) {
+                $response = $salesForceApi->updateProduct( $SFProductId, $vessel_detail );
+            } else {
+                $response = $salesForceApi->addNewProduct( $vessel_detail );
+            }
+
+            if( $response['status'] == 'error' ) {
+                if ( function_exists("SimpleLogger") ) {
+                    SimpleLogger()->info('error response (post_id='.$item->post_id.'): '.json_encode($response));
+                }
+            } else {
+                if ( function_exists("SimpleLogger") ) {
+                    SimpleLogger()->info('success response (post_id='.$item->post_id.'): '.json_encode($response));
+                }
+                update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
+                update_post_meta( $item->post_id, $salesForceApi->getSyncIdKey(), $response['id'] );
+            }
         }
 
-        $SFProductId = get_post_meta( $item->post_id , $salesForceApi->getSyncIdKey(), true );
-        $vessel_detail['ForSale'] = true;
-        $vessel_detail['Boatname'] = $item->post_title;
-
-        $image_src = wp_get_attachment_image_src(get_post_thumbnail_id($item->post_id), 'large');
-        if (!empty($image_src[0])) {
-            $vessel_detail['Image_URL'] = $image_src[0];
-        }
-
-        $vessel_detail = (object)$vessel_detail;
-
-        if ( $SFProductId ) {
-            $response = $salesForceApi->updateProduct( $SFProductId, $vessel_detail );
-        } else {
-            $response = $salesForceApi->addNewProduct( $vessel_detail );
-        }
-
-        if( $response['status'] == 'error' ) {
-            if ( function_exists("SimpleLogger") ) {
-                SimpleLogger()->info('error response (post_id='.$item->post_id.'): '.json_encode($response));
-            }
-        } else {
-            if ( function_exists("SimpleLogger") ) {
-                SimpleLogger()->info('success response (post_id='.$item->post_id.'): '.json_encode($response));
-            }
-            update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
-            update_post_meta( $item->post_id, $salesForceApi->getSyncIdKey(), $response['id'] );
+    } catch ( Exception $e ) {
+        if ( function_exists("SimpleLogger") ) {
+            SimpleLogger()->info('Exception: '.$e->getMessage());
         }
     }
 }

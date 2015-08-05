@@ -85,6 +85,9 @@ function sf_synchronize_products( $mode, $version )
                 SimpleLogger()->info('error response (post_id='.$item->post_id.'): '.json_encode($response));
             }
         } else {
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('success response (post_id='.$item->post_id.'): '.json_encode($response));
+            }
             update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
             update_post_meta( $item->post_id, $salesForceApi->getSyncIdKey(), $response['id'] );
         }

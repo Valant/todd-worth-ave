@@ -173,15 +173,15 @@ function sf_own_cron( $mode, $version ) {
 
     $fp1 = fopen('1.csv', 'w');
     foreach ( $whole_info['regions'] as $item ) {
-        fputcsv($fp1, explode(',', $item));
+        fputcsv($fp1, $item);
     }
     fclose($fp1);
-//
-//    $fp2 = fopen('file2.csv', 'w');
-//    foreach ( $whole_info['builders'] as $item ) {
-//        fputcsv($fp2, split(',', $item));
-//    }
-//    fclose($fp2);
+
+    $fp2 = fopen('file2.csv', 'w');
+    foreach ( $whole_info['builders'] as $item ) {
+        fputcsv($fp2, $item);
+    }
+    fclose($fp2);
 
     echo "<pre>";
     print_r( $whole_info ); exit;

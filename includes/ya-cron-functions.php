@@ -56,6 +56,9 @@ function sf_synchronize_products( $mode, $version )
 
         foreach ( $vessels as $item )
         {
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('TRY (post_id='.$item->post_id.')');
+            }
             $vessel_detail = get_post_meta( $item->post_id , 'vessel_detail', true );
             if ( !$vessel_detail ) {
                 if ( function_exists("SimpleLogger") ) {

@@ -49,7 +49,7 @@ function sf_synchronize_products( $mode, $version )
     $vessels = $wpdb->get_results( $query );
 
     if ( function_exists("SimpleLogger") ) {
-        SimpleLogger()->info('mode: '.$mode.'; version: '.$version.'; vessels found: '.count($vessels));
+        SimpleLogger()->info('LOG:mode: '.$mode.'; version: '.$version.'; vessels found: '.count($vessels));
     }
 
     try {
@@ -57,12 +57,12 @@ function sf_synchronize_products( $mode, $version )
         foreach ( $vessels as $item )
         {
             if ( function_exists("SimpleLogger") ) {
-                SimpleLogger()->info('TRY (post_id='.$item->post_id.')');
+                SimpleLogger()->info('LOG:TRY (post_id='.$item->post_id.')');
             }
             $vessel_detail = get_post_meta( $item->post_id , 'vessel_detail', true );
             if ( !$vessel_detail ) {
                 if ( function_exists("SimpleLogger") ) {
-                    SimpleLogger()->info('no details for post_id: '.$item->post_id);
+                    SimpleLogger()->info('LOG:no details for post_id: '.$item->post_id);
                 }
                 update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
                 continue;
@@ -78,20 +78,24 @@ function sf_synchronize_products( $mode, $version )
             }
 
             $vessel_detail = (object)$vessel_detail;
-
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('LOG:TRY1 (post_id='.$item->post_id.')');
+            }
             if ( $SFProductId ) {
                 $response = $salesForceApi->updateProduct( $SFProductId, $vessel_detail );
             } else {
                 $response = $salesForceApi->addNewProduct( $vessel_detail );
             }
-
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('LOG:TRY2 (post_id='.$item->post_id.')');
+            }
             if( $response['status'] == 'error' ) {
                 if ( function_exists("SimpleLogger") ) {
-                    SimpleLogger()->info('error response (post_id='.$item->post_id.'): '.json_encode($response));
+                    SimpleLogger()->info('LOG:error response (post_id='.$item->post_id.'): '.json_encode($response));
                 }
             } else {
                 if ( function_exists("SimpleLogger") ) {
-                    SimpleLogger()->info('success response (post_id='.$item->post_id.'): '.json_encode($response));
+                    SimpleLogger()->info('LOG:success response (post_id='.$item->post_id.'): '.json_encode($response));
                 }
                 update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
                 update_post_meta( $item->post_id, $salesForceApi->getSyncIdKey(), $response['id'] );
@@ -100,7 +104,7 @@ function sf_synchronize_products( $mode, $version )
 
     } catch ( Exception $e ) {
         if ( function_exists("SimpleLogger") ) {
-            SimpleLogger()->info('Exception: '.$e->getMessage());
+            SimpleLogger()->info('LOG:Exception: '.$e->getMessage());
         }
     }
 }

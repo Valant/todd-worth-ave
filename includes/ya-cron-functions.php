@@ -136,17 +136,18 @@ function sf_own_cron( $mode, $version ) {
 
     foreach ( $vessels as $item )
     {
-        $vessel_detail1 = get_post_meta( $item->post_id , 'vessel_detail', true );
-        $vessel_detail2 = get_post_meta( $item['post_id'] , 'vessel_detail', true );
-
-
         echo "<pre>";
-        print_r( $vessel_detail1 );
+        print_r( $item );
         echo "</pre>";
 
+
+        $vessel_detail = get_post_meta( $item->post_id , 'vessel_detail', true );
+
         echo "<pre>";
-        print_r( $vessel_detail2 ); exit;
+        print_r( $vessel_detail ); exit;
         echo "</pre>";
+
+
 
         if( isset( $vessel_detail['LocationCity'] ) && !empty( $vessel_detail['LocationCity'] ) ) {
             if ( isset( $cities[$vessel_detail['LocationCity']] ) )  {

@@ -87,7 +87,7 @@ function sf_synchronize_products( $mode, $version )
                 $response = $salesForceApi->addNewProduct( $vessel_detail );
             }
             if ( function_exists("SimpleLogger") ) {
-                SimpleLogger()->info('LOG:TRY2 (post_id='.$item->post_id.')');
+                SimpleLogger()->info('LOG: response '.json_encode($response));
             }
             if( $response['status'] == 'error' ) {
                 if ( function_exists("SimpleLogger") ) {

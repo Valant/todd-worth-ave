@@ -115,9 +115,21 @@ function sf_synchronize_products( $mode, $version )
 //     $whole_info['types']     = array_values( $types );
      $whole_info['builders']  = array_values( $builders );
 
-     echo "<pre>";
-     print_r( $whole_info ); exit;
-     echo "</pre>";
+    $fp1 = fopen('1.csv', 'w');
+    foreach ( $whole_info['regions'] as $item ) {
+        fputcsv($fp1, split(',', $item));
+    }
+    fclose($fp1);
+
+    $fp2 = fopen('file2.csv', 'w');
+    foreach ( $whole_info['builders'] as $item ) {
+        fputcsv($fp2, split(',', $item));
+    }
+    fclose($fp2);
+
+    echo "<pre>";
+    print_r( $whole_info ); exit;
+    echo "</pre>";
 
 
     if ( function_exists("SimpleLogger") ) {

@@ -136,7 +136,7 @@ function sf_own_cron( $mode, $version ) {
 
     foreach ( $vessels as $item )
     {
-        $vessel_detail = unserialize( $item->vessel_detail );
+        $vessel_detail = get_post_meta( $item->post_id , 'vessel_detail', true );
 
         if( isset( $vessel_detail['LocationCity'] ) && !empty( $vessel_detail['LocationCity'] ) ) {
             if ( isset( $cities[$vessel_detail['LocationCity']] ) )  {

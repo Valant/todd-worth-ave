@@ -102,6 +102,9 @@ class SalesForceApi {
             }
         }
 
+        if ( function_exists("SimpleLogger") ) {
+            SimpleLogger()->info('LOG: before connect create');
+        }
         try {
             $result = $this->connection->create($record, 'Product2');
         }
@@ -140,6 +143,9 @@ class SalesForceApi {
             }
         }
 
+        if ( function_exists("SimpleLogger") ) {
+            SimpleLogger()->info('LOG: before connect update');
+        }
         try{
             $result = $this->connection->update($record, 'Product2');
         }

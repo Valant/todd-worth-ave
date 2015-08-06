@@ -78,17 +78,31 @@ function sf_synchronize_products( $mode, $version )
             }
 
             $vessel_detail = (object)$vessel_detail;
+
+
             if ( function_exists("SimpleLogger") ) {
                 SimpleLogger()->info('LOG:TRY1 (post_id='.$item->post_id.')');
             }
+
+
             if ( $SFProductId ) {
+                if ( function_exists("SimpleLogger") ) {
+                    SimpleLogger()->info('LOG: update '.$SFProductId);
+                }
                 $response = $salesForceApi->updateProduct( $SFProductId, $vessel_detail );
             } else {
+                if ( function_exists("SimpleLogger") ) {
+                    SimpleLogger()->info('LOG: insert');
+                }
                 $response = $salesForceApi->addNewProduct( $vessel_detail );
             }
+
+
             if ( function_exists("SimpleLogger") ) {
                 SimpleLogger()->info('LOG: response '.json_encode($response));
             }
+
+
             if( $response['status'] == 'error' ) {
                 if ( function_exists("SimpleLogger") ) {
                     SimpleLogger()->info('LOG:error response (post_id='.$item->post_id.'): '.json_encode($response));

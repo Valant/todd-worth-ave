@@ -107,6 +107,9 @@ class SalesForceApi {
         }
         try {
             $result = $this->connection->create($record, 'Product2');
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('LOG: insert result: '.json_encode($result));
+            }
         }
         catch ( Exception $e ) {
             $message = $e->getMessage();

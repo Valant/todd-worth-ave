@@ -102,14 +102,8 @@ class SalesForceApi {
             }
         }
 
-        if ( function_exists("SimpleLogger") ) {
-            SimpleLogger()->info('LOG: before connect create');
-        }
         try {
             $result = $this->connection->create($record, 'Product2');
-            if ( function_exists("SimpleLogger") ) {
-                SimpleLogger()->info('LOG: insert result: '.json_encode($result));
-            }
         } catch ( Exception $e ) {
             $message = $e->getMessage();
             return array( 'status' => 'error', 'message' => $message);
@@ -148,9 +142,6 @@ class SalesForceApi {
             }
         }
 
-        if ( function_exists("SimpleLogger") ) {
-            SimpleLogger()->info('LOG: before connect update');
-        }
         try{
             $result = $this->connection->update($record, 'Product2');
         }

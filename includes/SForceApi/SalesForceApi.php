@@ -110,8 +110,7 @@ class SalesForceApi {
             if ( function_exists("SimpleLogger") ) {
                 SimpleLogger()->info('LOG: insert result: '.json_encode($result));
             }
-        }
-        catch ( Exception $e ) {
+        } catch ( Exception $e ) {
             $message = $e->getMessage();
             return array( 'status' => 'error', 'message' => $message);
         }
@@ -119,6 +118,9 @@ class SalesForceApi {
         if (!empty($result[0]) && $result[0]->success && $result[0]->id) {
             return array( 'status' => 'success', 'id' => $result[0]->id );
         } else {
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('LOG: RETURN: '.json_encode($result));
+            }
             return array( 'status' => 'error', 'message' => json_encode($result) );
         }
     }

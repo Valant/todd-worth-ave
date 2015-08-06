@@ -187,6 +187,7 @@ class SalesForceApi {
     private function _formatData ($data)
     {
         $data->AskingPrice = (int) $data->AskingPrice;
+        $data->DescriptionShowingInstructions = substr($data->DescriptionShowingInstructions, 0, 250);
 
         return $data;
     }

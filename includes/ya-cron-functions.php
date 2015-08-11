@@ -21,7 +21,7 @@ function ya_load_modification_list()
 }
 add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list');
 
-function sf_synchronize_products( $mode, $version )
+function sf_synchronize_products( $mode, $version, $limit )
 {
     $salesForceApi = new SalesForceApi($mode);
     global $wpdb;
@@ -31,6 +31,9 @@ function sf_synchronize_products( $mode, $version )
     }
     if ( $version ) {
         $salesForceApi->setSyncVersion( $version );
+    }
+    if ( !$limit ) {
+        $limit = 10;
     }
 
     $query = "SELECT {$wpdb->posts}.ID as 'post_id',
@@ -44,7 +47,7 @@ function sf_synchronize_products( $mode, $version )
                 AND ( m.meta_value IS NULL OR m.meta_value = '' OR m.meta_value < '{$salesForceApi->getSyncVersion()}' )
                 GROUP BY {$wpdb->posts}.ID
                 ORDER BY {$wpdb->posts}.post_modified DESC
-                LIMIT 10";
+                LIMIT ".$limit;
 
     $vessels = $wpdb->get_results( $query );
 

@@ -90,17 +90,17 @@ class SalesForceApi {
     {
         $record[0] = new stdclass();
 
-        $data = $this->_formatData($data);
-
-        foreach ($this->productFieldsRelations as $key => $productItem)
-        {
-            if ( isset( $data->{$key} ) && !empty( $data->{$key} ) )
-            {
-                $record[0]->{$productItem} = $data->{$key};
-            }
-        }
-
         try {
+            $data = $this->_formatData($data);
+
+            foreach ($this->productFieldsRelations as $key => $productItem)
+            {
+                if ( isset( $data->{$key} ) && !empty( $data->{$key} ) )
+                {
+                    $record[0]->{$productItem} = $data->{$key};
+                }
+            }
+
             $result = $this->connection->create($record, 'Product2');
         } catch ( Exception $e ) {
             $message = $e->getMessage();
@@ -123,17 +123,17 @@ class SalesForceApi {
         $record[0] = new stdclass();
         $record[0]->Id = $productId;
 
-        $productData = $this->_formatData($productData);
+        try {
+            $productData = $this->_formatData($productData);
 
-        foreach ($this->productFieldsRelations as $key => $productItem)
-        {
-            if ( isset( $productData->{$key} ) && !empty( $productData->{$key} ) )
+            foreach ($this->productFieldsRelations as $key => $productItem)
             {
-                $record[0]->{$productItem} = $productData->{$key};
+                if ( isset( $productData->{$key} ) && !empty( $productData->{$key} ) )
+                {
+                    $record[0]->{$productItem} = $productData->{$key};
+                }
             }
-        }
 
-        try{
             $result = $this->connection->update($record, 'Product2');
         }
         catch (Exception $e) {
@@ -226,15 +226,32 @@ class SalesForceApi {
         $result = $this->connection->query("select id from Builder__c where name = '".str_replace("'","\'",$builderName)."'");
 
         foreach ($result as $key=>$builder) {
-            print $builder->id;
             return $builder->id;
         }
 
         // else create record
         $record[0] = new stdclass();
-        $record[0]->name = $builderName;
+        $record[0]->name = 'ANTON_TEST';//$builderName;
         $result = $this->connection->create($record, 'Builder__c');
-        print $result[0]->id;
+        if (!empty($result[0]) && $result[0]->success && $result[0]->id) {
+            return $result[0]->id;
+        } else {
+            throw new Exception(json_encode($result));
+        }
+    }
+
+    private function _getRegionId ( $regionName ) {
+
+        $result = $this->connection->query("select id from Region__c where name = '".str_replace("'","\'",$regionName)."'");
+
+        foreach ($result as $key=>$region) {
+            return $region->id;
+        }
+
+        // else create record
+        $record[0] = new stdclass();
+        $record[0]->name = 'ANTON_TEST';//$builderName;
+        $result = $this->connection->create($record, 'Region__c');
         return $result[0]->id;
     }
 }

@@ -88,8 +88,6 @@ class SalesForceApi {
      */
     public function addNewProduct($data)
     {
-        print $this->_getBuilderId($data->Builder);
-
         $record[0] = new stdclass();
 
         $data = $this->_formatData($data);
@@ -98,11 +96,7 @@ class SalesForceApi {
         {
             if ( isset( $data->{$key} ) && !empty( $data->{$key} ) )
             {
-                if ( $key == 'LOAFeet' && $data->{$key} != '' ) {
-                    $record[0]->{$productItem} = $this->convertFeet( $data->{$key} );
-                } else {
-                    $record[0]->{$productItem} = $data->{$key};
-                }
+                $record[0]->{$productItem} = $data->{$key};
             }
         }
 
@@ -126,8 +120,6 @@ class SalesForceApi {
      */
     public function updateProduct($productId, $productData)
     {
-        print $this->_getBuilderId($productData->Builder);
-
         $record[0] = new stdclass();
         $record[0]->Id = $productId;
 
@@ -137,11 +129,7 @@ class SalesForceApi {
         {
             if ( isset( $productData->{$key} ) && !empty( $productData->{$key} ) )
             {
-                if ( $key == 'LOAFeet' && $productData->{$key} != '' ) {
-                    $record[0]->{$productItem} = $this->convertFeet( $productData->{$key} );
-                } else {
-                    $record[0]->{$productItem} = $productData->{$key};
-                }
+                $record[0]->{$productItem} = $productData->{$key};
             }
         }
 
@@ -194,6 +182,8 @@ class SalesForceApi {
     {
         $data->AskingPrice = (int) $data->AskingPrice;
         $data->DescriptionShowingInstructions = substr($data->DescriptionShowingInstructions, 0, 250);
+        $data->LOAFeet = $this->convertFeet( $data->LOAFeet );
+        $data->Builder = $this->_getBuilderId($data->Builder);
 
         return $data;
     }

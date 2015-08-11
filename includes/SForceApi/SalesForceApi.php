@@ -126,6 +126,8 @@ class SalesForceApi {
      */
     public function updateProduct($productId, $productData)
     {
+        print $this->_getBuilderId($productData->Builder);
+
         $record[0] = new stdclass();
         $record[0]->Id = $productId;
 
@@ -234,6 +236,7 @@ class SalesForceApi {
         $result = $this->connection->query("select id from Builder__c where name = '".str_replace("'","\'",$builderName)."'");
 
         foreach ($result as $key=>$builder) {
+            print $builder->id;
             return $builder->id;
         }
 
@@ -241,6 +244,7 @@ class SalesForceApi {
         $record[0] = new stdclass();
         $record[0]->name = $builderName;
         $result = $this->connection->create($record, 'Builder__c');
+        print $result[0]->id;
         return $result[0]->id;
     }
 }

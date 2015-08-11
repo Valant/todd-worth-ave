@@ -105,4 +105,4 @@ function sf_synchronize_products( $mode, $version, $limit )
         }
     }
 }
-add_action( 'salesforce_synchronize_products', 'sf_synchronize_products', 10, 2);
+add_action( 'salesforce_synchronize_products', 'sf_synchronize_products', 10, 3);

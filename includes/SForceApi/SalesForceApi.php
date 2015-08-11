@@ -88,6 +88,8 @@ class SalesForceApi {
      */
     public function addNewProduct($data)
     {
+        print $this->_getBuilderId($data->Builder);
+
         $record[0] = new stdclass();
 
         $data = $this->_formatData($data);
@@ -225,5 +227,20 @@ class SalesForceApi {
     public function setSyncVersion( $version )
     {
         $this->SFSyncVersion = $version;
+    }
+
+    private function _getBuilderId ( $builderName ) {
+
+        $builder = $this->connection->query("select id from Builder__c where name = '".str_replace("'","\'",$builderName)."'");
+
+        if ($builder && isset($builder[0])) {
+            return $builder[0]->id;
+        } else {
+            $record[0] = new stdclass();
+            $record[0]->name = $builderName;
+            $result = $this->connection->create($record, 'Builder__c');
+            return $result[0]->id;
+        }
+
     }
 }

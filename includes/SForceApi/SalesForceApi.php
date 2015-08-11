@@ -184,6 +184,7 @@ class SalesForceApi {
         $data->DescriptionShowingInstructions = substr($data->DescriptionShowingInstructions, 0, 250);
         $data->LOAFeet = $this->convertFeet( $data->LOAFeet );
         $data->Builder = $this->_getBuilderId($data->Builder);
+        $data->LocationRegionName = $this->_getRegionId($data->LocationRegionName);
 
         return $data;
     }

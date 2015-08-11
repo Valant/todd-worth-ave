@@ -101,9 +101,6 @@ class SalesForceApi {
                 }
             }
 
-            if ( function_exists("SimpleLogger") ) {
-                SimpleLogger()->info('LOG:insertProduct', array('e_message'=>json_encode($record)));
-            }
             $result = $this->connection->create($record, 'Product2');
         } catch ( Exception $e ) {
             $message = $e->getMessage();
@@ -137,9 +134,6 @@ class SalesForceApi {
                 }
             }
 
-            if ( function_exists("SimpleLogger") ) {
-                SimpleLogger()->info('LOG:updateProduct', array('e_message'=>json_encode($record)));
-            }
             $result = $this->connection->update($record, 'Product2');
         }
         catch (Exception $e) {
@@ -232,23 +226,17 @@ class SalesForceApi {
 
         $result = $this->connection->query("select Id from Builder__c where name = '".str_replace("'","\'",$builderName)."'");
 
-        if ( function_exists("SimpleLogger") ) {
-            SimpleLogger()->info('LOG:BuilderSearchResult', array('e_message'=>json_encode($result)));
-        }
         foreach ($result as $key=>$builder) {
             return $builder->Id;
         }
 
         // else create record
         $record[0] = new stdclass();
-        $record[0]->name = 'ANTON_TEST';//$builderName;
+        $record[0]->name = $builderName;
         $result = $this->connection->create($record, 'Builder__c');
 
-        if ( function_exists("SimpleLogger") ) {
-            SimpleLogger()->info('LOG:BuilderCreateResult', array('e_message'=>json_encode($result)));
-        }
         if (!empty($result[0]) && $result[0]->success && $result[0]->id) {
-            return $result[0]->Id;
+            return $result[0]->id;
         } else {
             throw new Exception(json_encode($result));
         }
@@ -258,23 +246,17 @@ class SalesForceApi {
 
         $result = $this->connection->query("select Id from Region__c where name = '".str_replace("'","\'",$regionName)."'");
 
-        if ( function_exists("SimpleLogger") ) {
-            SimpleLogger()->info('LOG:RegionSearchResult', array('e_message'=>json_encode($result)));
-        }
         foreach ($result as $key=>$region) {
             return $region->Id;
         }
 
         // else create record
         $record[0] = new stdclass();
-        $record[0]->name = 'ANTON_TEST';//$builderName;
+        $record[0]->name = $regionName;
         $result = $this->connection->create($record, 'Region__c');
 
-        if ( function_exists("SimpleLogger") ) {
-            SimpleLogger()->info('LOG:RegionCreateResult', array('e_message'=>json_encode($result)));
-        }
         if (!empty($result[0]) && $result[0]->success && $result[0]->id) {
-            return $result[0]->Id;
+            return $result[0]->id;
         } else {
             throw new Exception(json_encode($result));
         }

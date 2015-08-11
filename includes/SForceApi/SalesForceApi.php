@@ -231,16 +231,16 @@ class SalesForceApi {
 
     private function _getBuilderId ( $builderName ) {
 
-        $builder = $this->connection->query("select id from Builder__c where name = '".str_replace("'","\'",$builderName)."'");
+        $result = $this->connection->query("select id from Builder__c where name = '".str_replace("'","\'",$builderName)."'");
 
-        if ($builder && isset($builder[0])) {
-            return $builder[0]->id;
-        } else {
-            $record[0] = new stdclass();
-            $record[0]->name = $builderName;
-            $result = $this->connection->create($record, 'Builder__c');
-            return $result[0]->id;
+        foreach ($result as $key=>$builder) {
+            return $builder->id;
         }
 
+        // else create record
+        $record[0] = new stdclass();
+        $record[0]->name = $builderName;
+        $result = $this->connection->create($record, 'Builder__c');
+        return $result[0]->id;
     }
 }

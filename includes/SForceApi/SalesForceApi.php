@@ -224,6 +224,10 @@ class SalesForceApi {
 
     private function _getBuilderId ( $builderName ) {
 
+        if (empty($regionName)) {
+            return null;
+        }
+
         $result = $this->connection->query("select Id from Builder__c where name = '".str_replace("'","\'",$builderName)."'");
 
         foreach ($result as $key=>$builder) {
@@ -243,6 +247,10 @@ class SalesForceApi {
     }
 
     private function _getRegionId ( $regionName ) {
+
+        if (empty($regionName)) {
+            return null;
+        }
 
         $result = $this->connection->query("select Id from Region__c where name = '".str_replace("'","\'",$regionName)."'");
 

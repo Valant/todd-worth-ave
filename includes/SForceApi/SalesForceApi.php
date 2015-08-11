@@ -226,6 +226,9 @@ class SalesForceApi {
 
         $result = $this->connection->query("select id from Builder__c where name = '".str_replace("'","\'",$builderName)."'");
 
+        if ( function_exists("SimpleLogger") ) {
+            SimpleLogger()->info('LOG:BuilderSearchResult', array('e_message'=>json_encode($result)));
+        }
         foreach ($result as $key=>$builder) {
             return $builder->id;
         }
@@ -234,6 +237,10 @@ class SalesForceApi {
         $record[0] = new stdclass();
         $record[0]->name = 'ANTON_TEST';//$builderName;
         $result = $this->connection->create($record, 'Builder__c');
+
+        if ( function_exists("SimpleLogger") ) {
+            SimpleLogger()->info('LOG:BuilderCreateResult', array('e_message'=>json_encode($result)));
+        }
         if (!empty($result[0]) && $result[0]->success && $result[0]->id) {
             return $result[0]->id;
         } else {
@@ -245,6 +252,9 @@ class SalesForceApi {
 
         $result = $this->connection->query("select id from Region__c where name = '".str_replace("'","\'",$regionName)."'");
 
+        if ( function_exists("SimpleLogger") ) {
+            SimpleLogger()->info('LOG:RegionSearchResult', array('e_message'=>json_encode($result)));
+        }
         foreach ($result as $key=>$region) {
             return $region->id;
         }
@@ -253,6 +263,14 @@ class SalesForceApi {
         $record[0] = new stdclass();
         $record[0]->name = 'ANTON_TEST';//$builderName;
         $result = $this->connection->create($record, 'Region__c');
-        return $result[0]->id;
+
+        if ( function_exists("SimpleLogger") ) {
+            SimpleLogger()->info('LOG:RegionCreateResult', array('e_message'=>json_encode($result)));
+        }
+        if (!empty($result[0]) && $result[0]->success && $result[0]->id) {
+            return $result[0]->id;
+        } else {
+            throw new Exception(json_encode($result));
+        }
     }
 }

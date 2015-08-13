@@ -224,7 +224,7 @@ class SalesForceApi {
 
     private function _getBuilderId ( $builderName ) {
 
-        if (empty($regionName)) {
+        if (empty($builderName)) {
             return null;
         }
 

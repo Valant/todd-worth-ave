@@ -53,11 +53,11 @@ class SalesForceApi {
     ];
 
     const USER_NAME_PROD = "debi@worthavenueyachts.com";
-    const PASSWORD_PROD = "De3344Gi";
+    const PASSWORD_PROD = "De3344Gi6";
     const SECURITY_TOKEN_PROD = "DJf8KLHMQjkChP6VUZjxTcWL";
 
     const USER_NAME_DEV      = "debi@worthavenueyachts.com.sandbox1";
-    const PASSWORD_DEV       = "De3344Gi";
+    const PASSWORD_DEV       = "De3344Gi6";
     const SECURITY_TOKEN_DEV = "DJf8KLHMQjkChP6VUZjxTcWL";
 
     public function __construct($mode)

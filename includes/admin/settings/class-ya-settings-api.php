@@ -40,7 +40,7 @@ class YA_Settings_Api extends YA_Settings_Page {
 	public function get_settings() {
 
 		$settings = apply_filters( 'yatco_general_settings', array(
-			array( 'title' => __( 'Yatco API', 'yatco' ), 'type' => 'title', 'desc' => '', 'id' => 'api_options' ),
+			array( 'title' => __( 'Yatco API', 'yatco' ), 'type' => 'title', 'desc' => '', 'id' => 'yatco_api_options' ),
 
 			array(
 				'title'   => __( 'API key', 'yatco' ),
@@ -51,7 +51,36 @@ class YA_Settings_Api extends YA_Settings_Page {
 				'type'    => 'text'
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'api_options'),
+			array( 'type' => 'sectionend', 'id' => 'yatco_api_options'),
+
+			array( 'title' => __( 'SalesForce API', 'yatco' ), 'type' => 'title', 'desc' => '', 'id' => 'salesforce_api_options' ),
+
+			array(
+				'title'   => __( 'Username', 'yatco' ),
+				'desc'    => '',
+				'id'      => 'salesforce_api_username',
+				'css'     => 'min-width: 350px;',
+				'default' => '',
+				'type'    => 'text'
+			),
+			array(
+				'title'   => __( 'Password', 'yatco' ),
+				'desc'    => '',
+				'id'      => 'salesforce_api_password',
+				'css'     => 'min-width: 350px;',
+				'default' => '',
+				'type'    => 'password'
+			),
+			array(
+				'title'   => __( 'Security Token', 'yatco' ),
+				'desc'    => '',
+				'id'      => 'salesforce_api_security_token',
+				'css'     => 'min-width: 350px;',
+				'default' => '',
+				'type'    => 'text'
+			),
+
+			array( 'type' => 'sectionend', 'id' => 'salesforce_api_options'),
 
 		) );
 

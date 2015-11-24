@@ -52,16 +52,24 @@ class SalesForceApi {
         'YearBuilt'                      => 'YearBuilt__c'
     ];
 
-    const USER_NAME_PROD = "debi@worthavenueyachts.com";
+    /*const USER_NAME_PROD = "debi@worthavenueyachts.com";
     const PASSWORD_PROD = "De3344Gi6";
     const SECURITY_TOKEN_PROD = "DJf8KLHMQjkChP6VUZjxTcWL";
 
     const USER_NAME_DEV      = "debi@worthavenueyachts.com.sandbox1";
     const PASSWORD_DEV       = "De3344Gi6";
-    const SECURITY_TOKEN_DEV = "DJf8KLHMQjkChP6VUZjxTcWL";
+    const SECURITY_TOKEN_DEV = "DJf8KLHMQjkChP6VUZjxTcWL";*/
+
+    private $username = '';
+    private $password = '';
+    private $token    = '';
 
     public function __construct($mode)
     {
+        $this->username = get_option('salesforce_api_username');
+        $this->password = get_option('salesforce_api_password');
+        $this->token    = get_option('salesforce_api_security_token');
+
         $this->mode = $mode;
 
         $this->connection = new SforceEnterpriseClient();
@@ -73,9 +81,9 @@ class SalesForceApi {
 
         try {
             if ( $this->mode == 'dev' ) {
-                $this->connection->login(self::USER_NAME_DEV, self::PASSWORD_DEV . self::SECURITY_TOKEN_DEV);
+                $this->connection->login( $this->username . '.sandbox1', $this->password . $this->token);
             } else if( $this->mode == 'prod' ) {
-                $this->connection->login(self::USER_NAME_PROD, self::PASSWORD_PROD . self::SECURITY_TOKEN_PROD);
+                $this->connection->login( $this->username, $this->password . $this->token);
             }
         } catch(Exception $e) {
             throw new Exception($e->getMessage(),'400');

@@ -24,6 +24,7 @@ class YA_Meta_Boxes {
 	public static function init() {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ), 100, 1 );
 		add_action( 'admin_init', array( __CLASS__, 'save' ), 100 );
+		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 100 );
 	}
 
 	/**
@@ -81,13 +82,14 @@ class YA_Meta_Boxes {
 	        if( $vessel_detail !== false ) {
 	            $vessel_detail->ForSale = true;
 	            $api->save_vessel( $vessel_detail );
-
-	            $url = remove_query_arg( 'reload_vessel' );
-	            //var_dump($url); die;
-	            wp_redirect( $url );
-	            exit;
+	            add_option('yatco_admin_notice', '2');
+	        }else{
+	        	add_option('yatco_admin_notice', '1');
 	        }
 		}
+        $url = remove_query_arg( 'reload_vessel' );
+        wp_redirect( $url );
+        exit;
 	}
 
 
@@ -101,6 +103,25 @@ class YA_Meta_Boxes {
 		?>
 		<a href="<?php echo esc_url( add_query_arg( 'reload_vessel', $VesselID ) ); ?>" class="button button-primary button-large"><?php _e('Reload vessel', 'yatco'); ?></a>
 		<?php
+	}
+
+	public static function admin_notices()
+	{
+		$admin_notice = get_option('yatco_admin_notice');
+		delete_option('yatco_admin_notice');
+		if( $admin_notice == '1'){
+		?>
+		    <div class="error notice">
+		        <p><?php _e( 'Sorry, the vessel cannot be loaded.', 'yatco' ); ?></p>
+		    </div>
+	    <?php
+		}else if( $admin_notice == '2'){
+		?>
+		    <div class="updated notice">
+		        <p><?php _e( 'The vessel successfully loaded.', 'yatco' ); ?></p>
+		    </div>
+	    <?php
+		}
 	}
 }
 

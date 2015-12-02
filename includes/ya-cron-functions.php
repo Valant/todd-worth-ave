@@ -11,9 +11,9 @@ function ya_load_modification_list()
     if ( $modification_list ) {
         foreach ( $modification_list as $VesselID ) {
             $vessel_detail          = $api->load_vessel_detail($VesselID);
-            $vessel_detail->ForSale = true;
 
             if( $vessel_detail !== false ) {
+                $vessel_detail->ForSale = true;
                 $api->save_vessel( $vessel_detail );
             }
         }

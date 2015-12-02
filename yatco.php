@@ -149,6 +149,7 @@ final class Yatco {
       $this->frontend_includes();
     }
     include_once( 'includes/class-ya-post-types.php' );                     // Registers post types
+    include_once( 'includes/class-ya-meta-boxes.php' );                     // Add metaboxes
   }
   /**
    * Include required ajax files.

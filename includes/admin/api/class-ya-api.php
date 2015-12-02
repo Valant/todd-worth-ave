@@ -306,6 +306,10 @@ class YA_API {
 
             wp_update_post($post);
 
+            // Lets reset SFSyncVersion, so item will be synced to SF on next run
+            update_post_meta( $post_id, 'SFSyncVersion', '' );
+            update_post_meta( $post_id, 'SFSyncVersion_sandbox', '' );
+
             $answer['status'] = 'updated';
         } else {
 

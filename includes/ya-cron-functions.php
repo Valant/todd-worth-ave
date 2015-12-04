@@ -28,6 +28,7 @@ function yatco_cron_recheck_vassel($limit)
 {
     include_once( 'admin/class-ya-admin.php' );
     $api = new YA_API();
+    global $wpdb;
 
     if ( !$limit ) {
         $limit = 10;

@@ -24,6 +24,55 @@ function ya_load_modification_list()
 }
 add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list');
 
+function yatco_cron_recheck_vassel($limit)
+{
+    include_once( 'admin/class-ya-admin.php' );
+    $api = new YA_API();
+
+    if ( !$limit ) {
+        $limit = 10;
+    }
+
+    $query = "SELECT {$wpdb->posts}.ID as 'post_id',
+                     m.meta_value FROM {$wpdb->posts}
+                LEFT JOIN {$wpdb->postmeta} m
+                    ON ( {$wpdb->posts}.ID = m.post_id AND m.meta_key = 'is_reckeck_done' )
+                WHERE
+                    {$wpdb->posts}.post_type = 'vessel'
+                AND m.meta_value<>'yes'
+                GROUP BY {$wpdb->posts}.ID
+                ORDER BY {$wpdb->posts}.post_modified DESC
+                LIMIT ".$limit;
+
+    $vessels = $wpdb->get_results( $query );
+
+    if ( function_exists("SimpleLogger") ) {
+        SimpleLogger()->info('LOG-recheck: vessels found: '.count($vessels));
+    }
+
+    foreach ( $vessels as $item )
+    {
+        $VesselID = get_post_meta( $item->post_id , 'VesselID', true );
+        $vessel_detail          = $api->load_vessel_detail($VesselID);
+
+        if( $vessel_detail !== false ) {
+
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('LOG-recheck: vessels exists: '.$item->post_id);
+            }
+            // do nothing
+        }else{
+
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('LOG-recheck: vessels REMOVED: '.$item->post_id);
+            }
+            $api->deactivate_vessel( $VesselID );
+        }
+        update_post_meta( $item->post_id, 'is_reckeck_done', 'yes' );
+    }
+}
+add_action( 'yatco_cron_recheck_vassel', 'yatco_cron_recheck_vassel');
+
 function sf_synchronize_products( $mode, $version, $limit )
 {
     $salesForceApi = new SalesForceApi($mode);
@@ -112,7 +161,7 @@ function sf_synchronize_products( $mode, $version, $limit )
         }
 
         if( !empty($remove_arr) ){
-            $response = $salesForceApi->deleteProducts($remove_arr);
+            $salesForceApi->deleteProducts($remove_arr);
         }
 
     } catch ( Exception $e ) {

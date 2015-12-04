@@ -163,7 +163,15 @@ class SalesForceApi {
      */
     public function deleteProducts($productIds)
     {
-        $this->connection->delete($productIds);
+        try {
+            $this->connection->delete($productIds);
+        } catch (Exception $e) {
+
+            if ( function_exists("SimpleLogger") ) {
+                SimpleLogger()->info('LOG:Exception', array('e_message'=>$e->getMessage()));
+            }
+        }
+
     }
 
     /**

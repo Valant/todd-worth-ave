@@ -91,6 +91,7 @@ function sf_synchronize_products( $mode, $version, $limit )
 
     $query = "SELECT {$wpdb->posts}.ID as 'post_id',
                      {$wpdb->posts}.post_title,
+                     {$wpdb->posts}.post_status,
                      m.meta_value as '{$salesForceApi->getSyncVersionKey()}' FROM {$wpdb->posts}
                 LEFT JOIN {$wpdb->postmeta} m
                     ON ( {$wpdb->posts}.ID = m.post_id AND m.meta_key = '{$salesForceApi->getSyncVersionKey()}' )

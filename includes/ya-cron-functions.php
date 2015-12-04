@@ -40,7 +40,7 @@ function yatco_cron_recheck_vassel($limit)
                     ON ( {$wpdb->posts}.ID = m.post_id AND m.meta_key = 'is_reckeck_done' )
                 WHERE
                     {$wpdb->posts}.post_type = 'vessel'
-                AND m.meta_value<>'yes'
+                AND ( m.meta_value IS NULL OR m.meta_value<>'yes' )
                 GROUP BY {$wpdb->posts}.ID
                 ORDER BY {$wpdb->posts}.post_modified DESC
                 LIMIT ".$limit;

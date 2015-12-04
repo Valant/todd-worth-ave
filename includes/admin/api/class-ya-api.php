@@ -261,6 +261,27 @@ class YA_API {
 
     }
 
+    /**
+     * Set inactive status.
+     *
+     * @param int $VesselID (default: 0)
+     */
+    public function deactivate_vessel( $VesselID = 0 ){
+        if( $VesselID > 0 && $post_id = $this->vessel_exist($VesselID) ) {
+
+            $post['ID']                = $post_id;
+            $post['post_status']       = 'inactive';
+            $post['post_modified']     = current_time( 'mysql' );
+            $post['post_modified_gmt'] = current_time( 'mysql', 1 );
+
+            wp_update_post($post);
+
+            // Lets reset SFSyncVersion, so item will be synced to SF on next run
+            update_post_meta( $post_id, 'SFSyncVersion', '' );
+            update_post_meta( $post_id, 'SFSyncVersion_sandbox', '' );
+        }
+    }
+
     public function save_vessel($result = false)
     {
         if(!$result){
@@ -300,7 +321,7 @@ class YA_API {
             $post['ID']                = $post_id;
             $post['post_modified']     = current_time( 'mysql' );
             if( !$this->load_vessel_detail( $result->VesselID ) ) {
-                $post['post_status']   = 'trash';
+                $post['post_status']   = 'inactive';
             }
             $post['post_modified_gmt'] = current_time( 'mysql', 1 );
 

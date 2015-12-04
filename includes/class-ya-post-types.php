@@ -25,6 +25,7 @@ class YA_Post_types {
 	 */
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
+		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 6 );
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
 		add_action( 'init', array( __CLASS__, 'support_jetpack_omnisearch' ) );
 	}
@@ -93,7 +94,7 @@ class YA_Post_types {
 
 		do_action( 'yatco_after_register_taxonomy' );
 	}
-
+	
 	/**
 	 * Register core post types.
 	 */
@@ -144,6 +145,21 @@ class YA_Post_types {
 			)
 		);
 
+	}
+
+
+	/**
+	 * Register post statuses.
+	 */
+	public static function register_post_statuses() {
+		register_post_status( 'inactive', array(
+			'label'                     => _x( 'Inactive', 'vessel', 'yatco' ),
+			'public'                    => false,
+			'exclude_from_search'       => true,
+			'show_in_admin_all_list'    => false,
+			'show_in_admin_status_list' => true,
+			'label_count'               => _n_noop( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', 'yatco' ),
+		) );
 	}
 
 	/**

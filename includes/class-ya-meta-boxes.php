@@ -84,6 +84,8 @@ class YA_Meta_Boxes {
 	            $api->save_vessel( $vessel_detail );
 	            add_option('yatco_admin_notice', '2');
 	        }else{
+
+		        $api->deactivate_vessel( $VesselID );
 	        	add_option('yatco_admin_notice', '1');
 	        }
 		}
@@ -112,7 +114,7 @@ class YA_Meta_Boxes {
 		if( $admin_notice == '1'){
 		?>
 		    <div class="error notice">
-		        <p><?php _e( 'Sorry, the vessel cannot be loaded.', 'yatco' ); ?></p>
+		        <p><?php _e( 'Sorry, the vessel cannot be loaded. Mark as inactive.', 'yatco' ); ?></p>
 		    </div>
 	    <?php
 		}else if( $admin_notice == '2'){

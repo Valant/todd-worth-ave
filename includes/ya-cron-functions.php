@@ -89,23 +89,6 @@ function sf_synchronize_products( $mode, $version, $limit )
         $limit = 10;
     }
 
-
-    echo "<mode>";
-    echo "<pre>";
-    print_r( $mode );
-    echo "</pre>";
-
-    echo "<version>";
-    echo "<pre>";
-    print_r( $version );
-    echo "</pre>";
-
-    echo "<limit>";
-    echo "<pre>";
-    print_r( $limit );
-    echo "</pre>";
-
-
     $query = "SELECT {$wpdb->posts}.ID as 'post_id',
                      {$wpdb->posts}.post_title,
                      {$wpdb->posts}.post_status,
@@ -189,4 +172,4 @@ function sf_synchronize_products( $mode, $version, $limit )
         }
     }
 }
-add_action( 'salesforce_synchronize_products', 'sf_synchronize_products', 10, 2);
+add_action( 'salesforce_synchronize_products', 'sf_synchronize_products', 10, 3);

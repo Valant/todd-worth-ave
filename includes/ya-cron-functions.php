@@ -8,7 +8,7 @@ function ya_load_modification_list()
     $api = new YA_API();
     $modification_list = $api->load_modification_list();
     if ( $modification_list ) {
-        foreach ( $modification_list as $VesselID ) {            
+        foreach ( $modification_list as $VesselID ) {
 
             $vessel_detail          = $api->load_vessel_detail($VesselID);
 
@@ -89,6 +89,23 @@ function sf_synchronize_products( $mode, $version, $limit )
         $limit = 10;
     }
 
+
+    echo "<mode>";
+    echo "<pre>";
+    print_r( $mode );
+    echo "</pre>";
+
+    echo "<version>";
+    echo "<pre>";
+    print_r( $version );
+    echo "</pre>";
+
+    echo "<limit>";
+    echo "<pre>";
+    print_r( $limit );
+    echo "</pre>";
+
+
     $query = "SELECT {$wpdb->posts}.ID as 'post_id',
                      {$wpdb->posts}.post_title,
                      {$wpdb->posts}.post_status,
@@ -155,7 +172,7 @@ function sf_synchronize_products( $mode, $version, $limit )
                         SimpleLogger()->info('LOG:error response (post_id='.$item->post_id.'): ', array('api_response'=>json_encode($response)));
                     }
                 }
-                
+
             }else if ( $SFProductId ) {
                 $remove_arr[] = $SFProductId;
             }
@@ -172,4 +189,4 @@ function sf_synchronize_products( $mode, $version, $limit )
         }
     }
 }
-add_action( 'salesforce_synchronize_products', 'sf_synchronize_products', 10, 3);
+add_action( 'salesforce_synchronize_products', 'sf_synchronize_products', 10, 2);

@@ -8,10 +8,7 @@ if ( empty( $_REQUEST['action'] ) )
 	die( '0' );
 
 /** Load WordPress Administration APIs */
-require_once( ABSPATH . 'wp-admin/includes/admin.php' );
-
-/** Load Ajax Handlers for WordPress Core */
-// require_once( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
+// require_once( ABSPATH . 'wp-admin/includes/admin.php' );
 
 $params = $_REQUEST;
 

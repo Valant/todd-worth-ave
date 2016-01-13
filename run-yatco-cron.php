@@ -18,18 +18,8 @@ if ( ! defined( 'WP_ADMIN' ) ) {
 	// define( 'WP_ADMIN', true );
 }
 
-	print_r( 111 );
-	$params = $_REQUEST;
-
-	echo "<params>";
-	echo "<pre>";
-	print_r( $params );
-	echo "</pre>";
-
 /** Load WordPress Bootstrap */
 require_once( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-load.php' );
-
-
 
 /** Allow for cross-domain requests (from the frontend). */
 send_origin_headers();
@@ -109,34 +99,34 @@ do_action( 'admin_init' );
 
 	$params = $_REQUEST;
 
-    // Return error when noonce doesn't match
-    if ( !wp_verify_nonce($params['noonce'], 'execute_task_'.$params['task']) )
-            die( json_encode( array('status' => 'error', 'details' => __('Sorry, wrong noonce.', 'acm')) ) );
+	echo "<params>";
+	echo "<pre>";
+	print_r( $params );
+	echo "</pre>";
 
-    // ob_start();
+    // Return error when noonce doesn't match
+    // if ( !wp_verify_nonce($params['noonce'], 'execute_task_'.$params['task']) )
+    //         die( json_encode( array('status' => 'error', 'details' => __('Sorry, wrong noonce.', 'acm')) ) );
 
     $args = array();
     if ( isset( $params['args'] ) && ! empty( $params['args'] ) ) {
-            $args = explode( ",", $params['args'] );
+        $args = explode( ",", $params['args'] );
     }
+
+	echo "<args>";
+	echo "<pre>";
+	print_r( $args );
+	echo "</pre>";
 
     if ( $args ) {
-            do_action_ref_array( $params['task'], $args );
+        do_action_ref_array( $params['task'], $args );
     } else {
-            do_action( $params['task'] );
+        do_action( $params['task'] );
     }
 
-    // if ( isset( $params['args'] ) && ! empty( $params['args'] ) ) {
-            // do_action_ref_array( $params['task'], $params['args'] );
-    // } else {
-            // do_action( $params['task'] );
-    // }
 
-    // ob_end_clean();
 
     die( json_encode( array('status' => 'success') ) );
-
-
 
 // Default status
 die( '0' );

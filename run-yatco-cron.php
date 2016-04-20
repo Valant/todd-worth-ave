@@ -1,6 +1,9 @@
 <?php
 
 require_once( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-load.php' );
+require_once( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/media.php' );
+require_once( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/file.php' );
+require_once( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/image.php' );
 
 // Require an action parameter
 if ( empty( $_REQUEST['action'] ) )

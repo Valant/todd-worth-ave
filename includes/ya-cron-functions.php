@@ -157,6 +157,7 @@ function sf_synchronize_products( $mode, $version, $limit )
                 }
 
             }else if ( $SFProductId ) {
+                update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
                 $remove_arr[] = $SFProductId;
             }
 

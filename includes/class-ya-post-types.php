@@ -64,6 +64,9 @@ class YA_Post_types {
 				'show_ui'               => true,
 				'query_var'             => true,
 				'rewrite'               => false,
+				'show_in_rest'          => true,
+  				'rest_base'             => 'vessel_category',
+  				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			) )
 		);
 	register_taxonomy( 'vessel_company',
@@ -89,6 +92,9 @@ class YA_Post_types {
 				'show_ui'               => true,
 				'query_var'             => true,
 				'rewrite'               => false,
+				'show_in_rest'          => true,
+  				'rest_base'             => 'vessel_company',
+  				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			) )
 		);
 
@@ -140,7 +146,10 @@ class YA_Post_types {
 					'query_var'           => true,
 					'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'publicize', 'wpcom-markdown' ),
 					'has_archive'         => 'vessels',
-					'show_in_nav_menus'   => true
+					'show_in_nav_menus'   => true,
+					'show_in_rest'        => true,
+  					'rest_base'           => 'vessels',
+  					'rest_controller_class' => 'WP_REST_Posts_Controller'
 				)
 			)
 		);

@@ -163,9 +163,9 @@ class YA_Post_types {
 	public static function register_post_statuses() {
 		register_post_status( 'inactive', array(
 			'label'                     => _x( 'Inactive', 'vessel', 'yatco' ),
-			'public'                    => false,
+			'public'                    => is_admin(),
 			'exclude_from_search'       => true,
-			'show_in_admin_all_list'    => false,
+			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', 'yatco' ),
 		) );

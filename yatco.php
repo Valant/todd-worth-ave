@@ -3,11 +3,11 @@
  * Plugin Name: Yatco
  * Plugin URI: http://valant.com.ua
  * Description: 
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Valant
  * Author URI: http://valant.com.ua
  * Requires at least: 4.1.0.0
- * Tested up to: 4.1.0.0
+ * Tested up to: 4.6.1
  *
  * Text Domain: yatco
  * Domain Path: /i18n/
@@ -35,7 +35,7 @@ final class Yatco {
   /**
    * @var string
    */
-  public $version = '1.0.0';
+  public $version = '1.0.1';
 
   /**
    * @var Yatco The single instance of the class
@@ -47,6 +47,23 @@ final class Yatco {
    * @var YA_API $api
    */
   public $api = null;
+
+  /**
+   * The plugin assets URL.
+   * @var     string
+   * @access  public
+   * @since   1.0.1
+   */
+  public $assets_url;
+  
+  /**
+   * Suffix for Javascripts.
+   * @var     string
+   * @access  public
+   * @since   1.0.1
+   */
+  public $script_suffix;
+
 
   /**
    * Main Yatco Instance
@@ -84,12 +101,53 @@ final class Yatco {
    * Yatco Constructor.
    */
   public function __construct() {
+
+    $this->assets_url = esc_url( trailingslashit( plugins_url( '/assets/', __FILE__ ) ) );
+    $this->script_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
     $this->define_constants();
     $this->includes();
     $this->init_hooks();
 
+    // Load admin JS & CSS
+    add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 1 );
+    add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ), 10, 1 );
+
     do_action( 'yatco_loaded' );
   }
+
+  /**
+   * Load admin Javascript.
+   * @access  public
+   * @since   1.0.0
+   * @return  void
+   */
+  public function admin_enqueue_scripts ( $hook = '' ) {
+
+    $screen         = get_current_screen();
+    $screen_id      = $screen ? $screen->id : '';
+    
+    if( $screen_id == 'vessel'){
+      wp_enqueue_script( $this->_token . '-meta-boxes', esc_url( $this->assets_url ) . 'js/admin/meta-boxes' . $this->script_suffix . '.js' , array( 'media-models' ), $this->_version );      
+    }
+  } // End enqueue_scripts ()
+
+  /**
+   * Load admin CSS.
+   * @access  public
+   * @since   1.0.1
+   * @return  void
+   */
+  public function admin_enqueue_styles ( $hook = '' ) {
+    
+    $screen         = get_current_screen();
+    $screen_id      = $screen ? $screen->id : '';
+
+    if( $screen_id == 'vessel'){
+      wp_enqueue_style( $this->_token . '-meta-boxes', esc_url( $this->assets_url ) . 'css/meta-boxes.css', array(), $this->_version );
+    }
+
+  } // End admin_enqueue_styles ()
 
   /**
    * Hook into actions and filters
@@ -148,8 +206,9 @@ final class Yatco {
     if ( $this->is_request( 'frontend' ) ) {
       $this->frontend_includes();
     }
-    include_once( 'includes/class-ya-post-types.php' );                     // Registers post types
-    include_once( 'includes/class-ya-meta-boxes.php' );                     // Add metaboxes
+    include_once( 'includes/class-ya-post-types.php' );                        // Registers post types
+    include_once( 'includes/class-ya-meta-boxes.php' );                        // Add metaboxes
+    include_once( 'includes/meta-boxes/class-ya-meta-box-photo-gallery.php' ); // Photo gallery metabox
   }
   /**
    * Include required ajax files.

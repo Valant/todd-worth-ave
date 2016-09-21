@@ -1,0 +1,137 @@
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+#photo_gallery .inside {
+  margin: 0;
+  padding: 0;
+}
+#photo_gallery .inside .add_vessel_images {
+  padding: 0 12px 12px;
+}
+#photo_gallery .inside #vessel_images_container {
+  padding: 0 0 0 9px;
+}
+#photo_gallery .inside #vessel_images_container ul {
+  *zoom: 1;
+  margin: 0;
+  padding: 0;
+}
+#photo_gallery .inside #vessel_images_container ul:before,
+#photo_gallery .inside #vessel_images_container ul:after {
+  content: " ";
+  display: table;
+}
+#photo_gallery .inside #vessel_images_container ul:after {
+  clear: both;
+}
+#photo_gallery .inside #vessel_images_container ul li.image,
+#photo_gallery .inside #vessel_images_container ul li.add,
+#photo_gallery .inside #vessel_images_container ul li.ya-metabox-sortable-placeholder {
+  width: 80px;
+  float: left;
+  cursor: move;
+  border: 1px solid #d5d5d5;
+  margin: 9px 9px 0 0;
+  background: #f7f7f7;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 2px;
+}
+#photo_gallery .inside #vessel_images_container ul li.image img,
+#photo_gallery .inside #vessel_images_container ul li.add img,
+#photo_gallery .inside #vessel_images_container ul li.ya-metabox-sortable-placeholder img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+#photo_gallery .inside #vessel_images_container ul li.ya-metabox-sortable-placeholder {
+  border: none;
+  outline: 3px dashed #dddddd;
+  position: relative;
+}
+#photo_gallery .inside #vessel_images_container ul li.ya-metabox-sortable-placeholder:after {
+  font-family: 'Dashicons';
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  text-indent: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  content: "\f161";
+  font-size: 2.618em;
+  line-height: 72px;
+  color: #ddd;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  padding: 2px;
+  display: none;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions li {
+  float: right;
+  margin: 0 0 0 2px;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions li a {
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  height: 0;
+  display: block;
+  overflow: hidden;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions li a.tips {
+  cursor: pointer;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions li a.delete {
+  display: block;
+  text-indent: -9999px;
+  position: relative;
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  background: white;
+  font-size: 1.4em;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions li a.delete:before {
+  font-family: 'Dashicons';
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  text-indent: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  content: "\f153";
+  color: #999;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions li a.delete:hover:before {
+  color: #a00;
+}
+#photo_gallery .inside #vessel_images_container ul li:hover ul.actions {
+  display: block;
+}

@@ -3,7 +3,7 @@
  * Meta Boxes
  *
  * @class       YA_Meta_Boxes
- * @version     1.0.0
+ * @version     1.0.1
  * @package     Yatco/Classes/Vessels
  * @category    Class
  * @author      Valant
@@ -25,6 +25,8 @@ class YA_Meta_Boxes {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ), 100, 1 );
 		add_action( 'admin_init', array( __CLASS__, 'save' ), 100 );
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 100 );
+
+		add_action( 'save_post', array( 'YA_Meta_Box_Photo_Gallery', 'save' ), 777, 2 );
 	}
 
 	/**
@@ -42,6 +44,14 @@ class YA_Meta_Boxes {
 						,array( __CLASS__, 'render_meta_box_reload_vessel' )
 						,$post_type
 						,'side'
+						,'high'
+					);
+					add_meta_box(
+						'photo_gallery'
+						,__( 'Photo gallery', 'yatco' )
+						,array( 'YA_Meta_Box_Photo_Gallery', 'output' )
+						,$post_type
+						,'normal'
 						,'high'
 					);
 				}
@@ -106,6 +116,7 @@ class YA_Meta_Boxes {
 		<a href="<?php echo esc_url( add_query_arg( 'reload_vessel', $VesselID ) ); ?>" class="button button-primary button-large"><?php _e('Reload vessel', 'yatco'); ?></a>
 		<?php
 	}
+
 
 	public static function admin_notices()
 	{

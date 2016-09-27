@@ -284,6 +284,7 @@ class YA_API {
 
     public function save_vessel($result = false)
     {
+
         if(!$result){
             $result = $this->vessel_detail;
         }
@@ -382,13 +383,20 @@ class YA_API {
                 update_post_meta( $post_id, 'vessel_video_url', $vessel_video_url );
             }
 
+
             $remove_fields = ya_remove_api_filds();
             if($remove_fields && !empty($remove_fields) && is_array($remove_fields)){
                 foreach ($remove_fields as $field) {
                     unset($result->$field);
                 }
             }
+            
             $my_data = get_object_vars($result);
+            foreach ($my_data as $key => $value) {
+                if ( $value === '') continue;
+                update_post_meta( $post_id, $key, $value );
+            }
+            
             update_post_meta( $post_id, 'vessel_detail', $my_data );
             return $answer;
         }

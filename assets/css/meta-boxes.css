@@ -135,3 +135,318 @@
 #photo_gallery .inside #vessel_images_container ul li:hover ul.actions {
   display: block;
 }
+#vessel_specification .panel-wrap {
+  background: #fff;
+}
+#vessel_specification .yatco_options_panel,
+#vessel_specification .ya-metaboxes-wrapper {
+  float: left;
+  width: 80%;
+}
+#vessel_specification .yatco_options_panel .ya-radios,
+#vessel_specification .ya-metaboxes-wrapper .ya-radios {
+  display: block;
+  float: left;
+  margin: 0;
+}
+#vessel_specification .yatco_options_panel .ya-radios li,
+#vessel_specification .ya-metaboxes-wrapper .ya-radios li {
+  display: block;
+  padding: 0 0 10px 0;
+}
+#vessel_specification .yatco_options_panel .ya-radios li input,
+#vessel_specification .ya-metaboxes-wrapper .ya-radios li input {
+  width: auto;
+}
+#vessel_specification .inside {
+  margin: 0;
+  padding: 0;
+}
+#vessel_specification .panel-wrap {
+  overflow: hidden;
+}
+#vessel_specification ul.ya-tabs {
+  margin: 0;
+  width: 20%;
+  float: left;
+  line-height: 1em;
+  padding: 0 0 10px;
+  position: relative;
+  background-color: #fafafa;
+  border-right: 1px solid #eee;
+  box-sizing: border-box;
+}
+#vessel_specification ul.ya-tabs:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 9999em;
+  position: absolute;
+  bottom: -9999em;
+  left: 0;
+  background-color: #fafafa;
+  border-right: 1px solid #eee;
+}
+#vessel_specification ul.ya-tabs li {
+  margin: 0;
+  padding: 0;
+  display: block;
+  position: relative;
+}
+#vessel_specification ul.ya-tabs li a {
+  margin: 0;
+  padding: 10px;
+  display: block;
+  box-shadow: none;
+  text-decoration: none;
+  line-height: 20px !important;
+  border-bottom: 1px solid #eee;
+}
+#vessel_specification ul.ya-tabs li a:before {
+  font-family: 'Dashicons';
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin-right: .618em;
+  content: "\f107";
+  text-decoration: none;
+}
+#vessel_specification ul.ya-tabs li.general_options a:before {
+  content: "\f180";
+}
+#vessel_specification ul.ya-tabs li.contact_options a:before {
+  content: "\f525";
+}
+#vessel_specification ul.ya-tabs li.dimensions_options a:before {
+  font-family: 'yatco';
+  content: "\e901";
+}
+#vessel_specification ul.ya-tabs li.engine_options a:before {
+  content: "\f111";
+}
+#vessel_specification ul.ya-tabs li.capacities_options a:before {
+  content: "\f106";
+}
+#vessel_specification ul.ya-tabs li.historical_options a:before {
+  content: "\f508";
+}
+#vessel_specification ul.ya-tabs li.guest_area_options a:before {
+  content: "\f110";
+}
+#vessel_specification ul.ya-tabs li.location_options a:before {
+  content: "\f230";
+}
+#vessel_specification ul.ya-tabs li.additional_options a:before {
+  content: "\f533";
+}
+#vessel_specification ul.ya-tabs li.active a {
+  color: #555;
+  position: relative;
+  background-color: #eee;
+}
+.yatco_options_panel {
+  min-height: 175px;
+  box-sizing: border-box;
+}
+.yatco_options_panel .downloadable_files {
+  padding: 0 9px 0 162px;
+  position: relative;
+  margin: 9px 0 9px;
+}
+.yatco_options_panel .downloadable_files label {
+  position: absolute;
+  left: 0;
+  margin: 0 0 0 12px;
+  line-height: 24px;
+}
+.yatco_options_panel p {
+  margin: 9px 0;
+}
+.yatco_options_panel p.form-field,
+.yatco_options_panel fieldset.form-field {
+  padding: 5px 20px 5px 162px !important;
+  /** Padding for aligning labels left - 12px + 150 label width **/
+}
+.yatco_options_panel .sale_price_dates_fields .short:first-of-type {
+  margin-bottom: 1em;
+}
+.yatco_options_panel .sale_price_dates_fields .short:nth-of-type(2) {
+  clear: left;
+}
+.yatco_options_panel label,
+.yatco_options_panel legend {
+  float: left;
+  width: 150px;
+  padding: 0;
+  margin: 0 0 0 -150px;
+}
+.yatco_options_panel label .req,
+.yatco_options_panel legend .req {
+  font-weight: 700;
+  font-style: normal;
+  color: $red;
+}
+.yatco_options_panel .description {
+  padding: 0;
+  margin: 0 0 0 7px;
+  clear: none;
+  display: inline;
+}
+.yatco_options_panel .description-block {
+  margin-left: 0;
+  display: block;
+}
+.yatco_options_panel textarea,
+.yatco_options_panel input,
+.yatco_options_panel select {
+  margin: 0;
+}
+.yatco_options_panel textarea {
+  height: 3.5em;
+  line-height: 1.5em;
+  vertical-align: top;
+}
+.yatco_options_panel input[type="text"],
+.yatco_options_panel input[type="email"],
+.yatco_options_panel input[type="number"],
+.yatco_options_panel input[type="password"] {
+  width: 50%;
+  float: left;
+}
+.yatco_options_panel input.button {
+  width: auto;
+  margin-left: 8px;
+}
+.yatco_options_panel select {
+  float: left;
+}
+.yatco_options_panel input[type="text"].short,
+.yatco_options_panel input[type="email"].short,
+.yatco_options_panel input[type="number"].short,
+.yatco_options_panel input[type="password"].short,
+.yatco_options_panel .short {
+  width: 50%;
+}
+.yatco_options_panel .sized {
+  width: auto !important;
+  margin-right: 6px;
+}
+.yatco_options_panel .options_group {
+  border-top: 1px solid white;
+  border-bottom: 1px solid #eee;
+}
+.yatco_options_panel .options_group:first-child {
+  border-top: 0;
+}
+.yatco_options_panel .options_group:last-child {
+  border-bottom: 0;
+}
+.yatco_options_panel .options_group fieldset {
+  margin: 9px 0;
+  font-size: 12px;
+  padding: 5px 9px;
+  line-height: 24px;
+}
+.yatco_options_panel .options_group fieldset label {
+  width: auto;
+  float: none;
+}
+.yatco_options_panel .options_group fieldset ul {
+  float: left;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+}
+.yatco_options_panel .options_group fieldset ul li {
+  margin: 0;
+  width: auto;
+}
+.yatco_options_panel .options_group fieldset ul li input {
+  width: auto;
+  float: none;
+  margin-right: 4px;
+}
+.yatco_options_panel .options_group fieldset ul.wc-radios label {
+  margin-left: 0;
+}
+.yatco_options_panel .dimensions_field .wrap {
+  display: block;
+  width: 50%;
+}
+.yatco_options_panel .dimensions_field .wrap input {
+  width: 30.75%;
+  margin-right: 3.8%;
+}
+.yatco_options_panel .dimensions_field .wrap .last {
+  margin-right: 0;
+}
+.yatco_options_panel.padded {
+  padding: 1em;
+}
+.yatco_options_panel .select2-container {
+  float: left;
+}
+.yatco_options_panel,
+.panel {
+  padding: 9px;
+  color: #555;
+  padding: 0;
+}
+.yatco_options_panel .form-field .woocommerce-help-tip,
+.panel .form-field .woocommerce-help-tip {
+  font-size: 1.4em;
+}
+.yatco_options_panel p,
+.yatco_options_panel fieldset.form-field {
+  margin: 9px 0;
+  font-size: 12px;
+  padding: 5px 9px;
+  line-height: 24px;
+}
+.yatco_options_panel p:after,
+.yatco_options_panel fieldset.form-field:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.yatco_options_panel .checkbox {
+  width: auto;
+  margin: 3px 0;
+  vertical-align: middle;
+}
+@media only screen and (max-width: 500px) {
+  .yatco_options_panel label,
+  .yatco_options_panel legend {
+    float: none;
+    width: auto;
+    display: block;
+    margin: 0;
+  }
+  .yatco_options_panel fieldset.form-field,
+  .yatco_options_panel p.form-field {
+    padding: 5px 20px 5px 20px !important;
+  }
+}
+/**
+ * Small screen optimisation
+ */
+@media only screen and (max-width: 1280px) {
+  .yatco_options_panel .description {
+    display: block;
+    clear: both;
+    margin-left: 0;
+  }
+  .yatco_options_panel .short,
+  .yatco_options_panel input[type="text"].short,
+  .yatco_options_panel input[type="email"].short,
+  .yatco_options_panel input[type="number"].short,
+  .yatco_options_panel input[type="password"].short,
+  .yatco_options_panel .dimensions_field .wrap {
+    width: 80%;
+  }
+}

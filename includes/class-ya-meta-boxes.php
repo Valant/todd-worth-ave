@@ -27,6 +27,7 @@ class YA_Meta_Boxes {
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 100 );
 
 		add_action( 'save_post', array( 'YA_Meta_Box_Photo_Gallery', 'save' ), 777, 2 );
+		add_action( 'save_post', array( 'YA_Meta_Box_Vessel_Specification', 'save' ), 777, 2 );
 	}
 
 	/**
@@ -44,6 +45,14 @@ class YA_Meta_Boxes {
 						,array( __CLASS__, 'render_meta_box_reload_vessel' )
 						,$post_type
 						,'side'
+						,'high'
+					);
+					add_meta_box(
+						'vessel_specification'
+						,__( 'Vessel Specification', 'yatco' )
+						,array( 'YA_Meta_Box_Vessel_Specification', 'output' )
+						,$post_type
+						,'normal'
 						,'high'
 					);
 					add_meta_box(

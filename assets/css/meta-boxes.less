@@ -15,6 +15,18 @@
 .border_radius(@radius) {
   border-radius: @radius;
 }
+.iconbeforedashicons(@glyph){
+  font-family: 'Dashicons';
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin-right: .618em;
+  content: @glyph;
+  text-decoration: none;
+}
 .icon_dashicons(@glyph) {
   font-family: 'Dashicons';
   speak: none;
@@ -138,6 +150,391 @@
           display: block;
         }
       }
+    }
+  }
+}
+
+#vessel_specification{
+  .panel-wrap {
+    background: #fff;
+  }
+
+  .yatco_options_panel,
+  .ya-metaboxes-wrapper {
+    float: left;
+    width: 80%;
+
+    .ya-radios {
+      display: block;
+      float: left;
+      margin: 0;
+
+      li {
+        display: block;
+        padding: 0 0 10px 0;
+
+        input {
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
+#vessel_specification{
+  .inside {
+    margin: 0;
+    padding: 0;
+  }
+  .panel-wrap {
+    overflow: hidden;
+  }
+
+  ul.ya-tabs {
+    margin: 0;
+    width: 20%;
+    float: left;
+    line-height: 1em;
+    padding: 0 0 10px;
+    position: relative;
+    background-color: #fafafa;
+    border-right: 1px solid #eee;
+    box-sizing: border-box;
+
+    &:after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 9999em;
+      position: absolute;
+      bottom: -9999em;
+      left: 0;
+      background-color: #fafafa;
+      border-right: 1px solid #eee;
+    }
+
+    li {
+      margin: 0;
+      padding: 0;
+      display: block;
+      position: relative;
+
+      a {
+        margin: 0;
+        padding: 10px;
+        display: block;
+        box-shadow: none;
+        text-decoration: none;
+        line-height: 20px !important;
+        border-bottom: 1px solid #eee;
+
+        &:before {
+          .iconbeforedashicons( "\f107" );
+        }
+      }
+
+      &.general_options {
+        a:before {
+          content: "\f180";
+        }
+      }
+      &.contact_options {
+        a:before {
+          content: "\f525";
+        }
+      }
+      &.dimensions_options {
+        a:before {
+          font-family: 'yatco';
+          content: "\e901";
+        }
+      }
+      &.engine_options {
+        a:before {
+          content: "\f111";
+        }
+      }
+      &.capacities_options {
+        a:before {
+          content: "\f106";
+        }
+      }
+      &.historical_options {
+        a:before {
+          content: "\f508";
+        }
+      }
+      &.guest_area_options {
+        a:before {
+          content: "\f110";
+        }
+      }
+      &.location_options {
+        a:before {
+          content: "\f230";
+        }
+      }
+      &.additional_options {
+        a:before {
+          content: "\f533";
+        }
+      }
+
+      &.active {
+        a {
+          color: #555;
+          position: relative;
+          background-color: #eee;
+        }
+      }
+    }
+  } 
+}
+.yatco_options_panel {
+  min-height: 175px;
+  box-sizing: border-box;
+
+  .downloadable_files {
+    padding: 0 9px 0 162px;
+    position: relative;
+    margin: 9px 0 9px;
+
+    label {
+      position: absolute;
+      left: 0;
+      margin: 0 0 0 12px;
+      line-height: 24px;
+    }
+  }
+
+  p {
+    margin: 9px 0;
+  }
+
+  p.form-field,
+  fieldset.form-field {
+    padding: 5px 20px 5px 162px !important; /** Padding for aligning labels left - 12px + 150 label width **/
+  }
+
+  .sale_price_dates_fields {
+    .short:first-of-type {
+      margin-bottom: 1em;
+    }
+
+    .short:nth-of-type(2) {
+      clear: left;
+    }
+  }
+
+  label,
+  legend {
+    float: left;
+    width: 150px;
+    padding: 0;
+    margin: 0 0 0 -150px;
+
+    .req {
+      font-weight: 700;
+      font-style: normal;
+      color: $red;
+    }
+  }
+
+  .description {
+    padding: 0;
+    margin: 0 0 0 7px;
+    clear: none;
+    display: inline;
+  }
+
+  .description-block {
+    margin-left: 0;
+    display: block;
+  }
+
+  textarea,
+  input,
+  select {
+    margin: 0;
+  }
+
+  textarea {
+    height: 3.5em;
+    line-height: 1.5em;
+    vertical-align: top;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="password"] {
+    width: 50%;
+    float: left;
+  }
+
+  input.button {
+    width: auto;
+    margin-left: 8px;
+  }
+
+  select {
+    float: left;
+  }
+
+  input[type="text"].short,
+  input[type="email"].short,
+  input[type="number"].short,
+  input[type="password"].short,
+  .short {
+    width: 50%;
+  }
+
+  .sized {
+    width: auto !important;
+    margin-right: 6px;
+  }
+
+  .options_group {
+    border-top: 1px solid white;
+    border-bottom: 1px solid #eee;
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    fieldset {
+      margin: 9px 0;
+      font-size: 12px;
+      padding: 5px 9px;
+      line-height: 24px;
+
+      label {
+        width: auto;
+        float: none;
+      }
+
+      ul {
+        float: left;
+        width: 50%;
+        margin: 0;
+        padding: 0;
+
+        li {
+          margin: 0;
+          width: auto;
+
+          input {
+            width: auto;
+            float: none;
+            margin-right: 4px;
+          }
+        }
+      }
+
+      ul.wc-radios {
+        label {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  .dimensions_field {
+    .wrap {
+      display: block;
+      width: 50%;
+
+      input {
+        width: 30.75%;
+        margin-right: 3.8%;
+      }
+
+      .last {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &.padded {
+    padding: 1em;
+  }
+
+  .select2-container {
+    float: left;
+  }
+}
+.yatco_options_panel,
+.panel {
+  padding: 9px;
+  color: #555;
+  padding: 0;
+
+  .form-field {
+    .woocommerce-help-tip {
+      font-size: 1.4em;
+    }
+  }
+}
+
+.yatco_options_panel p,
+.yatco_options_panel fieldset.form-field {
+  margin: 9px 0;
+  font-size: 12px;
+  padding: 5px 9px;
+  line-height: 24px;
+
+  &:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+.yatco_options_panel .checkbox{
+  width: auto;
+  margin: 3px 0;
+  vertical-align: middle;
+}
+
+@media only screen and (max-width: 500px) {
+  .yatco_options_panel label,
+  .yatco_options_panel legend {
+    float: none;
+    width: auto;
+    display: block;
+    margin: 0;
+  }
+
+  .yatco_options_panel fieldset.form-field,
+  .yatco_options_panel p.form-field {
+    padding: 5px 20px 5px 20px !important;
+  }
+}
+/**
+ * Small screen optimisation
+ */
+@media only screen and (max-width: 1280px) {
+  
+  .yatco_options_panel {
+    .description {
+      display: block;
+      clear: both;
+      margin-left: 0;
+    }
+
+    .short,
+    input[type="text"].short,
+    input[type="email"].short,
+    input[type="number"].short,
+    input[type="password"].short,
+    .dimensions_field .wrap {
+      width: 80%;
     }
   }
 }

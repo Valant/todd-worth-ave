@@ -37,6 +37,12 @@ final class Yatco {
    */
   public $version = '1.0.1';
 
+
+  /**
+   * @var string
+   */
+  public $token = 'yatco';
+
   /**
    * @var Yatco The single instance of the class
    * @since 1.0.0
@@ -128,7 +134,7 @@ final class Yatco {
     $screen_id      = $screen ? $screen->id : '';
     
     if( $screen_id == 'vessel'){
-      wp_enqueue_script( $this->_token . '-meta-boxes', esc_url( $this->assets_url ) . 'js/admin/meta-boxes' . $this->script_suffix . '.js' , array( 'media-models' ), $this->_version );      
+      wp_enqueue_script( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'js/admin/meta-boxes' . $this->script_suffix . '.js' , array( 'media-models' ), $this->version );      
     }
   } // End enqueue_scripts ()
 
@@ -144,7 +150,8 @@ final class Yatco {
     $screen_id      = $screen ? $screen->id : '';
 
     if( $screen_id == 'vessel'){
-      wp_enqueue_style( $this->_token . '-meta-boxes', esc_url( $this->assets_url ) . 'css/meta-boxes.css', array(), $this->_version );
+      wp_register_style( $this->token . '-fonts', esc_url( $this->assets_url ) . 'css/yatco-fonts.css', array(), $this->version );
+      wp_enqueue_style( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'css/meta-boxes.css', array($this->token . '-fonts'), $this->version );
     }
 
   } // End admin_enqueue_styles ()
@@ -194,7 +201,7 @@ final class Yatco {
    */
   public function includes() {
     include_once( 'includes/class-ya-autoloader.php' );
-    include_once( 'includes/ya-core-functions.php' );
+    include_once( 'includes/ya-core-functions.php' );    
     if ( $this->is_request( 'admin' ) ) {
       include_once( 'includes/admin/class-ya-admin.php' );
     }
@@ -209,6 +216,7 @@ final class Yatco {
     include_once( 'includes/class-ya-post-types.php' );                        // Registers post types
     include_once( 'includes/class-ya-meta-boxes.php' );                        // Add metaboxes
     include_once( 'includes/meta-boxes/class-ya-meta-box-photo-gallery.php' ); // Photo gallery metabox
+    include_once( 'includes/meta-boxes/class-ya-meta-box-vessel-specification.php' ); // Vessel specification metabox
   }
   /**
    * Include required ajax files.

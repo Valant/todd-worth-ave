@@ -184,6 +184,7 @@ class YA_API {
         if(empty($category) || empty($taxonomy)) return false;
         $term_id = 0;
         if($term = term_exists( $category, $taxonomy )){
+            //var_dump($term);
             $term_id = $term['term_id']; // get numeric term id
             $args = array(
                 'name' => $category,
@@ -206,34 +207,39 @@ class YA_API {
             );
         }
         return $term_id;
-    }
-    public function set_categories($post_id = 0, $category = '', $subcategory = '')
+    }    
+    public function set_term($post_id = 0, $taxonomy_name = '', $term_name = '', $child_term_name = '')
     {
-        if(!$post_id && empty($category)) return;
+        if(!$post_id || empty($term_name) || empty($taxonomy_name)) return;
         $term_ids       = array();
-        $parent_term_id = $this->save_term_taxonomy('vessel_cat', $category);
+        $parent_term_id = $this->save_term_taxonomy($taxonomy_name, $term_name);
         if($parent_term_id && $parent_term_id > 0){
             $term_ids[] = $parent_term_id;
         }
-        if( !empty($subcategory) && $parent_term_id){
-            $term_id = $this->save_term_taxonomy('vessel_cat', $subcategory, $parent_term_id);
+         if( !empty($child_term_name) && $parent_term_id){
+            $term_id = $this->save_term_taxonomy($taxonomy_name, $child_term_name, $parent_term_id);
             if($term_id && $term_id > 0){
                 $term_ids[] = $term_id;
             }
         }
+        /*var_dump($term_name);
+        var_dump($term_ids);*/
+
         if(!empty($term_ids))
-            wp_set_post_terms( $post_id, $term_ids, 'vessel_cat' );
+            wp_set_post_terms( $post_id, $term_ids, $taxonomy_name );
+    }
+
+    public function set_categories($post_id = 0, $category = '', $subcategory = '')
+    {
+        $this->set_term($post_id, 'vessel_cat', $category, $subcategory);
     }
     public function set_companies($post_id = 0, $company = '')
     {
-        if(!$post_id && empty($company)) return;
-        $term_ids       = array();
-        $term_id = $this->save_term_taxonomy('vessel_company', $company);
-        if($term_id && $term_id > 0){
-            $term_ids[] = $term_id;
-        }
-        if(!empty($term_ids))
-            wp_set_post_terms( $post_id, $term_ids, 'vessel_company' );
+        $this->set_term($post_id, 'vessel_company', $company);
+    }
+    public function set_builders($post_id = 0, $builder = '')
+    {
+        $this->set_term($post_id, 'vessel_builder', $builder);
     }
 
     public function save_attachment($thumb_url = '', $post_id = 0)
@@ -362,6 +368,10 @@ class YA_API {
 
             if(isset($result->CompanyName) && !empty($result->CompanyName) ){
                 $this->set_companies($post_id, $result->CompanyName);
+            }
+
+            if(isset($result->Builder) && !empty($result->Builder) ){
+                $this->set_builders($post_id, $result->Builder);
             }
 
             $old_thumbnail_id = get_post_thumbnail_id( $post_id );

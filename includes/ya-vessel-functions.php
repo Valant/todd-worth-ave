@@ -63,7 +63,7 @@ function get_vessel_specification_fields()
                 ),                
             ),
           array(
-            array(
+                array(
                   'id'          => 'HullFinish',
                   'label'       => __( 'Hull Finish', 'yatco' )
                 ),
@@ -77,7 +77,54 @@ function get_vessel_specification_fields()
                 ),
           ),
         ),
-    'arrangement'  => array(),
+    'arrangement'  => array(
+          array(
+                array(
+                  'id'          => 'Cockpit',
+                  'label'       => __( 'Cockpit', 'yatco' ),
+                  'type'        => 'select',
+                  'options' => array(
+                    '1' => __( '1', 'yatco' ),
+                    '2'  => __( '2', 'yatco' ),
+                  ) 
+                ),
+                array(
+                  'id'          => 'FlyBridge',
+                  'label'       => __( 'Fly Bridge', 'yatco' ),
+                  'type'        => 'radio',
+                  'options' => array(
+                    'yes' => __( 'Yes', 'yatco' ),
+                    'no'  => __( 'No', 'yatco' ),
+                  ) 
+                ),
+                array(
+                  'id'          => 'Helipad',
+                  'label'       => __( 'Helip Pad', 'yatco' ),
+                  'type'        => 'select',
+                  'options' => array(
+                    '1' => __( '1', 'yatco' ),
+                    '2'  => __( '2', 'yatco' ),
+                  ) 
+                ),
+                 array(
+                  'id'          => 'HullHullConfiguration',
+                  'label'       => __( 'Configuration', 'yatco' )
+                ),
+                 array(
+                  'id'          => 'VesselSections',
+                  'label'       => __( 'Sections', 'yatco' )
+                ),
+                 array(
+                  'id'          => 'VesselTop',
+                  'label'       => __( 'Top', 'yatco' ),
+                  'type'        => 'select',
+                  'options' => array(
+                    '1'  => __( '1', 'yatco' ),
+                    '2'  => __( '2', 'yatco' ),
+                  )
+                ),
+          ),
+      ),
     'build_data'   => array(),
     'capacities'   => array(),
     'contact'      => array(),
@@ -87,6 +134,19 @@ function get_vessel_specification_fields()
     'guest_area'   => array(),
     'location'     => array(),
     'measurements' => array(),
-    'additional'   => array()
+    'additional'   => array(
+        array(
+                array(
+                  'id'          => 'Classifications',
+                  'label'       => __( 'Classifications', 'yatco' ),
+                  'type'        => 'select',
+                  'options' => array(
+                    '1'  => __( '1', 'yatco' ),
+                    '2'  => __( '2', 'yatco' ),
+                  ) 
+                ),
+          ),
+
+      )
     );
 }

@@ -22,12 +22,19 @@ class YA_Meta_Boxes {
 	 * Hook in methods.
 	 */
 	public static function init() {
+		add_action( 'add_meta_boxes' , array( __CLASS__, 'remove_meta_boxes' ), 99 );
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ), 100, 1 );
 		add_action( 'admin_init', array( __CLASS__, 'save' ), 100 );
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 100 );
 
 		add_action( 'save_post', array( 'YA_Meta_Box_Photo_Gallery', 'save' ), 777, 2 );
 		add_action( 'save_post', array( 'YA_Meta_Box_Vessel_Specification', 'save' ), 777, 2 );
+	}
+
+	public static function remove_meta_boxes()
+	{
+		remove_meta_box( 'tagsdiv-vessel_builder' , 'vessel' , 'side' ); 
+		remove_meta_box( 'postcustom' , 'vessel' , 'normal' ); 
 	}
 
 	/**

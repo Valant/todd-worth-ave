@@ -97,6 +97,34 @@ class YA_Post_types {
   				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			) )
 		);
+	register_taxonomy( 'vessel_builder',
+			apply_filters( 'yatco_taxonomy_objects_vessel_builder', 'vessel' ),
+			apply_filters( 'yatco_taxonomy_args_vessel_builder', array(
+				'label'                 => __( 'Vessel Builders', 'yatco' ),
+				'labels' => array(
+						'name'              => __( 'Vessel Builders', 'yatco' ),
+						'singular_name'     => __( 'Vessel Builder', 'yatco' ),
+						'menu_name'         => _x( 'Builders', 'Admin menu name', 'yatco' ),
+						'search_items'      => __( 'Search Vessel Builders', 'yatco' ),
+						'all_items'         => __( 'All Vessel Builders', 'yatco' ),
+						'parent_item'       => __( 'Parent Vessel Company', 'yatco' ),
+						'parent_item_colon' => __( 'Parent Vessel Builder:', 'yatco' ),
+						'edit_item'         => __( 'Edit Vessel Builder', 'yatco' ),
+						'update_item'       => __( 'Update Vessel Builder', 'yatco' ),
+						'add_new_item'      => __( 'Add New Vessel Builder', 'yatco' ),
+						'new_item_name'     => __( 'New Vessel Builder Name', 'yatco' )
+					),
+				'hierarchical'          => false,
+				'public'                => false,
+				'show_admin_column'     => true,
+				'show_ui'               => true,
+				'query_var'             => true,
+				'rewrite'               => false,
+				'show_in_rest'          => true,
+  				'rest_base'             => 'vessel_builder',
+  				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			) )
+		);
 
 		do_action( 'yatco_after_register_taxonomy' );
 	}

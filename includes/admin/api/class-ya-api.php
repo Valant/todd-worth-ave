@@ -184,49 +184,49 @@ class YA_API {
         if(empty($category) || empty($taxonomy)) return false;
         $term_id = 0;
         if($term = term_exists( $category, $taxonomy )){
-            //var_dump($term);
             $term_id = $term['term_id']; // get numeric term id
-            $args = array(
-                'name' => $category,
-                'slug' => $category
-            );
-            if($parent_term_id > 0)
-                $args['parent'] = $parent_term_id;
+            if($parent_term_id > 0){
+                $args = array(
+                    'parent' => $parent_term_id
+                );
+                wp_update_term($term_id, $taxonomy, $args);
+            }
 
-            wp_update_term($term_id, $taxonomy, $args);
 
         }else{
             $args = array();
             if($parent_term_id > 0)
                 $args['parent'] = $parent_term_id;
 
-            $term_id = wp_insert_term(
+            $term = wp_insert_term(
                 $category,     // the term
                 $taxonomy,     // the taxonomy
                 $args
             );
+            $term_id = $term['term_id']; // get numeric term id
         }
         return $term_id;
     }    
     public function set_term($post_id = 0, $taxonomy_name = '', $term_name = '', $child_term_name = '')
     {
         if(!$post_id || empty($term_name) || empty($taxonomy_name)) return;
+
         $term_ids       = array();
         $parent_term_id = $this->save_term_taxonomy($taxonomy_name, $term_name);
         if($parent_term_id && $parent_term_id > 0){
             $term_ids[] = $parent_term_id;
         }
-         if( !empty($child_term_name) && $parent_term_id){
+         if( !empty($child_term_name) && $parent_term_id > 0 ){
             $term_id = $this->save_term_taxonomy($taxonomy_name, $child_term_name, $parent_term_id);
             if($term_id && $term_id > 0){
                 $term_ids[] = $term_id;
             }
         }
-        /*var_dump($term_name);
-        var_dump($term_ids);*/
 
-        if(!empty($term_ids))
-            wp_set_post_terms( $post_id, $term_ids, $taxonomy_name );
+        if(!empty($term_ids)){
+            $term_ids = array_map( 'intval', $term_ids );
+            wp_set_object_terms( $post_id, $term_ids, $taxonomy_name );
+        }
     }
 
     public function set_categories($post_id = 0, $category = '', $subcategory = '')

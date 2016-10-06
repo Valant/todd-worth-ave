@@ -133,9 +133,35 @@ final class Yatco {
     $screen         = get_current_screen();
     $screen_id      = $screen ? $screen->id : '';
     
+    wp_register_script( $this->token . '-select2', esc_url( $this->assets_url ) . 'js/select2/select2' . $this->script_suffix . '.js' , array(), $this->version );      
+    wp_register_script( $this->token . '-enhanced-select', esc_url( $this->assets_url ) . 'js/admin/enhanced' . $this->script_suffix . '.js', array( $this->token . '-select2' ), $this->version );
+    
+    wp_localize_script( $this->token . '-enhanced-select', 'ya_enhanced_select_params', array(
+      'i18n_matches_1'            => _x( 'One result is available, press enter to select it.', 'enhanced select', 'yatco' ),
+      'i18n_matches_n'            => _x( '%qty% results are available, use up and down arrow keys to navigate.', 'enhanced select', 'yatco' ),
+      'i18n_no_matches'           => _x( 'No matches found', 'enhanced select', 'yatco' ),
+      'i18n_ajax_error'           => _x( 'Loading failed', 'enhanced select', 'yatco' ),
+      'i18n_input_too_short_1'    => _x( 'Please enter 1 or more characters', 'enhanced select', 'yatco' ),
+      'i18n_input_too_short_n'    => _x( 'Please enter %qty% or more characters', 'enhanced select', 'yatco' ),
+      'i18n_input_too_long_1'     => _x( 'Please delete 1 character', 'enhanced select', 'yatco' ),
+      'i18n_input_too_long_n'     => _x( 'Please delete %qty% characters', 'enhanced select', 'yatco' ),
+      'i18n_selection_too_long_1' => _x( 'You can only select 1 item', 'enhanced select', 'yatco' ),
+      'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'yatco' ),
+      'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'yatco' ),
+      'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'yatco' ),
+      'ajax_url'                  => admin_url( 'admin-ajax.php' ),
+    ) );
+
     if( $screen_id == 'vessel'){
-      wp_enqueue_script( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'js/admin/meta-boxes' . $this->script_suffix . '.js' , array( 'media-models' ), $this->version );      
+      $depth = array( 
+        'media-models',
+        'wp-color-picker',
+        'jquery-ui-datepicker',
+        $this->token . '-enhanced-select'
+      );
+      wp_enqueue_script( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'js/admin/meta-boxes' . $this->script_suffix . '.js' , $depth, $this->version );      
     }
+
   } // End enqueue_scripts ()
 
   /**
@@ -149,9 +175,18 @@ final class Yatco {
     $screen         = get_current_screen();
     $screen_id      = $screen ? $screen->id : '';
 
+
+    wp_register_style( $this->token . '-fonts', esc_url( $this->assets_url ) . 'css/yatco-fonts.css', array(), $this->version );
+    wp_register_style( $this->token . '-select2', esc_url( $this->assets_url ) . 'css/select2.css', array(), $this->version );
+    wp_register_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
     if( $screen_id == 'vessel'){
-      wp_register_style( $this->token . '-fonts', esc_url( $this->assets_url ) . 'css/yatco-fonts.css', array(), $this->version );
-      wp_enqueue_style( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'css/meta-boxes.css', array($this->token . '-fonts'), $this->version );
+      $depth = array(
+        $this->token . '-fonts',
+        $this->token . '-select2'
+      );
+      wp_enqueue_style( 'wp-color-picker' );
+      wp_enqueue_style( 'jquery-ui' );
+      wp_enqueue_style( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'css/meta-boxes.css', $depth, $this->version );
     }
 
   } // End admin_enqueue_styles ()
@@ -232,7 +267,7 @@ final class Yatco {
   }
 
   /**
-   * Init WooCommerce when WordPress Initialises.
+   * Init yatco when WordPress Initialises.
    */
   public function init() {
     // Before init action

@@ -91,3 +91,15 @@ function ya_remove_attributes($text = '')
 function ya_clean( $var ) {
   return sanitize_text_field( $var );
 }
+
+/**
+ * Get all countries.
+ * @return array
+ */
+function ya_get_countries() {
+    $countries = apply_filters( 'yatco_countries', include( YA()->plugin_path() . '/i18n/countries.php' ) );
+    if ( apply_filters( 'yatco_sort_countries', true ) ) {
+      asort( $countries );
+    }
+  return $countries;
+}

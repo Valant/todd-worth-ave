@@ -168,6 +168,25 @@ function ya_wp_checkbox( $field ) {
 }
 
 /**
+ * Output a select input box of taxonomies.
+ *
+ * @param array $field
+ */
+function ya_wp_taxonomy( $field ) {
+	$options = array();
+	$terms   = get_terms( $field['taxonomy'], 'hide_empty=0' );
+	if( $terms ){
+		foreach ($terms as $term) {
+			$options[$term->term_id] = $term->name;
+		}
+	}
+
+	$field['type'] = 'select';
+	$field['options'] = $options;
+	ya_wp_select( $field );
+}
+
+/**
  * Output a select input box.
  *
  * @param array $field
@@ -193,6 +212,50 @@ function ya_wp_select( $field ) {
 	}
 
 	echo '<p class="form-field ' . esc_attr( $field['id'] ) . '_field ' . esc_attr( $field['wrapper_class'] ) . '"><label for="' . esc_attr( $field['id'] ) . '">' . wp_kses_post( $field['label'] ) . '</label><select id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $field['name'] ) . '" class="' . esc_attr( $field['class'] ) . '" style="' . esc_attr( $field['style'] ) . '" ' . implode( ' ', $custom_attributes ) . '>';
+
+	foreach ( $field['options'] as $key => $value ) {
+		echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $field['value'] ), esc_attr( $key ), false ) . '>' . esc_html( $value ) . '</option>';
+	}
+
+	echo '</select> ';
+
+	if ( ! empty( $field['description'] ) ) {
+
+		if ( isset( $field['desc_tip'] ) && false !== $field['desc_tip'] ) {
+			echo ya_help_tip( $field['description'] );
+		} else {
+			echo '<span class="description">' . wp_kses_post( $field['description'] ) . '</span>';
+		}
+	}
+	echo '</p>';
+}
+
+/**
+ * Output a text input box with units select box.
+ *
+ * @param array $field
+ */
+function ya_wp_units( $field ) {
+	global $thepostid, $post;
+
+	$thepostid              = empty( $thepostid ) ? $post->ID : $thepostid;
+	$field['class']         = isset( $field['class'] ) ? $field['class'] : 'select short';
+	$field['style']         = isset( $field['style'] ) ? $field['style'] : '';
+	$field['wrapper_class'] = isset( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
+	$field['value']         = isset( $field['value'] ) ? $field['value'] : get_post_meta( $thepostid, $field['id'], true );
+	$field['name']          = isset( $field['name'] ) ? $field['name'] : $field['id'];
+
+	// Custom attribute handling
+	$custom_attributes = array();
+
+	if ( ! empty( $field['custom_attributes'] ) && is_array( $field['custom_attributes'] ) ) {
+
+		foreach ( $field['custom_attributes'] as $attribute => $value ){
+			$custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $value ) . '"';
+		}
+	}
+
+	echo '<p class="form-field ' . esc_attr( $field['id'] ) . '_field ' . esc_attr( $field['wrapper_class'] ) . '"><label for="' . esc_attr( $field['id'] ) . '">' . wp_kses_post( $field['label'] ) . '</label><input type="text" class="' . esc_attr( $field['class'] ) . '" style=" width: 25%; ' . esc_attr( $field['style'] ) . '" name="' . esc_attr( $field['name'] ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['value'] ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . implode( ' ', $custom_attributes ) . ' /><select id="' . esc_attr( $field['id'] ) . '_unit" name="' . esc_attr( $field['name'] ) . '_unit" class="' . esc_attr( $field['class'] ) . '" style="max-width: 100px; width: 25%; ">';
 
 	foreach ( $field['options'] as $key => $value ) {
 		echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $field['value'] ), esc_attr( $key ), false ) . '>' . esc_html( $value ) . '</option>';

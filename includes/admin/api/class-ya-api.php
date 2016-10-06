@@ -27,7 +27,9 @@ class YA_API {
      * Constructor
      */
     public function __construct() {
+        global $ya_countries;
         $this->apikey = get_option('yatco_api_key');
+        $ya_countries = ya_get_countries();
 
         $recurrence = get_option( 'yatco_cron_schedule' );
         if(!$recurrence)
@@ -290,12 +292,15 @@ class YA_API {
 
     public function save_vessel($result = false)
     {
+        global $ya_countries;
 
         if(!$result){
             $result = $this->vessel_detail;
         }
         if(!$result)
             return false;
+
+        #var_dump($result);
 
         $answer = array();
         $VesselSections = $result->VesselSections;
@@ -351,13 +356,13 @@ class YA_API {
 
         if($post_id) {
 
-            $individual_meta = ya_get_individual_meta();
+            /*$individual_meta = ya_get_individual_meta();
             if(!empty($individual_meta) && is_array($individual_meta)){
                 foreach ($individual_meta as $meta_key) {
                     if( isset($result->$meta_key) )
                         update_post_meta( $post_id, $meta_key, $result->$meta_key );
                 }
-            }
+            }*/
             if(isset($result->MainCategory) && !empty($result->MainCategory) ){
                 $SubCategory = '';
                 if(isset($result->SubCategory) && !empty($result->SubCategory) )
@@ -402,12 +407,66 @@ class YA_API {
             }
             
             $my_data = get_object_vars($result);
+            update_post_meta( $post_id, 'vessel_detail', $my_data );
+
+            if( !empty($result->LocationCountry) ){
+                $code = array_search($result->LocationCountry, $ya_countries);
+                if( $code ){
+                    update_post_meta( $post_id, 'LocationCountry', $code );
+                    unset($my_data['LocationCountry']);
+                }
+            }
+           /* $relations = get_vessel_yatco_relations();
+
+            foreach ($relations as $key => $value_type) {
+                if( !isset( $my_data[$key] ) ) continue;
+
+                $_value = $my_data[$key];
+                if( is_array($value_type) ){
+                    if( isset($value_type[$_value]) ){
+                        $my_data[$key] = $value_type[$_value];                        
+                    }
+                }else{
+                    $fanc_name = 'ya_get_'.$value_type.'_units';
+                    if( function_exists($value_type) ){
+                        $value = '';
+                        $units = call_user_func($functionName);
+                        $_unit = get_option('vessel_speed_unit', key($units) );
+                        reset($array);
+
+                        $unit = ucfirst($_unit);
+                        if( !isset($my_data[$key.$unit]) ){
+                            $unit = strtoupper($_unit);
+                        }
+
+                        if( isset($my_data[$key.$unit]) ){
+                            $value = $my_data[$key.$unit];
+                        }
+
+                        foreach ($units as $uk => $uv) {
+                            $ucf = ucfirst($_unit);
+                            if( !isset($my_data[$key.$unit]) ){
+                                $uup = strtoupper($_unit);
+                            }
+                        }
+
+                        if( !empty($value) ){
+
+                        }
+                        unset($my_data[$key.$unit]);
+                        update_post_meta( $post_id, $key, $value );
+                        update_post_meta( $post_id, $key . '_unit', $_unit );
+
+                    }
+                }
+            }*/
+
             foreach ($my_data as $key => $value) {
                 if ( $value === '') continue;
                 update_post_meta( $post_id, $key, $value );
             }
             
-            update_post_meta( $post_id, 'vessel_detail', $my_data );
+            
             return $answer;
         }
         return false;

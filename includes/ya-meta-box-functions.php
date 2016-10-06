@@ -237,13 +237,17 @@ function ya_wp_select( $field ) {
  */
 function ya_wp_units( $field ) {
 	global $thepostid, $post;
-
+	
 	$thepostid              = empty( $thepostid ) ? $post->ID : $thepostid;
-	$field['class']         = isset( $field['class'] ) ? $field['class'] : 'select short';
+	$field['placeholder']   = isset( $field['placeholder'] ) ? $field['placeholder'] : '';
+	$field['class']         = isset( $field['class'] ) ? $field['class'] : 'short';
 	$field['style']         = isset( $field['style'] ) ? $field['style'] : '';
 	$field['wrapper_class'] = isset( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
 	$field['value']         = isset( $field['value'] ) ? $field['value'] : get_post_meta( $thepostid, $field['id'], true );
+	$field['unit']          = isset( $field['unit'] ) ? $field['unit'] : get_post_meta( $thepostid, $field['id'] . '_unit', true );
 	$field['name']          = isset( $field['name'] ) ? $field['name'] : $field['id'];
+	$field['type']          = isset( $field['type'] ) ? $field['type'] : 'text';
+	$data_type              = empty( $field['data_type'] ) ? '' : $field['data_type'];
 
 	// Custom attribute handling
 	$custom_attributes = array();
@@ -255,10 +259,10 @@ function ya_wp_units( $field ) {
 		}
 	}
 
-	echo '<p class="form-field ' . esc_attr( $field['id'] ) . '_field ' . esc_attr( $field['wrapper_class'] ) . '"><label for="' . esc_attr( $field['id'] ) . '">' . wp_kses_post( $field['label'] ) . '</label><input type="text" class="' . esc_attr( $field['class'] ) . '" style=" width: 25%; ' . esc_attr( $field['style'] ) . '" name="' . esc_attr( $field['name'] ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['value'] ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . implode( ' ', $custom_attributes ) . ' /><select id="' . esc_attr( $field['id'] ) . '_unit" name="' . esc_attr( $field['name'] ) . '_unit" class="' . esc_attr( $field['class'] ) . '" style="max-width: 100px; width: 25%; ">';
+	echo '<p class="form-field form-field-unit ' . esc_attr( $field['id'] ) . '_field ' . esc_attr( $field['wrapper_class'] ) . '"><label for="' . esc_attr( $field['id'] ) . '">' . wp_kses_post( $field['label'] ) . '</label><input type="text" class="' . esc_attr( $field['class'] ) . '" style=" width: 25%; ' . esc_attr( $field['style'] ) . '" name="' . esc_attr( $field['name'] ) . '" id="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $field['value'] ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" ' . implode( ' ', $custom_attributes ) . ' /><select id="' . esc_attr( $field['id'] ) . '_unit" name="' . esc_attr( $field['name'] ) . '_unit" class="' . esc_attr( $field['class'] ) . '" style="max-width: 100px; width: 25%; ">';
 
 	foreach ( $field['options'] as $key => $value ) {
-		echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $field['value'] ), esc_attr( $key ), false ) . '>' . esc_html( $value ) . '</option>';
+		echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $field['unit'] ), esc_attr( $key ), false ) . '>' . esc_html( $value ) . '</option>';
 	}
 
 	echo '</select> ';

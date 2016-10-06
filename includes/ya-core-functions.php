@@ -51,7 +51,6 @@ function ya_api_get_total_vessels_count()
 function ya_get_individual_meta(){
   $meta = array(
     'VesselID',
-    'Builder',
     'AskingPrice',
     'AskingPrice',
     'LOAFeet',
@@ -71,6 +70,7 @@ function ya_remove_api_filds(){
     'MainCategory',
     'SubCategory',
     'CompanyName',
+    'Builder',
     'Gallery',
     'ProfileURL',
     'Videos',
@@ -102,4 +102,92 @@ function ya_get_countries() {
       asort( $countries );
     }
   return $countries;
+}
+
+/**
+ * Get all weight units.
+ * @return array
+ */
+function ya_get_weight_units() {
+  return array(
+          'kilos'    => __('Kilos', 'yatco'),
+          'pounds'   => __('Pounds', 'yatco'),
+          'shortton' => __('Short Ton', 'yatco'),
+          'tonne'    => __('Tonne', 'yatco'),
+          );
+}
+
+/**
+ * Get all speed units.
+ * @return array
+ */
+function ya_get_speed_units() {
+  return array(
+          'knots'    => __('Knots', 'yatco'),
+          'mph'      => __('MPH', 'yatco'),
+          );
+}
+
+/**
+ * Get all length units.
+ * @return array
+ */
+function ya_get_length_units() {
+  return array(
+          'meters'  => __('Meters', 'yatco')
+          'feet'    => __('Feet','yatco'),
+        );
+}
+
+/**
+ * Get all volume units.
+ * @return array
+ */
+function ya_get_volume_units() {
+  return array(
+            'gallons'    => __('Gallons','yatco'),
+            'liters'     => __('Liters', 'yatco')
+        );
+}
+
+/**
+ * Get Base Currency Code.
+ *
+ * @return string
+ */
+function ya_get_currency() {
+  return apply_filters( 'ya_currency', get_option('vessel_currency') );
+}
+
+/**
+ * Get full list of currency codes.
+ *
+ * @return array
+ */
+function ya_get_currencies() {
+  return array(
+            'EUR' => __( 'Euro', 'yatco' ),
+            'USD' => __( 'United States dollar', 'yatco' ),
+        );
+}
+
+/**
+ * Get Currency symbol.
+ *
+ * @param string $currency (default: '')
+ * @return string
+ */
+function ya_get_currency_symbol( $currency = '' ) {
+
+  if ( ! $currency ) {
+    $currency = ya_get_currency();
+  }
+  
+  $symbols = array(
+            'EUR' => '&euro;',
+            'USD' => '&#36;',
+        );
+  
+  $currency_symbol = isset( $symbols[ $currency ] ) ? $symbols[ $currency ] : '';
+  return $currency_symbol;
 }

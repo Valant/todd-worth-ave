@@ -221,8 +221,7 @@
   content: "\f525";
 }
 #vessel_specification ul.ya-tabs li.dimensions_options a:before {
-  font-family: 'yatco';
-  content: "\e901";
+  content: "\f211";
 }
 #vessel_specification ul.ya-tabs li.engine_options a:before {
   content: "\f111";
@@ -239,8 +238,24 @@
 #vessel_specification ul.ya-tabs li.location_options a:before {
   content: "\f230";
 }
+#vessel_specification ul.ya-tabs li.measurements_options a:before {
+  font-family: 'yatco';
+  content: "\e901";
+}
 #vessel_specification ul.ya-tabs li.additional_options a:before {
   content: "\f533";
+}
+#vessel_specification ul.ya-tabs li.media_options a:before {
+  content: "\f126";
+}
+#vessel_specification ul.ya-tabs li.official_num_options a:before {
+  content: "\f204";
+}
+#vessel_specification ul.ya-tabs li.official_num_options a:before {
+  content: "#";
+}
+#vessel_specification ul.ya-tabs li.sale_options a:before {
+  content: "\20AC";
 }
 #vessel_specification ul.ya-tabs li.active a {
   color: #555;
@@ -250,6 +265,7 @@
 .yatco_options_panel {
   min-height: 175px;
   box-sizing: border-box;
+  display: none;
 }
 .yatco_options_panel .downloadable_files {
   padding: 0 9px 0 162px;
@@ -338,11 +354,22 @@
   border-top: 1px solid white;
   border-bottom: 1px solid #eee;
 }
+.yatco_options_panel .options_group:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
 .yatco_options_panel .options_group:first-child {
   border-top: 0;
 }
 .yatco_options_panel .options_group:last-child {
   border-bottom: 0;
+}
+.yatco_options_panel .options_group .form-field-unit input {
+  margin-right: 10px;
 }
 .yatco_options_panel .options_group fieldset {
   margin: 9px 0;
@@ -405,6 +432,13 @@
   font-size: 12px;
   padding: 5px 9px;
   line-height: 24px;
+}
+.yatco_options_panel p.col-2,
+.yatco_options_panel fieldset.form-field.col-2 {
+  width: 50%;
+  min-width: 400px;
+  display: inline-block;
+  box-sizing: border-box;
 }
 .yatco_options_panel p:after,
 .yatco_options_panel fieldset.form-field:after {

@@ -245,8 +245,7 @@
       }
       &.dimensions_options {
         a:before {
-          font-family: 'yatco';
-          content: "\e901";
+          content: "\f211";
         }
       }
       &.engine_options {
@@ -274,11 +273,38 @@
           content: "\f230";
         }
       }
+      &.measurements_options {
+        a:before {
+          font-family: 'yatco';
+          content: "\e901";
+        }
+      }
       &.additional_options {
         a:before {
           content: "\f533";
         }
       }
+      &.media_options {
+        a:before {
+          content: "\f126";
+        }
+      }
+      &.official_num_options {
+        a:before {
+          content: "\f204";
+        }
+      }
+      &.official_num_options {
+        a:before {
+          content: "#";
+        }
+      }
+      &.sale_options {
+        a:before {
+          content: "\20AC";
+        }
+      }
+
 
       &.active {
         a {
@@ -293,6 +319,7 @@
 .yatco_options_panel {
   min-height: 175px;
   box-sizing: border-box;
+  display: none;
 
   .downloadable_files {
     padding: 0 9px 0 162px;
@@ -397,6 +424,14 @@
   .options_group {
     border-top: 1px solid white;
     border-bottom: 1px solid #eee;
+    &:after{
+      visibility: hidden;
+      display: block;
+      font-size: 0;
+      content: " ";
+      clear: both;
+      height: 0;
+    }
 
     &:first-child {
       border-top: 0;
@@ -404,6 +439,11 @@
 
     &:last-child {
       border-bottom: 0;
+    }
+    .form-field-unit{
+      input{
+        margin-right: 10px;
+      }
     }
 
     fieldset {
@@ -476,7 +516,7 @@
   .form-field {
     .woocommerce-help-tip {
       font-size: 1.4em;
-    }
+    }    
   }
 }
 
@@ -486,6 +526,12 @@
   font-size: 12px;
   padding: 5px 9px;
   line-height: 24px;
+  &.col-2{
+    width: 50%;
+    min-width: 400px;
+    display: inline-block;
+    box-sizing: border-box;
+  }
 
   &:after {
     content: ".";

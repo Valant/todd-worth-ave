@@ -27,14 +27,17 @@ class YA_Meta_Boxes {
 		add_action( 'admin_init', array( __CLASS__, 'save' ), 100 );
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 100 );
 
+
 		add_action( 'save_post', array( 'YA_Meta_Box_Photo_Gallery', 'save' ), 777, 2 );
-		add_action( 'save_post', array( 'YA_Meta_Box_Vessel_Specification', 'save' ), 777, 2 );
+		add_action( 'save_post', array( 'YA_Meta_Box_Videos', 'save' ), 778, 2 );
+		add_action( 'save_post', array( 'YA_Meta_Box_Vessel_Specification', 'save' ), 779, 2 );
 	}
 
 	public static function remove_meta_boxes()
 	{
 		remove_meta_box( 'tagsdiv-vessel_builder' , 'vessel' , 'side' ); 
 		remove_meta_box( 'postcustom' , 'vessel' , 'normal' ); 
+		remove_meta_box( 'postexcerpt', 'vessel', 'normal' );
 	}
 
 	/**
@@ -62,13 +65,25 @@ class YA_Meta_Boxes {
 						,'normal'
 						,'high'
 					);
+					add_meta_box( 'postexcerpt',
+						__( 'Vessel Short Description', 'yatco' )
+						,array( __CLASS__, 'render_meta_box_postexcerpt' )
+						,$post_type
+						,'normal'
+					);
 					add_meta_box(
 						'photo_gallery'
 						,__( 'Photo gallery', 'yatco' )
 						,array( 'YA_Meta_Box_Photo_Gallery', 'output' )
 						,$post_type
 						,'normal'
-						,'high'
+					);
+					add_meta_box(
+						'videos'
+						,__( 'Videos', 'yatco' )
+						,array( 'YA_Meta_Box_Videos', 'output' )
+						,$post_type
+						,'normal'
 					);
 				}
 
@@ -131,6 +146,26 @@ class YA_Meta_Boxes {
 		?>
 		<a href="<?php echo esc_url( add_query_arg( 'reload_vessel', $VesselID ) ); ?>" class="button button-primary button-large"><?php _e('Reload vessel', 'yatco'); ?></a>
 		<?php
+	}
+
+	/**
+	 * Output the metabox.
+	 *
+	 * @param WP_Post $post
+	 */
+	public static function render_meta_box_postexcerpt( $post ) {
+
+		$settings = array(
+			'textarea_name' => 'excerpt',
+			'quicktags'     => array( 'buttons' => 'em,strong,link' ),
+			'tinymce'       => array(
+				'theme_advanced_buttons1' => 'bold,italic,strikethrough,separator,bullist,numlist,separator,blockquote,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,separator,undo,redo,separator',
+				'theme_advanced_buttons2' => '',
+			),
+			'editor_css'    => '<style>#wp-excerpt-editor-container .wp-editor-area{height:175px; width:100%;}</style>'
+		);
+
+		wp_editor( htmlspecialchars_decode( $post->post_excerpt ), 'excerpt', apply_filters( 'ya_vessel_short_description_editor_settings', $settings ) );
 	}
 
 

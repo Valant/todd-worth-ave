@@ -39,7 +39,7 @@ class YA_Settings_Api extends YA_Settings_Page {
 	 */
 	public function get_settings() {
 
-		$settings = apply_filters( 'yatco_general_settings', array(
+		$settings = array(
 			array( 'title' => __( 'Yatco API', 'yatco' ), 'type' => 'title', 'desc' => '', 'id' => 'yatco_api_options' ),
 
 			array(
@@ -82,7 +82,7 @@ class YA_Settings_Api extends YA_Settings_Page {
 
 			array( 'type' => 'sectionend', 'id' => 'salesforce_api_options'),
 
-		) );
+		);
 
 		return apply_filters( 'yatco_get_settings_' . $this->id, $settings );
 	}

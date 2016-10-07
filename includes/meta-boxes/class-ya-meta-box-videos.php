@@ -65,6 +65,6 @@ class 	YA_Meta_Box_Videos {
 	public static function save( $post_id, $post ) {
 		$videos = isset( $_POST['vessel_vedeo'] ) ? $_POST['vessel_vedeo'] : array();
 
-		update_post_meta( $post_id, '_vessel_video_urls', implode( ',', $videos ) );
+		update_post_meta( $post_id, '_vessel_video_urls', $videos );
 	}
 }

@@ -78,7 +78,7 @@ class YA_Settings_General extends YA_Settings_Page {
 				'desc'    => __( 'Default unit of volume.', 'yatco' ),
 				'id'      => 'vessel_volume_unit',
 				'type'    => 'select',
-				'default' => 'gallons',
+				'default' => 'gal',
 				'options' => ya_get_volume_units()
 			),
 			array(
@@ -89,8 +89,19 @@ class YA_Settings_General extends YA_Settings_Page {
 				'default'  => 'GBP',
 				'type'     => 'select',
 				'class'    => 'wc-enhanced-select',
-				'desc_tip' =>  true,
 				'options'  => $currency_code_options
+			),
+			array(
+				'title'    => __( 'Gallery', 'yatco' ),
+				'desc'     => __( 'How do you want to store additional images?', 'yatco' ),
+				'id'       => 'vessel_save_gallery',
+				'css'      => 'min-width:350px;',
+				'default'  => 'none',
+				'type'     => 'select',
+				'options'  => array(
+					'external' => __('External link'),
+					'wp_media' => __('Wordpress media')
+					)
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'general_options'),

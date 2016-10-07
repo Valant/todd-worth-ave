@@ -32,7 +32,7 @@ function get_vessel_specification_fields()
 
 function get_vessel_yatco_relations()
 {
-    array(
+    return array(
         'CruiseSpeed'     => 'speed',
         'MaxSpeed'        => 'speed',
         'BallastWeight'   => 'weight',

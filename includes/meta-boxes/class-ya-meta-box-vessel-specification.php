@@ -26,20 +26,7 @@ class 	YA_Meta_Box_Vessel_Specification {
 	 */
 	public static function output( $post ) {
 		$vessel_detail = get_post_meta($post->ID, 'vessel_detail', true);
-		#var_dump($vessel_detail);
 		
-		/*if ( $vessel_detail && is_array($vessel_detail) ){
-			foreach ($vessel_detail as $key => $v) {
-				preg_match_all('/((?:^|[A-Z])[a-z]+)/', $key, $matches);
-  				$label = $matches ? implode(' ', $matches[0]) : $key;
-				$value = get_post_meta($post->ID, $key, true);
-
-				if( isset($fields[$matches[0][0]]) ){
-					$fields[ $matches[0][0] ][$label] = $value;
-					#unset(var);
-				}
-			}
-		}*/
 		$categories           = get_vessel_specification_categories();
 		$specification_fields = get_vessel_specification_fields();
 		?>
@@ -93,6 +80,68 @@ class 	YA_Meta_Box_Vessel_Specification {
 	 * @param WP_Post $post
 	 */
 	public static function save( $post_id, $post ) {
-		
+		global $wpdb;
+
+		$specification_fields = get_vessel_specification_fields();
+
+		foreach ($specification_fields as $category => $groups) {
+			foreach ($groups as $key => $value) {
+				if ( $groups && is_array($groups) ){
+					foreach ($groups as $fields) {
+
+						foreach ($fields as $field) {
+							self::save_field( $post_id, $field );
+						}
+						
+					}
+				}
+			}
+		}
+		// Product type + Downloadable/Virtual
+		//wp_set_object_terms( $post_id, $product_type, 'product_type' );
+	}
+
+	/**
+	 * Save meta box field.
+	 */
+	private static function save_field( $post_id, $field )
+	{
+		$field_name = isset( $field['name'] ) ? $field['name'] : $field['id'];
+		$field_type = isset($field['type'])  ? $field['type'] : 'text';
+
+		switch ($field_type) {
+			case 'textarea':
+				$value = isset( $_POST[$field_name] ) ? wp_kses_post( stripslashes( $_POST[$field_name] ) ) : '';
+				break;
+				
+			case 'checkbox':
+				$cbvalue = isset( $field['cbvalue'] ) ? $field['cbvalue'] : 'Yes';
+				$value   = isset( $_POST[$field_name] ) ? $cbvalue : ( $cbvalue == 'Yes' ? 'No' : '');
+				break;
+
+			case 'taxonomy':
+				if( isset($field['taxonomy']) && !empty($field['taxonomy']) && taxonomy_exists($field['taxonomy']) ){
+					$value = isset( $_POST[$field_name] ) ? $_POST[$field_name]: '';
+					if( is_array($value) ){
+			            $value = array_map( 'intval', $value );
+			        }else{
+			        	$value = intval( $value );
+			        }
+			        wp_set_object_terms( $post_id, $value, $field['taxonomy'] );					
+				}
+		        return;
+				break;
+
+			case 'units':
+				$value = isset( $_POST[$field_name] ) ? ya_clean( $_POST[$field_name] ) : '';
+				$unit  = isset( $_POST[$field_name . '_unit'] ) ? ya_clean( $_POST[$field_name . '_unit'] ) : '';
+				update_post_meta( $post_id, $field_name . '_unit', $unit );
+				break;
+			
+			default:
+				$value = isset( $_POST[$field_name] ) ? ya_clean( $_POST[$field_name] ) : '';
+				break;
+		}
+		update_post_meta( $post_id, $field_name, $value );
 	}
 }

@@ -227,8 +227,8 @@ class YA_API {
 
         if(!empty($term_ids)){
             $term_ids = array_map( 'intval', $term_ids );
-            wp_set_object_terms( $post_id, $term_ids, $taxonomy_name );
         }
+        wp_set_object_terms( $post_id, $term_ids, $taxonomy_name );
     }
 
     public function set_categories($post_id = 0, $category = '', $subcategory = '')
@@ -244,13 +244,14 @@ class YA_API {
         $this->set_term($post_id, 'vessel_builder', $builder);
     }
 
-    public function save_attachment($thumb_url = '', $post_id = 0)
+    public function save_attachment($thumb_url = '', $post_id = 0, $desc = '')
     {
         if( empty($thumb_url) || !$post_id ) return false;
 
         $tmp = download_url( $thumb_url );
 
         preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG)/', $thumb_url, $matches);
+        
         $file_array['name'] = basename($matches[0]);
         $file_array['tmp_name'] = $tmp;
 
@@ -258,14 +259,16 @@ class YA_API {
             @unlink($file_array['tmp_name']);
             $file_array['tmp_name'] = '';
         }
+        
 
-        $thumb_id = media_handle_sideload( $file_array, $post_id, '' );
+        $thumb_id = media_handle_sideload( $file_array, $post_id, $desc );
 
         if ( is_wp_error($thumb_id) ) {
             @unlink($file_array['tmp_name']);
+            return false;
         }
-        if($thumb_id && $thumb_id > 0)
-            set_post_thumbnail( $post_id, $thumb_id );
+
+        return $thumb_id;
 
     }
 
@@ -292,15 +295,13 @@ class YA_API {
 
     public function save_vessel($result = false)
     {
-        global $ya_countries;
+        global $ya_countries, $wpdb;
 
         if(!$result){
             $result = $this->vessel_detail;
         }
         if(!$result)
             return false;
-
-        #var_dump($result);
 
         $answer = array();
         $VesselSections = $result->VesselSections;
@@ -356,13 +357,6 @@ class YA_API {
 
         if($post_id) {
 
-            /*$individual_meta = ya_get_individual_meta();
-            if(!empty($individual_meta) && is_array($individual_meta)){
-                foreach ($individual_meta as $meta_key) {
-                    if( isset($result->$meta_key) )
-                        update_post_meta( $post_id, $meta_key, $result->$meta_key );
-                }
-            }*/
             if(isset($result->MainCategory) && !empty($result->MainCategory) ){
                 $SubCategory = '';
                 if(isset($result->SubCategory) && !empty($result->SubCategory) )
@@ -379,14 +373,53 @@ class YA_API {
                 $this->set_builders($post_id, $result->Builder);
             }
 
+
+            //Save post thumbnail
             $old_thumbnail_id = get_post_thumbnail_id( $post_id );
             if($old_thumbnail_id){
                 delete_post_thumbnail( $post_id );
                 wp_delete_attachment( $old_thumbnail_id, true );
             }
             if(isset($result->ProfileURL) && !empty($result->ProfileURL)){
-                $this->save_attachment($result->ProfileURL, $post_id);
+                $thumb_id = $this->save_attachment($result->ProfileURL, $post_id);
+                if($thumb_id && $thumb_id > 0){
+                    set_post_thumbnail( $post_id, $thumb_id );
+                }
             }
+
+
+            //Save additional vessel images
+            if( get_option('vessel_save_gallery') == 'wp_media'){
+
+                $new_images    = array();
+                if(isset($result->Gallery) && !empty($result->Gallery)){
+                    foreach ($result->Gallery as $image) {
+                        $query = explode('?', $image->originalimageurl);
+                        parse_str($query[1], $data);
+                        $yatco_image_id = $data['id'];
+                        
+                        $attach_id = $wpdb->get_var( "SELECT post_id from $wpdb->postmeta where meta_value = {$yatco_image_id} AND meta_key = 'yatco_image_id' LIMIT 1" );
+                        if( !$attach_id ){
+                            $attach_id = $this->save_attachment( $image->url, $post_id, $image->caption );
+                        }
+                        $attach_id = absint($attach_id);
+
+                        if( $attach_id && $attach_id > 0 ){
+                            update_post_meta( $attach_id, 'yatco_image_id', $yatco_image_id );                        
+                            $new_images[] = $attach_id;
+                        }
+                    }
+                    unset($result->Gallery);
+                }
+                if( !empty($new_images) ){
+                    $image_gallery       = get_post_meta( $post_id, '_vessel_image_gallery', true );
+                    $attachments         = array_filter( explode( ',', $image_gallery ) );
+                    $updated_gallery_ids = array_merge($attachments, $new_images);
+                    update_post_meta( $post_id, '_vessel_image_gallery', implode( ',', $updated_gallery_ids ) );                
+                }
+
+            }
+
             if(isset($result->Videos) && !empty($result->Videos)){
                 $vessel_video_url = array();
                 $i = 0;
@@ -395,7 +428,7 @@ class YA_API {
                     $vessel_video_url[$i]['VideoURL'] = $value->VideoURL;
                     $i++;
                 }
-                update_post_meta( $post_id, 'vessel_video_url', $vessel_video_url );
+                update_post_meta( $post_id, '_vessel_video_urls', $vessel_video_url );
             }
 
 
@@ -416,53 +449,54 @@ class YA_API {
                     unset($my_data['LocationCountry']);
                 }
             }
-           /* $relations = get_vessel_yatco_relations();
+            #var_dump($my_data);
+
+            $relations = get_vessel_yatco_relations();
 
             foreach ($relations as $key => $value_type) {
-                if( !isset( $my_data[$key] ) ) continue;
 
-                $_value = $my_data[$key];
-                if( is_array($value_type) ){
+                if( is_array($value_type) && isset($my_data[$key]) ){
+                    $_value = $my_data[$key];
                     if( isset($value_type[$_value]) ){
                         $my_data[$key] = $value_type[$_value];                        
                     }
                 }else{
                     $fanc_name = 'ya_get_'.$value_type.'_units';
-                    if( function_exists($value_type) ){
-                        $value = '';
-                        $units = call_user_func($functionName);
-                        $_unit = get_option('vessel_speed_unit', key($units) );
-                        reset($array);
+                    if( function_exists($fanc_name) ){
+                        $value        = '';
+                        $all_units    = call_user_func($fanc_name);
+                        $unit = $def_unit = get_option('vessel_speed_unit', key($all_units) );
+                        reset($all_units);
+                        
+                        foreach ($all_units as $uk => $uv) {
+                            $_value = '';
 
-                        $unit = ucfirst($_unit);
-                        if( !isset($my_data[$key.$unit]) ){
-                            $unit = strtoupper($_unit);
-                        }
+                            $unit_keys = $this->get_unitnames($uk);
 
-                        if( isset($my_data[$key.$unit]) ){
-                            $value = $my_data[$key.$unit];
-                        }
-
-                        foreach ($units as $uk => $uv) {
-                            $ucf = ucfirst($_unit);
-                            if( !isset($my_data[$key.$unit]) ){
-                                $uup = strtoupper($_unit);
+                            if( isset($my_data[$key . $unit_keys[0] ]) ){
+                                $_value = $my_data[$key . $unit_keys[0]];
+                            }else if( isset($my_data[$key . $unit_keys[1]]) ){
+                                $_value = $my_data[$key . $unit_keys[1]];
                             }
+
+                            if( !empty($_value) ){
+                                $value = $_value;
+                                $unit  = $uk;
+                            }
+                            if( $uk == $def_unit && $_value != ''){
+                                break;
+                            }
+
                         }
 
-                        if( !empty($value) ){
-
-                        }
-                        unset($my_data[$key.$unit]);
                         update_post_meta( $post_id, $key, $value );
-                        update_post_meta( $post_id, $key . '_unit', $_unit );
+                        update_post_meta( $post_id, $key . '_unit', $unit );
 
                     }
                 }
-            }*/
+            }
 
             foreach ($my_data as $key => $value) {
-                if ( $value === '') continue;
                 update_post_meta( $post_id, $key, $value );
             }
             
@@ -470,6 +504,15 @@ class YA_API {
             return $answer;
         }
         return false;
+    }
+
+    private function get_unitnames($unit='')
+    {
+        $_unit = array(
+            ucfirst($unit),
+            strtoupper($unit)
+        );
+        return $_unit;
     }
 
 

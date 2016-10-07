@@ -28,6 +28,8 @@ class YA_Post_types {
 		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 6 );
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
 		add_action( 'init', array( __CLASS__, 'support_jetpack_omnisearch' ) );
+
+		add_filter('post_row_actions', array( __CLASS__, 'reload_vessel_action' ), 10, 2);
 	}
 
 	/**
@@ -206,6 +208,18 @@ class YA_Post_types {
 		if ( class_exists( 'Jetpack_Omnisearch_Posts' ) ) {
 			new Jetpack_Omnisearch_Posts( 'vessel' );
 		}
+	}
+
+	public static function reload_vessel_action($actions, $post) {
+		//check for your post type
+	    if ($post->post_type =="vessel"){
+	    	$VesselID = get_post_meta( $post->ID, 'VesselID', true);
+	    	if( $VesselID ){
+	    		$url = esc_url( add_query_arg( 'reload_vessel', $VesselID, get_edit_post_link($post->ID) ) );
+	        	$actions['reload_vessel'] = sprintf('<a href="%s" target="_blank">%s</a>', $url, __('Reload vessel', 'yatco') );	    		
+	    	}
+	    }
+	    return $actions;
 	}
 }
 

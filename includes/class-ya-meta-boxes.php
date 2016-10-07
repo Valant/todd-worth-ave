@@ -57,37 +57,36 @@ class YA_Meta_Boxes {
 						,'side'
 						,'high'
 					);
-					add_meta_box(
-						'vessel_specification'
-						,__( 'Vessel Specification', 'yatco' )
-						,array( 'YA_Meta_Box_Vessel_Specification', 'output' )
-						,$post_type
-						,'normal'
-						,'high'
-					);
-					add_meta_box( 'postexcerpt',
-						__( 'Vessel Short Description', 'yatco' )
-						,array( __CLASS__, 'render_meta_box_postexcerpt' )
-						,$post_type
-						,'normal'
-					);
-					add_meta_box(
-						'photo_gallery'
-						,__( 'Photo gallery', 'yatco' )
-						,array( 'YA_Meta_Box_Photo_Gallery', 'output' )
-						,$post_type
-						,'normal'
-					);
-					add_meta_box(
-						'videos'
-						,__( 'Videos', 'yatco' )
-						,array( 'YA_Meta_Box_Videos', 'output' )
-						,$post_type
-						,'normal'
-					);
 				}
-
 			}
+			add_meta_box(
+				'vessel_specification'
+				,__( 'Vessel Specification', 'yatco' )
+				,array( 'YA_Meta_Box_Vessel_Specification', 'output' )
+				,$post_type
+				,'normal'
+				,'high'
+			);
+			add_meta_box( 'postexcerpt',
+				__( 'Vessel Short Description', 'yatco' )
+				,array( __CLASS__, 'render_meta_box_postexcerpt' )
+				,$post_type
+				,'normal'
+			);
+			add_meta_box(
+				'photo_gallery'
+				,__( 'Photo gallery', 'yatco' )
+				,array( 'YA_Meta_Box_Photo_Gallery', 'output' )
+				,$post_type
+				,'normal'
+			);
+			add_meta_box(
+				'vessel_video'
+				,__( 'Videos', 'yatco' )
+				,array( 'YA_Meta_Box_Videos', 'output' )
+				,$post_type
+				,'normal'
+			);
 		}
 	}
 

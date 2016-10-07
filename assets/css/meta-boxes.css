@@ -453,6 +453,14 @@
   margin: 3px 0;
   vertical-align: middle;
 }
+#vessel_video .inside {
+  border: medium none;
+  margin: 0;
+  padding: 0;
+}
+#vessel_video .inside input {
+  width: 100%;
+}
 @media only screen and (max-width: 500px) {
   .yatco_options_panel label,
   .yatco_options_panel legend {

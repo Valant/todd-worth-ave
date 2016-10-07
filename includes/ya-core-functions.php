@@ -63,7 +63,6 @@ function ya_get_individual_meta(){
 }
 function ya_remove_api_filds(){
   $meta = array(
-    'VesselID',
     'VesselSections',
     'DescriptionShortDescription',
     'Boatname',
@@ -71,7 +70,6 @@ function ya_remove_api_filds(){
     'SubCategory',
     'CompanyName',
     'Builder',
-    'Gallery',
     'ProfileURL',
     'Videos',
     );
@@ -82,15 +80,7 @@ function ya_remove_attributes($text = '')
 {
   return preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $text);
 }
-/**
- * Clean variables
- *
- * @param string $var
- * @return string
- */
-function ya_clean( $var ) {
-  return sanitize_text_field( $var );
-}
+
 
 /**
  * Get all countries.
@@ -134,7 +124,7 @@ function ya_get_speed_units() {
  */
 function ya_get_length_units() {
   return array(
-          'meters'  => __('Meters', 'yatco')
+          'meters'  => __('Meters', 'yatco'),
           'feet'    => __('Feet','yatco'),
         );
 }
@@ -145,8 +135,8 @@ function ya_get_length_units() {
  */
 function ya_get_volume_units() {
   return array(
-            'gallons'    => __('Gallons','yatco'),
-            'liters'     => __('Liters', 'yatco')
+            'gal'    => __('Gallons','yatco'),
+            'ltr'     => __('Liters', 'yatco')
         );
 }
 
@@ -190,4 +180,18 @@ function ya_get_currency_symbol( $currency = '' ) {
   
   $currency_symbol = isset( $symbols[ $currency ] ) ? $symbols[ $currency ] : '';
   return $currency_symbol;
+}
+
+/**
+ * Clean variables using sanitize_text_field. Arrays are cleaned recursively.
+ * Non-scalar values are ignored.
+ * @param string|array $var
+ * @return string|array
+ */
+function ya_clean( $var ) {
+  if ( is_array( $var ) ) {
+    return array_map( 'ya_clean', $var );
+  } else {
+    return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
+  }
 }

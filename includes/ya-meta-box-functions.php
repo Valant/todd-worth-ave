@@ -140,7 +140,7 @@ function ya_wp_checkbox( $field ) {
 	$field['style']         = isset( $field['style'] ) ? $field['style'] : '';
 	$field['wrapper_class'] = isset( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
 	$field['value']         = isset( $field['value'] ) ? $field['value'] : get_post_meta( $thepostid, $field['id'], true );
-	$field['cbvalue']       = isset( $field['cbvalue'] ) ? $field['cbvalue'] : 'yes';
+	$field['cbvalue']       = isset( $field['cbvalue'] ) ? $field['cbvalue'] : 'Yes';
 	$field['name']          = isset( $field['name'] ) ? $field['name'] : $field['id'];
 
 	// Custom attribute handling
@@ -173,16 +173,26 @@ function ya_wp_checkbox( $field ) {
  * @param array $field
  */
 function ya_wp_taxonomy( $field ) {
-	$options = array();
-	$terms   = get_terms( $field['taxonomy'], 'hide_empty=0' );
-	if( $terms ){
-		foreach ($terms as $term) {
-			$options[$term->term_id] = $term->name;
+	global $thepostid, $post;
+	
+	$options    = array();
+	$post_term  = '';
+	if( isset($field['taxonomy']) && !empty($field['taxonomy']) && taxonomy_exists($field['taxonomy']) ){
+		$terms = get_terms( $field['taxonomy'], 'hide_empty=0' );
+		if( $terms ){
+			foreach ($terms as $term) {
+				$options[$term->term_id] = $term->name;
+			}
+		}		
+		$post_terms = get_the_terms( $thepostid, $field['taxonomy'] );
+		if( $post_terms && !empty($post_terms) ){
+			$post_term = $post_terms[0]->term_id;
 		}
 	}
 
-	$field['type'] = 'select';
+	$field['type']    = 'select';
 	$field['options'] = $options;
+	$field['value']   = isset( $field['value'] ) ? $field['value'] : $post_term;
 	ya_wp_select( $field );
 }
 

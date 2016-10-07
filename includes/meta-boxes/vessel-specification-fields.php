@@ -834,10 +834,10 @@ return array(
                   'style'       => 'width: 150px;',
                 ),
                 array(
-                  'id'          => 'Cruising',
+                  'id'          => 'NotForSaleInUS',
                   'label'       => __( 'Available in US', 'yatco' ),
                   'type'        => 'checkbox',
-                  'description' => __( 'Enable if the vessel is available in US.', 'yatco' )
+                  'description' => __( 'Enable if the vessel is not available in US.', 'yatco' )
                 ),
                 array(
                   'id'          => 'TaxPaid',

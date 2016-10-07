@@ -195,3 +195,10 @@ function ya_clean( $var ) {
     return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
   }
 }
+
+function ya_get_source($post_id){
+  $source   = get_post_meta($post_id, '_source', true);
+  $VesselID = get_post_meta($post_id, 'VesselID', true);
+  $name   =  $source == 'yatco' || !empty($VesselID) ? __('Yatco', 'yatco') : __('Local', 'yatco');
+  return $name;
+}

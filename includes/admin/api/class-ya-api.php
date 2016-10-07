@@ -499,7 +499,7 @@ class YA_API {
             foreach ($my_data as $key => $value) {
                 update_post_meta( $post_id, $key, $value );
             }
-            
+            update_post_meta( $post_id, '_source', 'yatco' );
             
             return $answer;
         }

@@ -46,18 +46,15 @@ class YA_Meta_Boxes {
 	public static function add_meta_box( $post_type ) {
 		$post_types = array('vessel');   //limit meta box to certain post types
 		if ( in_array( $post_type, $post_types )) {
-			if( isset($_GET['post']) && !empty($_GET['post']) && isset($_GET['action']) && $_GET['action'] == 'edit'){
-				$VesselID = get_post_meta($_GET['post'], 'VesselID', true);
-				if( $VesselID ){
-					add_meta_box(
-						'reload_vessel'
-						,__( 'Reload vessel', 'yatco' )
-						,array( __CLASS__, 'render_meta_box_reload_vessel' )
-						,$post_type
-						,'side'
-						,'high'
-					);
-				}
+			if( isset($_GET['post']) && !empty($_GET['post']) && isset($_GET['action']) && $_GET['action'] == 'edit'){				
+				add_meta_box(
+					'source_information'
+					,__( 'Source Information', 'yatco' )
+					,array( __CLASS__, 'render_meta_box_source_information' )
+					,$post_type
+					,'side'
+					,'high'
+				);
 			}
 			add_meta_box(
 				'vessel_specification'
@@ -140,11 +137,19 @@ class YA_Meta_Boxes {
 	 *
 	 * @param WP_Post $post The post object.
 	 */
-	public static function render_meta_box_reload_vessel( $post ) {
+	public static function render_meta_box_source_information( $post ) {
 		$VesselID = get_post_meta($post->ID, 'VesselID', true);
 		?>
-		<a href="<?php echo esc_url( add_query_arg( 'reload_vessel', $VesselID ) ); ?>" class="button button-primary button-large"><?php _e('Reload vessel', 'yatco'); ?></a>
+		<div class="misc-pub-section misc-pub-post-status">
+			<?php _e('Source', 'yatco');?>:
+			<strong><?php echo ya_get_source($post->ID); ?></strong>
+		</div>
 		<?php
+		if( $VesselID ){
+			?>
+			<a href="<?php echo esc_url( add_query_arg( 'reload_vessel', $VesselID ) ); ?>" class="button button-primary button-large"><?php _e('Reload vessel', 'yatco'); ?></a>
+			<?php			
+		}
 	}
 
 	/**

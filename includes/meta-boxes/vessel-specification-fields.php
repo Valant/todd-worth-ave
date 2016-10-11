@@ -28,8 +28,8 @@ return array(
                   'label'       => __( 'Vessel Type', 'yatco' ),
                   'type'        => 'select',
                   'options' => array(
-                    'motor' => __( 'Motor', 'yatco' ),
-                    'sail'  => __( 'Sail', 'yatco' ),
+                    'Motorboat' => __( 'Motor', 'yatco' ),
+                    'Sailboat'  => __( 'Sail', 'yatco' ),
                   ) 
                 ),
                 array(
@@ -169,8 +169,9 @@ return array(
                   'label'       => __( 'Builder', 'yatco' ),
                   'type'        => 'taxonomy',
                   'taxonomy'    => 'vessel_builder',
-                  'class'       => 'ya-enhanced-select',
-                  'style'       => 'width: 50%;',
+                  'style'             => 'width: 50%;',
+                  'class'             => 'ya-enhanced-select',
+                  'custom_attributes' => array('data-allow_clear' => 'true')
                 ),  
 
         ),
@@ -238,13 +239,22 @@ return array(
                   'style'       => 'width: 150px;',
                 ),
                 array(
-                  'id'          => 'FuelType',
-                  'label'       => __( 'Fuel Type', 'yatco' ),
-                  'type'        => 'select',
-                  'options'     => array(
-                        '1'    => __('1','yatco'),
-                        '2'     => __('2', 'yatco')
-                    )
+                  'id'           => 'FuelType',
+                  'label'        => __( 'Fuel Type', 'yatco' ),
+                  'type'         => 'select',
+                  'class'        => 'select short ya-enhanced-select',
+                  'options'      => array(
+                        'Diesel'    => __('Diesel','yatco'),
+                        'Petrol'    => __('Petrol', 'yatco'),
+                        'Gas'       => __('Gas', 'yatco'),
+                        'Electric'  => __('Electric', 'yatco'),
+                        'Other'     => __('Other', 'yatco'),
+                    ),
+                  'split_symbol' => '/',
+                  'custom_attributes' => array(
+                      'data-placeholder' => __('Select Fuel Type', 'yatco'),
+                      'multiple' => 'multiple'
+                  )
                 ),
                 array(
                   'id'          => 'HoldingTank',
@@ -714,7 +724,7 @@ return array(
                   'style'             => 'width: 50%;',
                   'class'             => 'ya-enhanced-select',
                   'options'           => array('' => '') + ya_get_countries(),
-                  'custom_attributes' => array('data-allow_clear' => true)
+                  'custom_attributes' => array('data-allow_clear' => 'true')
                 ),
                 array(
                   'id'          => 'LocationState',

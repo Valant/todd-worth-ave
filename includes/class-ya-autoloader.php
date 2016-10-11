@@ -67,7 +67,7 @@ class YA_Autoloader {
 		$path  = '';
 
 		if ( strpos( $class, 'ya_meta_box' ) === 0 ) {
-			$path = $this->include_path . 'admin/meta-boxes/';
+			$path = $this->include_path . 'meta-boxes/';
 		} elseif ( strpos( $class, 'ya_admin' ) === 0 ) {
 			$path = $this->include_path . 'admin/';
 		} elseif ( strpos( $class, 'ya_api' ) === 0 ) {

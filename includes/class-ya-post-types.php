@@ -128,6 +128,8 @@ class YA_Post_types {
 			) )
 		);
 
+	
+
 		do_action( 'yatco_after_register_taxonomy' );
 	}
 	

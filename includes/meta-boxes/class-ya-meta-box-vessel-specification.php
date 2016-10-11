@@ -97,8 +97,6 @@ class 	YA_Meta_Box_Vessel_Specification {
 				}
 			}
 		}
-		// Product type + Downloadable/Virtual
-		//wp_set_object_terms( $post_id, $product_type, 'product_type' );
 	}
 
 	/**

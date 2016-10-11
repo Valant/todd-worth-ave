@@ -250,9 +250,7 @@ final class Yatco {
     }
     include_once( 'includes/class-ya-post-types.php' );                               // Registers post types
     include_once( 'includes/class-ya-meta-boxes.php' );                               // Add metaboxes
-    include_once( 'includes/meta-boxes/class-ya-meta-box-photo-gallery.php' );        // Photo gallery metabox
-    include_once( 'includes/meta-boxes/class-ya-meta-box-videos.php' );               // Video metabox
-    include_once( 'includes/meta-boxes/class-ya-meta-box-vessel-specification.php' ); // Vessel specification metabox
+    include_once( 'includes/class-ya-attributes.php' );                               // Registers post types
   }
   /**
    * Include required ajax files.

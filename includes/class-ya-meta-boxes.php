@@ -24,13 +24,11 @@ class YA_Meta_Boxes {
 	public static function init() {
 		add_action( 'add_meta_boxes' , array( __CLASS__, 'remove_meta_boxes' ), 99 );
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ), 100, 1 );
-		add_action( 'admin_init', array( __CLASS__, 'save' ), 100 );
+		add_action( 'admin_init', array( __CLASS__, 'reload_vessel' ), 100 );
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 100 );
 
 
-		add_action( 'save_post', array( 'YA_Meta_Box_Photo_Gallery', 'save' ), 777, 2 );
-		add_action( 'save_post', array( 'YA_Meta_Box_Videos', 'save' ), 778, 2 );
-		add_action( 'save_post', array( 'YA_Meta_Box_Vessel_Specification', 'save' ), 779, 2 );
+		add_action( 'save_post', array( __CLASS__, 'save' ), 777, 2 );		
 	}
 
 	public static function remove_meta_boxes()
@@ -92,7 +90,17 @@ class YA_Meta_Boxes {
 	 *
 	 * @param int $post_id The ID of the post being saved.
 	 */
-	public static function save( ) {
+	public static function save($post_id, $post) {
+		if ( isset( $_GET['reload_vessel'] ) )
+			return;
+		
+		YA_Meta_Box_Photo_Gallery::save($post_id, $post);
+		YA_Meta_Box_Videos::save($post_id, $post);
+		YA_Meta_Box_Vessel_Specification::save($post_id, $post);
+	}
+
+
+	public static function reload_vessel( ) {
 	
 		/*
 		 * We need to verify this came from the our screen and with proper authorization,

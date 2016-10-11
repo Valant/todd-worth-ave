@@ -175,7 +175,7 @@ function ya_wp_checkbox( $field ) {
 function ya_wp_taxonomy( $field ) {
 	global $thepostid, $post;
 	
-	$options    = array();
+	$options    = array('' => '');
 	$post_term  = '';
 	if( isset($field['taxonomy']) && !empty($field['taxonomy']) && taxonomy_exists($field['taxonomy']) ){
 		$terms = get_terms( $field['taxonomy'], 'hide_empty=0' );
@@ -210,21 +210,38 @@ function ya_wp_select( $field ) {
 	$field['wrapper_class'] = isset( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
 	$field['value']         = isset( $field['value'] ) ? $field['value'] : get_post_meta( $thepostid, $field['id'], true );
 	$field['name']          = isset( $field['name'] ) ? $field['name'] : $field['id'];
+	
+	$field['split_symbol']  = isset( $field['split_symbol'] ) ? $field['split_symbol'] : '';
+	
 
 	// Custom attribute handling
 	$custom_attributes = array();
+	$name_sufix = '';
 
 	if ( ! empty( $field['custom_attributes'] ) && is_array( $field['custom_attributes'] ) ) {
 
 		foreach ( $field['custom_attributes'] as $attribute => $value ){
 			$custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $value ) . '"';
 		}
+
+		if( isset($field['custom_attributes']['multiple'] )){
+			$name_sufix = '[]';
+
+			if( !empty($field['split_symbol'])){
+				$field['value'] = !is_array($field['value']) ? explode($field['split_symbol'], $field['value']) : $field['value'];
+			}
+
+		}
 	}
 
-	echo '<p class="form-field ' . esc_attr( $field['id'] ) . '_field ' . esc_attr( $field['wrapper_class'] ) . '"><label for="' . esc_attr( $field['id'] ) . '">' . wp_kses_post( $field['label'] ) . '</label><select id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $field['name'] ) . '" class="' . esc_attr( $field['class'] ) . '" style="' . esc_attr( $field['style'] ) . '" ' . implode( ' ', $custom_attributes ) . '>';
+	echo '<p class="form-field ' . esc_attr( $field['id'] ) . '_field ' . esc_attr( $field['wrapper_class'] ) . '"><label for="' . esc_attr( $field['id'] ) . '">' . wp_kses_post( $field['label'] ) . '</label><select id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $field['name'] ) . $name_sufix .'" class="' . esc_attr( $field['class'] ) . '" style="' . esc_attr( $field['style'] ) . '" ' . implode( ' ', $custom_attributes ) . '>';
 
 	foreach ( $field['options'] as $key => $value ) {
-		echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $field['value'] ), esc_attr( $key ), false ) . '>' . esc_html( $value ) . '</option>';
+		if( is_array($field['value']) ){
+			echo '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( esc_attr( $key ), $field['value'] ), true, false ) . '>' . esc_html( $value ) . '</option>';
+		}else{
+			echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $field['value'] ), esc_attr( $key ), false ) . '>' . esc_html( $value ) . '</option>';			
+		}
 	}
 
 	echo '</select> ';

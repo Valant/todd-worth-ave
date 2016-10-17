@@ -226,7 +226,7 @@ class YA_Admin_Welcome {
 				<div id="message" style="display: none;"></div>
 				<?php 
 				$yatco_api_key = get_option('yatco_api_key');
-				$api = new YA_API();
+				$api = new YA_Admin_API();
 				if($yatco_api_key){
 					?>
 					<p>

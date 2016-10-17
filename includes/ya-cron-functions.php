@@ -5,7 +5,7 @@
 function ya_load_modification_list()
 {
     include_once( 'admin/class-ya-admin.php' );
-    $api = new YA_API();
+    $api = new YA_Admin_API();
     $modification_list = $api->load_modification_list();
     if ( $modification_list ) {
         foreach ( $modification_list as $VesselID ) {
@@ -27,7 +27,7 @@ add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list');
 function yatco_cron_recheck_vassel($limit)
 {
     include_once( 'admin/class-ya-admin.php' );
-    $api = new YA_API();
+    $api = new YA_Admin_API();
     global $wpdb;
 
     if ( !$limit ) {

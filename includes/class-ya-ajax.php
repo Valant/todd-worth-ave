@@ -41,7 +41,7 @@ class YA_AJAX {
 		$answer      = array();
 		if( isset($_POST['page_id']) && !empty($_POST['page_id'])){
 			$page_id     = (int)$_POST['page_id'];
-			$api         = new YA_API();
+			$api         = new YA_Admin_API();
 			$vessel_list = $api->load_page($page_id);
 			if($vessel_list){
 				foreach ($vessel_list as $vessel) {

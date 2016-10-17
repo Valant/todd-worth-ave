@@ -3,7 +3,7 @@
  * Plugin Name: Yatco
  * Plugin URI: http://valant.com.ua
  * Description: 
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Valant
  * Author URI: http://valant.com.ua
  * Requires at least: 4.1.0.0
@@ -251,6 +251,9 @@ final class Yatco {
     include_once( 'includes/class-ya-post-types.php' );                               // Registers post types
     include_once( 'includes/class-ya-meta-boxes.php' );                               // Add metaboxes
     include_once( 'includes/class-ya-attributes.php' );                               // Registers post types
+
+    $this->api   = new YA_API();
+
   }
   /**
    * Include required ajax files.

@@ -27,6 +27,13 @@ class YA_Meta_Boxes {
 		add_action( 'admin_init', array( __CLASS__, 'reload_vessel' ), 100 );
 		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 100 );
 
+		foreach (array('vessel_amenities', 'vessel_toys') as $t_key) {
+			add_action( $t_key . '_add_form_fields', array( __CLASS__, 'taxonomy_add_image_url' ), 10 );
+			add_action( $t_key . '_edit_form_fields', array( __CLASS__, 'taxonomy_edit_image_url' ), 10 );
+			add_action( 'edited_' . $t_key, array( __CLASS__, 'save_taxonomy_custom_meta' ), 10);  
+			add_action( 'create_' . $t_key, array( __CLASS__, 'save_taxonomy_custom_meta' ), 10);
+		}
+
 
 		add_action( 'save_post', array( __CLASS__, 'save' ), 777, 2 );		
 	}
@@ -121,7 +128,7 @@ class YA_Meta_Boxes {
 
 		$VesselID = (int)$_GET['reload_vessel'];
 		if( $VesselID && $VesselID > 0 ){
-			$api      = new YA_API();
+			$api      = new YA_Admin_API();
 			$vessel_detail          = $api->load_vessel_detail($VesselID);
 
 	        if( $vessel_detail !== false ) {
@@ -180,6 +187,47 @@ class YA_Meta_Boxes {
 		wp_editor( htmlspecialchars_decode( $post->post_excerpt ), 'excerpt', apply_filters( 'ya_vessel_short_description_editor_settings', $settings ) );
 	}
 
+	// Add term page
+	public static function taxonomy_add_image_url() {
+		// this will add the custom meta field to the add new term page
+		?>
+		<div class="form-field">
+			<label for="term_meta[image_url]"><?php _e( 'Image URL', 'yatco' ); ?></label>
+			<input type="text" name="term_meta[image_url]" id="term_meta[image_url]" value="">
+		</div>
+	<?php
+	}
+
+	// Edit term page
+	public static function taxonomy_edit_image_url($term) {
+	 
+		// put the term ID into a variable
+		$t_id = $term->term_id;
+	 
+		$image_url = get_term_meta( $t_id, "image_url", true ); ?>
+		<tr class="form-field">
+		<th scope="row" valign="top"><label for="term_meta[image_url]"><?php _e( 'Image URL', 'yatco' ); ?></label></th>
+			<td>
+				<input type="text" name="term_meta[image_url]" id="term_meta[image_url]" value="<?php echo esc_attr( $image_url ) ? esc_attr( $image_url ) : ''; ?>">
+			</td>
+		</tr>
+	<?php
+	}
+
+	// Save extra taxonomy fields callback function.
+	public static function save_taxonomy_custom_meta($term_id )
+	{
+		if ( isset( $_POST['term_meta'] ) ) {
+
+			$cat_keys = array_keys( $_POST['term_meta'] );
+			foreach ( $cat_keys as $meta_key ) {
+				if ( isset ( $_POST['term_meta'][$meta_key] ) ) {
+					update_term_meta( $term_id, $meta_key, $_POST['term_meta'][$meta_key] );
+				}
+			}
+		}
+	}
+	
 
 	public static function admin_notices()
 	{

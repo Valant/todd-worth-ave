@@ -68,10 +68,10 @@ class YA_Autoloader {
 
 		if ( strpos( $class, 'ya_meta_box' ) === 0 ) {
 			$path = $this->include_path . 'meta-boxes/';
+		} elseif ( strpos( $class, 'ya_admin_api' ) === 0 ) {
+			$path = $this->include_path . 'admin/api/';
 		} elseif ( strpos( $class, 'ya_admin' ) === 0 ) {
 			$path = $this->include_path . 'admin/';
-		} elseif ( strpos( $class, 'ya_api' ) === 0 ) {
-			$path = $this->include_path . 'admin/api/';
 		}
 
 		if ( empty( $path ) || ( ! $this->load_file( $path . $file ) && strpos( $class, 'ya_' ) === 0 ) ) {

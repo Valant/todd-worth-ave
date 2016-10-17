@@ -71,22 +71,22 @@ class YA_Post_types {
   				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			) )
 		);
-	register_taxonomy( 'vessel_company',
+		register_taxonomy( 'vessel_company',
 			apply_filters( 'yatco_taxonomy_objects_vessel_company', 'vessel' ),
 			apply_filters( 'yatco_taxonomy_args_vessel_company', array(
-				'label'                 => __( 'Vessel Companies', 'yatco' ),
+				'label'                 => __( 'Brokers', 'yatco' ),
 				'labels' => array(
-						'name'              => __( 'Vessel Companies', 'yatco' ),
-						'singular_name'     => __( 'Vessel Company', 'yatco' ),
-						'menu_name'         => _x( 'Companies', 'Admin menu name', 'yatco' ),
-						'search_items'      => __( 'Search Vessel Companies', 'yatco' ),
-						'all_items'         => __( 'All Vessel Companies', 'yatco' ),
-						'parent_item'       => __( 'Parent Vessel Company', 'yatco' ),
-						'parent_item_colon' => __( 'Parent Vessel Company:', 'yatco' ),
-						'edit_item'         => __( 'Edit Vessel Company', 'yatco' ),
-						'update_item'       => __( 'Update Vessel Company', 'yatco' ),
-						'add_new_item'      => __( 'Add New Vessel Company', 'yatco' ),
-						'new_item_name'     => __( 'New Vessel Company Name', 'yatco' )
+						'name'              => __( 'Broker', 'yatco' ),
+						'singular_name'     => __( 'Broker', 'yatco' ),
+						'menu_name'         => _x( 'Brokers', 'Admin menu name', 'yatco' ),
+						'search_items'      => __( 'Search Brokers', 'yatco' ),
+						'all_items'         => __( 'All Brokers', 'yatco' ),
+						'parent_item'       => __( 'Parent Broker', 'yatco' ),
+						'parent_item_colon' => __( 'Parent Broker:', 'yatco' ),
+						'edit_item'         => __( 'Edit Broker', 'yatco' ),
+						'update_item'       => __( 'Update Broker', 'yatco' ),
+						'add_new_item'      => __( 'Add New Broker', 'yatco' ),
+						'new_item_name'     => __( 'New Broker Name', 'yatco' )
 					),
 				'hierarchical'          => true,
 				'public'                => false,
@@ -95,26 +95,26 @@ class YA_Post_types {
 				'query_var'             => true,
 				'rewrite'               => false,
 				'show_in_rest'          => true,
-  				'rest_base'             => 'vessel_company',
+  				'rest_base'             => 'broker',
   				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			) )
 		);
-	register_taxonomy( 'vessel_builder',
+		register_taxonomy( 'vessel_builder',
 			apply_filters( 'yatco_taxonomy_objects_vessel_builder', 'vessel' ),
 			apply_filters( 'yatco_taxonomy_args_vessel_builder', array(
-				'label'                 => __( 'Vessel Builders', 'yatco' ),
+				'label'                 => __( 'Builders', 'yatco' ),
 				'labels' => array(
-						'name'              => __( 'Vessel Builders', 'yatco' ),
-						'singular_name'     => __( 'Vessel Builder', 'yatco' ),
+						'name'              => __( 'Builder', 'yatco' ),
+						'singular_name'     => __( 'Builder', 'yatco' ),
 						'menu_name'         => _x( 'Builders', 'Admin menu name', 'yatco' ),
-						'search_items'      => __( 'Search Vessel Builders', 'yatco' ),
-						'all_items'         => __( 'All Vessel Builders', 'yatco' ),
-						'parent_item'       => __( 'Parent Vessel Company', 'yatco' ),
-						'parent_item_colon' => __( 'Parent Vessel Builder:', 'yatco' ),
-						'edit_item'         => __( 'Edit Vessel Builder', 'yatco' ),
-						'update_item'       => __( 'Update Vessel Builder', 'yatco' ),
-						'add_new_item'      => __( 'Add New Vessel Builder', 'yatco' ),
-						'new_item_name'     => __( 'New Vessel Builder Name', 'yatco' )
+						'search_items'      => __( 'Search Builders', 'yatco' ),
+						'all_items'         => __( 'All Builders', 'yatco' ),
+						'parent_item'       => __( 'Parent Builder', 'yatco' ),
+						'parent_item_colon' => __( 'Parent Builder:', 'yatco' ),
+						'edit_item'         => __( 'Edit Builder', 'yatco' ),
+						'update_item'       => __( 'Update Builder', 'yatco' ),
+						'add_new_item'      => __( 'Add New Builder', 'yatco' ),
+						'new_item_name'     => __( 'New Builder Name', 'yatco' )
 					),
 				'hierarchical'          => false,
 				'public'                => false,
@@ -123,7 +123,64 @@ class YA_Post_types {
 				'query_var'             => true,
 				'rewrite'               => false,
 				'show_in_rest'          => true,
-  				'rest_base'             => 'vessel_builder',
+  				'rest_base'             => 'builder',
+  				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			) )
+		);
+
+		register_taxonomy( 'vessel_amenities',
+			apply_filters( 'yatco_taxonomy_objects_vessel_amenities', 'vessel' ),
+			apply_filters( 'yatco_taxonomy_args_vessel_amenities', array(
+				'label'                 => __( 'Vessel Amenities', 'yatco' ),
+				'labels' => array(
+						'name'              => __( 'Amenities', 'yatco' ),
+						'singular_name'     => __( 'Amenity', 'yatco' ),
+						'menu_name'         => _x( 'Amenities', 'Admin menu name', 'yatco' ),
+						'search_items'      => __( 'Search Amenities', 'yatco' ),
+						'all_items'         => __( 'All Amenities', 'yatco' ),
+						'parent_item'       => __( 'Parent Amenity', 'yatco' ),
+						'parent_item_colon' => __( 'Parent Amenity:', 'yatco' ),
+						'edit_item'         => __( 'Edit Amenity', 'yatco' ),
+						'update_item'       => __( 'Update Amenity', 'yatco' ),
+						'add_new_item'      => __( 'Add New Amenity', 'yatco' ),
+						'new_item_name'     => __( 'New Amenity Name', 'yatco' )
+					),
+				'hierarchical'          => true,
+				'public'                => false,
+				'show_admin_column'     => false,
+				'show_ui'               => true,
+				'query_var'             => true,
+				'rewrite'               => false,
+				'show_in_rest'          => true,
+  				'rest_base'             => 'amenities',
+  				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			) )
+		);
+		register_taxonomy( 'vessel_toys',
+			apply_filters( 'yatco_taxonomy_objects_vessel_amenities', 'vessel' ),
+			apply_filters( 'yatco_taxonomy_args_vessel_amenities', array(
+				'label'                 => __( 'Vessel Toys', 'yatco' ),
+				'labels' => array(
+						'name'              => __( 'Toys', 'yatco' ),
+						'singular_name'     => __( 'Toy', 'yatco' ),
+						'menu_name'         => _x( 'Toys', 'Admin menu name', 'yatco' ),
+						'search_items'      => __( 'Search Toys', 'yatco' ),
+						'all_items'         => __( 'All Toys', 'yatco' ),
+						'parent_item'       => __( 'Parent Toy', 'yatco' ),
+						'parent_item_colon' => __( 'Parent Toy:', 'yatco' ),
+						'edit_item'         => __( 'Edit Toy', 'yatco' ),
+						'update_item'       => __( 'Update Toy', 'yatco' ),
+						'add_new_item'      => __( 'Add New Toy', 'yatco' ),
+						'new_item_name'     => __( 'New Toy Name', 'yatco' )
+					),
+				'hierarchical'          => true,
+				'public'                => false,
+				'show_admin_column'     => false,
+				'show_ui'               => true,
+				'query_var'             => true,
+				'rewrite'               => false,
+				'show_in_rest'          => true,
+  				'rest_base'             => 'toys',
   				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			) )
 		);

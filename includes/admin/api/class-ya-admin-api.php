@@ -18,7 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class YA_Admin_API {
 
-    protected $api_key = '';
+    protected $apikey = '';
+    protected $taxonomies = null;
     protected $cron_recurrence = '';
     protected $admin_id = 0;
     protected $vessel_detail = false;
@@ -28,7 +29,8 @@ class YA_Admin_API {
      */
     public function __construct() {
         global $ya_countries;
-        $this->apikey = get_option('yatco_api_key');
+        $this->apikey       = get_option('yatco_api_key');
+        $this->taxonomies   = YA_Taxonomies::get_taxonomies_names();
         $ya_countries = ya_get_countries();
 
         $recurrence = get_option( 'yatco_cron_schedule' );
@@ -372,6 +374,15 @@ class YA_Admin_API {
             if(isset($result->Builder) && !empty($result->Builder) ){
                 $this->set_builders($post_id, $result->Builder);
             }
+
+            if( $this->taxonomies && is_array($this->taxonomies) ){
+                foreach ($this->taxonomies as $yatco_key => $taxonomy) {
+                    if(isset($result->$yatco_key) && !empty($result->$yatco_key) ){
+                        $this->set_term($post_id, $taxonomy['slug'], $result->$yatco_key);
+                    }
+                }                
+            }
+
 
 
             //Save post thumbnail

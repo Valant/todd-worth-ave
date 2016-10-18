@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 include_once( 'ya-cron-functions.php' );
 include_once( 'ya-vessel-functions.php' );
 include_once( 'ya-meta-box-functions.php' );
+include_once( 'ya-conversion-functions.php' );
 
 /**
  * Retrieve page ids - used for myaccount, edit_address, shop, cart, checkout, pay, view_order, terms. returns -1 if no page is found
@@ -139,6 +140,7 @@ function ya_get_volume_units() {
             'ltr'     => __('Liters', 'yatco')
         );
 }
+
 
 /**
  * Get Base Currency Code.

@@ -40,6 +40,11 @@ class YA_Meta_Boxes {
 
 	public static function remove_meta_boxes()
 	{
+		$taxonomies = YA_Taxonomies::get_taxonomies_names();
+		foreach ($taxonomies as $key => $value) {
+			remove_meta_box( 'tagsdiv-' . $value['slug'], 'vessel' , 'side' ); 
+		}
+
 		remove_meta_box( 'tagsdiv-vessel_builder' , 'vessel' , 'side' ); 
 		remove_meta_box( 'postcustom' , 'vessel' , 'normal' ); 
 		remove_meta_box( 'postexcerpt', 'vessel', 'normal' );

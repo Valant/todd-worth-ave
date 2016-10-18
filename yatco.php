@@ -179,6 +179,10 @@ final class Yatco {
     wp_register_style( $this->token . '-fonts', esc_url( $this->assets_url ) . 'css/yatco-fonts.css', array(), $this->version );
     wp_register_style( $this->token . '-select2', esc_url( $this->assets_url ) . 'css/select2.css', array(), $this->version );
     wp_register_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
+    
+    if( $screen_id == 'edit-vessel'){
+      wp_enqueue_style( $this->token . '-admin', esc_url( $this->assets_url ) . 'css/admin.css', $depth, $this->version );      
+    }
     if( $screen_id == 'vessel'){
       $depth = array(
         $this->token . '-fonts',
@@ -250,7 +254,7 @@ final class Yatco {
     }
     include_once( 'includes/class-ya-post-types.php' );                               // Registers post types
     include_once( 'includes/class-ya-meta-boxes.php' );                               // Add metaboxes
-    include_once( 'includes/class-ya-attributes.php' );                               // Registers post types
+    include_once( 'includes/class-ya-taxonomies.php' );                               // Register taxonomies
 
     $this->api   = new YA_API();
 

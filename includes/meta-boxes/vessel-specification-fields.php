@@ -28,8 +28,8 @@ return array(
                   'label'       => __( 'Vessel Type', 'yatco' ),
                   'type'        => 'select',
                   'options' => array(
-                    'Motorboat' => __( 'Motor', 'yatco' ),
-                    'Sailboat'  => __( 'Sail', 'yatco' ),
+                    'Motorboat' => __( 'Motorboat', 'yatco' ),
+                    'Sailboat'  => __( 'Sailboat', 'yatco' ),
                   ) 
                 ),
                 array(
@@ -42,7 +42,12 @@ return array(
                 ),
                 array(
                   'id'          => 'Condition',
-                  'label'       => __( 'Condition', 'yatco' )
+                  'label'       => __( 'Condition', 'yatco' ),
+                  'type'        => 'select',
+                  'options' => array(
+                    'Used' => __( 'Used', 'yatco' ),
+                    'New'  => __( 'New', 'yatco' ),
+                  ) 
                 ),
                 array(
                   'id'          => 'CruiseSpeed',
@@ -82,16 +87,20 @@ return array(
                 array(
                   'id'          => 'HullHullColor',
                   'label'       => __( 'Hull Color', 'yatco' ),
-                  //'class'       => 'ya-enhanced-color',
+                  'type'        => 'taxonomy',
+                  'taxonomy'    => 'hull_color',
+                  'style'             => 'width: 50%;',
+                  'class'             => 'ya-enhanced-select',
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Color', 'yatco' ))
                 ),
                 array(
                   'id'          => 'HullInteriorDesigner',
                   'label'       => __( 'Decorator', 'yatco' ),
-                  'type'        => 'select',
-                  'options' => array(
-                    '1' => __( '1', 'yatco' ),
-                    '2'  => __( '2', 'yatco' ),
-                  ) 
+                  'type'        => 'taxonomy',
+                  'taxonomy'    => 'decorator',
+                  'style'             => 'width: 50%;',
+                  'class'             => 'ya-enhanced-select',
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Decorator', 'yatco' ) )
                 ),
           ),
         ),
@@ -135,11 +144,11 @@ return array(
                  array(
                   'id'          => 'VesselTop',
                   'label'       => __( 'Top', 'yatco' ),
-                  'type'        => 'select',
-                  'options' => array(
-                    '1'  => __( '1', 'yatco' ),
-                    '2'  => __( '2', 'yatco' ),
-                  )
+                  'type'        => 'taxonomy',
+                  'taxonomy'    => 'vessel_top',
+                  'style'             => 'width: 50%;',
+                  'class'             => 'ya-enhanced-select',
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Top', 'yatco' ))
                 ),
           ),
       ),
@@ -171,7 +180,7 @@ return array(
                   'taxonomy'    => 'vessel_builder',
                   'style'             => 'width: 50%;',
                   'class'             => 'ya-enhanced-select',
-                  'custom_attributes' => array('data-allow_clear' => 'true')
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Builder', 'yatco' ))
                 ),  
 
         ),
@@ -191,20 +200,20 @@ return array(
                 array(
                   'id'          => 'HullHullDesigner',
                   'label'       => __( 'Naval Architect', 'yatco' ),
-                  'type'        => 'select',
-                  'options' => array(
-                    '1'  => __( '1', 'yatco' ),
-                    '2'  => __( '2', 'yatco' ),
-                  ) 
+                  'type'        => 'taxonomy',
+                  'taxonomy'    => 'naval_architect',
+                  'style'             => 'width: 50%;',
+                  'class'             => 'ya-enhanced-select',
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Naval Architect', 'yatco' )) 
                 ),
                 array(
                   'id'          => 'HullHullMaterial',
                   'label'       => __( 'Hull Material', 'yatco' ),
-                  'type'        => 'select',
-                  'options' => array(
-                    '1'  => __( '1', 'yatco' ),
-                    '2'  => __( '2', 'yatco' ),
-                  ) 
+                  'type'        => 'taxonomy',
+                  'taxonomy'    => 'hull_material',
+                  'style'             => 'width: 50%;',
+                  'class'             => 'ya-enhanced-select',
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Hull Material', 'yatco' )) 
                 ),
           )
       ),
@@ -241,20 +250,11 @@ return array(
                 array(
                   'id'           => 'FuelType',
                   'label'        => __( 'Fuel Type', 'yatco' ),
-                  'type'         => 'select',
-                  'class'        => 'select short ya-enhanced-select',
-                  'options'      => array(
-                        'Diesel'    => __('Diesel','yatco'),
-                        'Petrol'    => __('Petrol', 'yatco'),
-                        'Gas'       => __('Gas', 'yatco'),
-                        'Electric'  => __('Electric', 'yatco'),
-                        'Other'     => __('Other', 'yatco'),
-                    ),
-                  'split_symbol' => '/',
-                  'custom_attributes' => array(
-                      'data-placeholder' => __('Select Fuel Type', 'yatco'),
-                      'multiple' => 'multiple'
-                  )
+                  'type'        => 'taxonomy',
+                  'taxonomy'    => 'fuel_type',
+                  'style'             => 'width: 50%;',
+                  'class'             => 'ya-enhanced-select',
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Fuel Type', 'yatco' ))
                 ),
                 array(
                   'id'          => 'HoldingTank',
@@ -267,8 +267,10 @@ return array(
                   'label'       => __( 'Tank Material', 'yatco' ),
                   'type'        => 'select',
                   'options'     => array(
-                        '1'    => __('1','yatco'),
-                        '2'     => __('2', 'yatco')
+                        'Aluminum'            => __('Aluminum','yatco'),
+                        'Stainless Steel'     => __('Stainless Steel', 'yatco'),
+                        'Steel'               => __('Steel', 'yatco'),
+                        'Fiberglass'          => __('Fiberglass', 'yatco'),
                     )
                 ),
                 array(
@@ -276,8 +278,10 @@ return array(
                   'label'       => __( 'Fresh Water Tank', 'yatco' ),
                   'type'        => 'select',
                   'options'     => array(
-                        '1'    => __('1','yatco'),
-                        '2'     => __('2', 'yatco')
+                        'Aluminum'            => __('Aluminum','yatco'),
+                        'Stainless Steel'     => __('Stainless Steel', 'yatco'),
+                        'Steel'               => __('Steel', 'yatco'),
+                        'Fiberglass'          => __('Fiberglass', 'yatco'),
                     )
                 ),
                 array(
@@ -402,28 +406,28 @@ return array(
                 array(
                   'id'          => 'EngineEngineModel',
                   'label'       => __( 'Engine Model', 'yatco' ),
-                  'type'        => 'select',
-                  'options'     => array(
-                        '1'    => __('1','yatco'),
-                        '2'     => __('2', 'yatco')
-                    )
+                  'type'        => 'taxonomy',
+                  'taxonomy'    => 'engine_model',
+                  'style'             => 'width: 50%;',
+                  'class'             => 'ya-enhanced-select',
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Engine Model', 'yatco' ))
                 ),
                 array(
                   'id'          => 'EngineManufacturer',
                   'label'       => __( 'Engine Manufacturer', 'yatco' ),
-                  'type'        => 'select',
-                  'options'     => array(
-                        '1'    => __('1','yatco'),
-                        '2'     => __('2', 'yatco')
-                    )
+                  'type'        => 'taxonomy',
+                  'taxonomy'    => 'engine_manufacturer',
+                  'style'             => 'width: 50%;',
+                  'class'             => 'ya-enhanced-select',
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Engine Manufacturer', 'yatco' ))
                 ),
                 array(
                   'id'          => 'EngineType',
                   'label'       => __( 'Engine Type', 'yatco' ),
                   'type'        => 'select',
                   'options'     => array(
-                        '1'    => __('1','yatco'),
-                        '2'     => __('2', 'yatco')
+                        'I/O'         => __('I/O','yatco'),
+                        'Inboard'     => __('Inboard', 'yatco')
                     )
                 ),
                 array(
@@ -431,8 +435,9 @@ return array(
                   'label'       => __( 'Propulsion Type', 'yatco' ),
                   'type'        => 'select',
                   'options'     => array(
-                        '1'    => __('1','yatco'),
-                        '2'     => __('2', 'yatco')
+                        'Twin Screw'       => __('Twin Screw','yatco'),
+                        'Direct Drive'     => __('Direct Drive', 'yatco'),
+                        'Folding Prop'     => __('Folding Prop', 'yatco'),
                     )
                 ),
                 array(
@@ -724,7 +729,7 @@ return array(
                   'style'             => 'width: 50%;',
                   'class'             => 'ya-enhanced-select',
                   'options'           => array('' => '') + ya_get_countries(),
-                  'custom_attributes' => array('data-allow_clear' => 'true')
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Country', 'yatco' ))
                 ),
                 array(
                   'id'          => 'LocationState',

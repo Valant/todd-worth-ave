@@ -23,7 +23,10 @@ function ya_convert_measurement($value = 0, $from = '', $to = '') {
 
   $func_name = strtolower($from) . '_to_' . strtolower($to);
   if ( function_exists($func_name)) {
-    call_user_func($func_name, $value);
+    $result = call_user_func($func_name, $value);
+    return $result;
+  }else{
+    return false;
   }
 }
 

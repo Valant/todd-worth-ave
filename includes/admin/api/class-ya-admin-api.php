@@ -499,6 +499,32 @@ class YA_Admin_API {
                             }
 
                         }
+                        if( !empty($value) ){
+                            foreach ($all_units as $uk => $uv) {
+                                $_value = '';
+                                $_uk    = '';
+
+                                $unit_keys = $this->get_unitnames($uk);
+
+                                if( isset($my_data[$key . $unit_keys[0] ]) ){
+                                    $_value = $my_data[$key . $unit_keys[0]];
+                                    $_uk = $unit_keys[0];
+                                }else if( isset($my_data[$key . $unit_keys[1]]) ){
+                                    $_value = $my_data[$key . $unit_keys[1]];
+                                    $_uk = $unit_keys[1];
+                                }
+/*var_dump($_value . ' ' .$_uk);
+$_value = '';*/
+                                if( empty($_value) && !empty($_uk) ){
+                                    $_value = ya_convert_measurement($value, $unit, $uk);
+                                    if( $_value && !empty($_value) ){
+                                        $my_data[$key . $_uk] = $_value;
+#var_dump( $value .''. $unit . ' to '. $uk . ' = ' . $_value . ' ( '.$key . $_uk. ')');                                        
+                                    }
+                                }
+
+                            }
+                        }
 
                         update_post_meta( $post_id, $key, $value );
                         update_post_meta( $post_id, $key . '_unit', $unit );

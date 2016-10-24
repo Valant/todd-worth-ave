@@ -38,21 +38,22 @@ function ya_convert_measurement($value = 0, $from = '', $to = '') {
  * @return float
  */
 function kilos_to_pounds($kg){
-    return $kg * 2.20462;
+    return round($kg * 2.20462, 4);
 }
+
 /**
  * Convert Kilograms to Short Tons (US)
  * @return float
  */
 function kilos_to_shortton($kg){
-  return $kg * 0.0011023;
+  return round($kg * 0.0011023, 4);
 }
 /**
  * Convert Kilograms to Metric Tons (or Tonnes)
  * @return float
  */
 function kilos_to_tonne($kg){
-  return $kg / 1000;
+  return round($kg / 1000, 4);
 }
 
 
@@ -66,7 +67,7 @@ function kilos_to_tonne($kg){
  * @return float
  */
 function pounds_to_kilos($lb){
-  return $lb / 2.2046;
+  return round($lb / 2.2046, 4);
 }
 
 /**
@@ -74,7 +75,7 @@ function pounds_to_kilos($lb){
  * @return float
  */
 function pounds_to_shortton($lb){
-  return $lb * 0.00050000;
+  return round($lb * 0.00050000, 4);
 }
 
 
@@ -83,7 +84,7 @@ function pounds_to_shortton($lb){
  * @return float
  */
 function pounds_to_tonne($lb){
-  return $lb / 2204.6;
+  return round($lb / 2204.6, 4);
 }
 
 /********Short Tons (US) Conversion*******
@@ -96,7 +97,7 @@ function pounds_to_tonne($lb){
  * @return float
  */
 function shortton_to_kilos($st){
-  return $st / 0.0011023;
+  return round($st / 0.0011023, 4);
 }
 
 /**
@@ -104,7 +105,7 @@ function shortton_to_kilos($st){
  * @return float
  */
 function shortton_to_pounds($st){
-  return $st * 2000.0;
+  return round($st * 2000.0, 4);
 }
 
 /**
@@ -112,7 +113,7 @@ function shortton_to_pounds($st){
  * @return float
  */
 function shortton_to_tonne($st){
-  return $st / 1.1023;
+  return round($st / 1.1023, 4);
 } 
 
 /***********Tonnes Conversion************/
@@ -122,7 +123,7 @@ function shortton_to_tonne($st){
  * @return float
  */
 function tonne_to_kilos($t){
-  return $t / 0.0010000;
+  return round($t / 0.0010000, 4);
 }
 
 /**
@@ -130,7 +131,7 @@ function tonne_to_kilos($t){
  * @return float
  */
 function tonne_to_pounds($t){
-  return $t * 2204.6;
+  return round($t * 2204.6, 4);
 }
 
 
@@ -139,7 +140,7 @@ function tonne_to_pounds($t){
  * @return float
  */
 function tonne_to_shortton($t){
-  return $t * 1.1023;
+  return round($t * 1.1023, 4);
 }
 
 /**********Knots conversion*********
@@ -151,7 +152,7 @@ function tonne_to_shortton($t){
  * @return float
  */
 function knots_to_mph($knots){
-  return $knots * 1852.000;
+  return round($knots * 1.151, 4);
 }
 
 /**
@@ -159,7 +160,7 @@ function knots_to_mph($knots){
  * @return float
  */
 function mph_to_knots($mph){
-  return $mph / 1852.000;
+  return round($mph / 1.151, 4);
 }
 
 /**********Meters Conversion*********
@@ -170,7 +171,7 @@ function mph_to_knots($mph){
  * @return float
  */
 function meters_to_feet($m){
-  return $m * 3.2808;
+  return round($m * 3.2808, 4);
 }
 
 /**
@@ -178,7 +179,7 @@ function meters_to_feet($m){
  * @return float
  */
 function feet_to_meters($ft){
-  return $ft / 3.2808;
+  return round($ft / 3.2808, 4);
 }
 
 
@@ -191,7 +192,7 @@ function feet_to_meters($ft){
  * @return float
  */
 function gal_to_ltr($gal){
-  return $gal / 0.26417;
+  return round($gal / 0.26417, 4);
 }
 
 /**
@@ -199,5 +200,5 @@ function gal_to_ltr($gal){
  * @return float
  */
 function ltr_to_gal($l){
-  return $l * 0.26417;
+  return round($l * 0.26417, 4);
 }

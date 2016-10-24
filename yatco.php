@@ -135,6 +135,7 @@ final class Yatco {
     
     wp_register_script( $this->token . '-select2', esc_url( $this->assets_url ) . 'js/select2/select2' . $this->script_suffix . '.js' , array(), $this->version );      
     wp_register_script( $this->token . '-enhanced-select', esc_url( $this->assets_url ) . 'js/admin/enhanced' . $this->script_suffix . '.js', array( $this->token . '-select2' ), $this->version );
+    wp_register_script( $this->token . '-conversion-functions', esc_url( $this->assets_url ) . 'js/admin/conversion-functions' . $this->script_suffix . '.js' , array(), $this->version );      
     
     wp_localize_script( $this->token . '-enhanced-select', 'ya_enhanced_select_params', array(
       'i18n_matches_1'            => _x( 'One result is available, press enter to select it.', 'enhanced select', 'yatco' ),
@@ -157,7 +158,8 @@ final class Yatco {
         'media-models',
         'wp-color-picker',
         'jquery-ui-datepicker',
-        $this->token . '-enhanced-select'
+        $this->token . '-enhanced-select',
+        $this->token . '-conversion-functions'
       );
       wp_enqueue_script( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'js/admin/meta-boxes' . $this->script_suffix . '.js' , $depth, $this->version );      
     }
@@ -181,7 +183,7 @@ final class Yatco {
     wp_register_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
     
     if( $screen_id == 'edit-vessel'){
-      wp_enqueue_style( $this->token . '-admin', esc_url( $this->assets_url ) . 'css/admin.css', $depth, $this->version );      
+      wp_enqueue_style( $this->token . '-admin', esc_url( $this->assets_url ) . 'css/admin.css', array(), $this->version );      
     }
     if( $screen_id == 'vessel'){
       $depth = array(
@@ -190,7 +192,7 @@ final class Yatco {
       );
       wp_enqueue_style( 'wp-color-picker' );
       wp_enqueue_style( 'jquery-ui' );
-      wp_enqueue_style( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'css/meta-boxes.css', $depth, $this->version );
+      wp_enqueue_style( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'css/meta-boxes.css', array(), $this->version );
     }
 
   } // End admin_enqueue_styles ()

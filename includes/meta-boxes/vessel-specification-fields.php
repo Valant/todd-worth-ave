@@ -390,8 +390,10 @@ return array(
                   'options'     => ya_get_length_units()
                 ),
                 array(
-                  'id'          => 'LOAFeet',
+                  'id'          => 'LOA',
                   'label'       => __( 'Length Overall', 'yatco' ),
+                  'type'        => 'units',
+                  'options'     => ya_get_length_units()
                 ),
             )
       ),

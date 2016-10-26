@@ -41,6 +41,7 @@ function get_vessel_yatco_relations()
         'HoldingTank'     => 'volume',
         'WaterCapacity'   => 'volume',
         'Beam'            => 'length',
+        'LOA'             => 'length',
         'LOD'             => 'length',
         'LWL'             => 'length',
         'MaxDraft'        => 'length',
@@ -58,4 +59,9 @@ function get_vessel_yatco_relations()
         )
     );
 
+}
+
+function get_vessel_length($post_id)
+{
+    $length = get_post_meta($post_id);
 }

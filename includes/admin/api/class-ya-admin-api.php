@@ -476,7 +476,7 @@ class YA_Admin_API {
                     if( function_exists($fanc_name) ){
                         $value        = '';
                         $all_units    = call_user_func($fanc_name);
-                        $unit = $def_unit = get_option('vessel_speed_unit', key($all_units) );
+                        $unit = $def_unit = get_option('vessel_'.$value_type.'_unit', key($all_units) );
                         reset($all_units);
                         
                         foreach ($all_units as $uk => $uv) {
@@ -491,6 +491,11 @@ class YA_Admin_API {
                             }
 
                             if( !empty($_value) ){
+                                if( $uk == 'feet' && strrpos($_value, '"') !== false ){
+                                    $_value = str_replace('"', '', $_value);
+                                    $parts = array_map('floatval', explode("'", $_value));
+                                    $_value = round($parts[0] + $parts[1] * 0.0833, 2);
+                                }
                                 $value = $_value;
                                 $unit  = $uk;
                             }

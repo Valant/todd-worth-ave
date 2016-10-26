@@ -28,8 +28,10 @@ class YA_Post_types {
 		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 6 );
 		add_action( 'init', array( __CLASS__, 'support_jetpack_omnisearch' ) );
 
-		add_action( 'manage_vessel_posts_columns' , array( __CLASS__, 'manage_vessel_columns' ), 10, 1 );
-		add_action( 'manage_vessel_posts_custom_column' , array( __CLASS__, 'display_vessel_column' ), 10, 2 );
+		add_filter( 'manage_vessel_posts_columns' , array( __CLASS__, 'manage_vessel_columns' ), 20, 1 );
+		add_action( 'manage_vessel_posts_custom_column' , array( __CLASS__, 'display_vessel_column' ), 20, 2 );
+		add_filter( 'manage_edit-vessel_sortable_columns' , array( __CLASS__, 'sortable_vessel_columns' ), 20, 1 );
+		add_action( 'load-edit.php', array( __CLASS__, 'orderby_vessel_columns' ) );
 
 		add_filter('post_row_actions', array( __CLASS__, 'reload_vessel_action' ), 10, 2);
 	}
@@ -105,7 +107,15 @@ class YA_Post_types {
 
 	public static function manage_vessel_columns($columns)
 	{
-		return array_merge( $columns, array( 'source' => __( 'Source', 'yatco' ) ) );
+		$new_columns = array();
+		foreach ($columns as $key => $label) {
+			$new_columns[$key] = $label;
+			if( $key == 'title'){
+				$new_columns['length'] = __( 'Length', 'yatco' );
+			}
+		}
+		$new_columns['source'] = __( 'Source', 'yatco' );
+		return $new_columns;
 	}
 
 	public static function display_vessel_column($column, $post_id)
@@ -113,6 +123,52 @@ class YA_Post_types {
 		if ($column == 'source'){
 	        echo ya_get_source($post_id);
 	    }
+	    if ($column == 'length'){
+	    	$units    = ya_get_length_units();
+	        $def_unit = get_option('vessel_length_unit', key($units));
+	        $_unit    = ucfirst($def_unit);
+	        $length   = get_post_meta($post_id, 'LOA'.$_unit, true);
+
+	        if(isset($units[$def_unit]) && !empty($length)){
+	        	echo $length . ' ' . $units[$def_unit];
+	        }
+	    }
+	}
+
+	public function sortable_vessel_columns( $columns )
+	{
+		$columns['length'] = 'length';
+		return $columns;
+	}
+
+	public function orderby_vessel_columns( $columns )
+	{
+		add_filter( 'request',  array( __CLASS__, 'sort_vessels' ) );
+	}
+
+	public function sort_vessels( $vars )
+	{
+		/* Check if we're viewing the 'vessel' post type. */
+		if ( isset( $vars['post_type'] ) && 'vessel' == $vars['post_type'] ) {
+
+			/* Check if 'orderby' is set to 'length'. */
+			if ( isset( $vars['orderby'] ) && 'length' == $vars['orderby'] ) {
+
+				/* Merge the query vars with our custom variables. */
+				$units    = ya_get_length_units();
+				$def_unit = get_option('vessel_length_unit', key($units));
+	        	$_unit    = ucfirst($def_unit);
+				$vars = array_merge(
+					$vars,
+					array(
+						'meta_key' => 'LOA'.$_unit,
+						'orderby' => 'meta_value_num'
+					)
+				);
+			}
+		}
+
+		return $vars;
 	}
 
 	/**

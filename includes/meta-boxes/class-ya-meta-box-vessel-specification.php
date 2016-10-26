@@ -119,6 +119,7 @@ class 	YA_Meta_Box_Vessel_Specification {
 	{
 		$field_name = isset( $field['name'] ) ? $field['name'] : $field['id'];
 		$field_type = isset($field['type'])  ? $field['type'] : 'text';
+		$options    = isset($field['options'])  ? $field['options'] : array();
 
 		switch ($field_type) {
 			case 'textarea':
@@ -146,7 +147,21 @@ class 	YA_Meta_Box_Vessel_Specification {
 			case 'units':
 				$value = isset( $_POST[$field_name] ) ? ya_clean( $_POST[$field_name] ) : '';
 				$unit  = isset( $_POST[$field_name . '_unit'] ) ? ya_clean( $_POST[$field_name . '_unit'] ) : '';
+
+				foreach ($options as $key => $optv) {
+					$_unit = array(
+			            ucfirst($key),
+			            strtoupper($key)
+			        );
+			        $_value = ya_convert_measurement($value, $unit, $key);
+                    if( $_value && !empty($_value) ){
+						update_post_meta( $post_id, $field_name . $_unit[0], $_value );
+						update_post_meta( $post_id, $field_name . $_unit[1], $_value );                    	
+						update_post_meta( $post_id, $field_name . $key, $value );                    	
+                    }
+				}
 				update_post_meta( $post_id, $field_name . '_unit', $unit );
+
 				break;
 			
 			default:

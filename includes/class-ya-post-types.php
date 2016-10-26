@@ -135,18 +135,18 @@ class YA_Post_types {
 	    }
 	}
 
-	public function sortable_vessel_columns( $columns )
+	public static function sortable_vessel_columns( $columns )
 	{
 		$columns['length'] = 'length';
 		return $columns;
 	}
 
-	public function orderby_vessel_columns( $columns )
+	public static function orderby_vessel_columns( $columns )
 	{
 		add_filter( 'request',  array( __CLASS__, 'sort_vessels' ) );
 	}
 
-	public function sort_vessels( $vars )
+	public static function sort_vessels( $vars )
 	{
 		/* Check if we're viewing the 'vessel' post type. */
 		if ( isset( $vars['post_type'] ) && 'vessel' == $vars['post_type'] ) {

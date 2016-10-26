@@ -192,7 +192,7 @@ final class Yatco {
       );
       wp_enqueue_style( 'wp-color-picker' );
       wp_enqueue_style( 'jquery-ui' );
-      wp_enqueue_style( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'css/meta-boxes.css', array(), $this->version );
+      wp_enqueue_style( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'css/meta-boxes.css', $depth, $this->version );
     }
 
   } // End admin_enqueue_styles ()

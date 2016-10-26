@@ -103,6 +103,47 @@ jQuery( function( $ ) {
 		return false;
 	});
 
+	// Add video row
+	$('#add_video_row').click(function(event) {
+		var tpl   = $('#tmpl-video-row').html();
+		var index = 0;
+		$('#vessel_video_list tr').each(function(y, el) {
+			var i = parseInt($(el).data('index'));
+			if( i > index ) index = i;
+		});
+		index++;
+		var search = '__index__';
+		tpl = tpl.replace(new RegExp(search, 'g'), index);
+		$('#vessel_video_list').append(tpl);
+		return false;
+	});
+	$('#vessel_video_list').on('click', '.remove_video_row', function(event) {
+		var $row = $(this).closest('tr');
+			$row.remove();
+		return false;
+	});
+
+	// Unit Conversion
+	$( document.body ).on( 'ya-init-unit-conversion', function() {
+		$('select.unit-select').each(function(index, el) {
+			var unit    = $(this).val();
+			$(this).data('prevunit', unit );
+		});
+		$('.options_group').on('change', 'select.unit-select', function(event) {
+			var $unit_v = $(this).closest('.form-field-unit').find('.unit-value');
+			var unit    = $(this).val();
+			var value   = $unit_v.val();
+			if( value != ''){
+				var prevunit = $(this).data('prevunit');
+				var new_v = ya_convert_measurement(value, prevunit, unit);
+				if( new_v ){
+					$unit_v.val(new_v);
+				}
+			}
+			$(this).data('prevunit', unit);
+		});
+	}).trigger( 'ya-init-unit-conversion' );
+
 	// Tabbed Panels
 	$( document.body ).on( 'ya-init-tabbed-panels', function() {
 		$( 'ul.ya-tabs' ).show();

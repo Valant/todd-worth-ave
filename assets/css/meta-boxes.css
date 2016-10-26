@@ -453,13 +453,40 @@
   margin: 3px 0;
   vertical-align: middle;
 }
-#vessel_video .inside {
-  border: medium none;
-  margin: 0;
-  padding: 0;
-}
-#vessel_video .inside input {
+#vessel_video tr input {
   width: 100%;
+}
+#vessel_video tr .actions {
+  width: 20px;
+  vertical-align: middle !important;
+}
+#vessel_video tr .actions a {
+  display: block;
+  font-size: 1.2em;
+  height: 1em;
+  position: relative;
+  text-indent: -9999px;
+  width: 1em;
+}
+#vessel_video tr .actions a:before {
+  color: #999;
+  content: "\f153";
+  font-family: Dashicons;
+  font-variant: normal;
+  font-weight: 400;
+  height: 100%;
+  left: 0;
+  line-height: 1;
+  margin: 0;
+  position: absolute;
+  text-align: center;
+  text-indent: 0;
+  text-transform: none;
+  top: 0;
+  width: 100%;
+}
+#vessel_video tr .actions a:hover:before {
+  color: #a00;
 }
 @media only screen and (max-width: 500px) {
   .yatco_options_panel label,

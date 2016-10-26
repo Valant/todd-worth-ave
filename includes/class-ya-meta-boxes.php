@@ -87,13 +87,6 @@ class YA_Meta_Boxes {
 				,$post_type
 				,'normal'
 			);
-			add_meta_box(
-				'vessel_video'
-				,__( 'Videos', 'yatco' )
-				,array( 'YA_Meta_Box_Videos', 'output' )
-				,$post_type
-				,'normal'
-			);
 		}
 	}
 

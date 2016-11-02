@@ -561,6 +561,8 @@ $_value = '';*/
 
     public function reParseVesselObject($postID)
     {
+        include_once( __DIR__ . '/../class-ya-metaobject.php' );
+
         if ($dataArr = get_post_meta($postID, 'vessel_detail', true)) {
 
             $removedFields = ya_remove_api_filds();
@@ -581,10 +583,34 @@ $_value = '';*/
             $data = new YA_MetaObject($postID, $dataArr);
 
             if ($data->VesselID) {
-                $this->save_vessel($data, false);
+                return $this->save_vessel($data, false);
             }
 
         }
+    }
+
+    public function get_missing_data_sql($limit=null,$offset=null)
+    {
+        global $wpdb;
+        $sql = " 
+        FROM {$wpdb->posts} posts
+        LEFT JOIN {$wpdb->postmeta} pm ON (pm.post_id=posts.ID AND pm.meta_key='FuelCapacity')
+        WHERE posts.post_type='vessel' 
+        AND pm.meta_key IS NULL 
+        ";
+        if (isset($limit)) {
+            $sql .= " ORDER BY posts.ID ASC LIMIT ";
+            if (isset($offset)) $sql .= (int)$offset . ',';
+            $sql .= (int)$limit;
+        }
+        return $sql;
+    }
+
+    public function get_missing_data_count()
+    {
+        global $wpdb;
+        $sql = "SELECT COUNT(*) as c " . $this->get_missing_data_sql();
+        return $wpdb->get_var($sql);
     }
 
 

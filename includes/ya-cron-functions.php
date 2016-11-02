@@ -200,18 +200,11 @@ function yatco_cron_reparse_vessel_pages($limit=5)
     if ($limit === '') $limit = 5;
 
     include_once( 'admin/class-ya-admin.php' );
-    include_once( 'admin/class-ya-metaobject.php' );
+
     $api = new YA_Admin_API();
-    global $wpdb;
 
     global $wpdb;
-    $sql = "SELECT posts.ID 
-        FROM {$wpdb->posts} posts
-        LEFT JOIN {$wpdb->postmeta} pm ON (pm.post_id=posts.ID AND pm.meta_key='FuelCapacity')
-        WHERE posts.post_type='vessel' 
-        AND pm.meta_key IS NULL 
-        ORDER BY posts.ID ASC
-        LIMIT " . (int)$limit;
+    $sql = "SELECT posts.ID " . $api->get_missing_data_sql($limit);
 
     $posts = $wpdb->get_results( $sql );
 

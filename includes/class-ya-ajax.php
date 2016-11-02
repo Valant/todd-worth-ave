@@ -25,6 +25,7 @@ class YA_AJAX {
 		// yatco_EVENT => nopriv
 		$ajax_events = array(
 			'load_vessels'                          => true,
+			'reparse_data'                          => true,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -61,6 +62,39 @@ class YA_AJAX {
 		wp_send_json( $answer );
 		die;
 	}
+
+	public static function reparse_data()
+    {
+        global $wpdb;
+        $answer      = array();
+        if( isset($_POST['page_id']) && !empty($_POST['page_id'])){
+            $page_id     = (int)$_POST['page_id'];
+            $api         = new YA_Admin_API();
+
+            $pageSize = 10;
+            $offset = $pageSize * ($page_id-1);
+            $sql = "SELECT posts.ID " . $api->get_missing_data_sql($pageSize,$offset);
+
+            $posts = $wpdb->get_results( $sql );
+
+            foreach ($posts as $post) {
+
+                $a = $api->reParseVesselObject($post->ID);
+                if ($a) {
+                    $answer[] = $a;
+                } else {
+                    $answer[] = array(
+                        'failed',
+                        'VesselID' => $post->ID,
+                        'Boatname' => $post->ID,
+                    );
+                }
+            }
+
+        }
+        wp_send_json( $answer );
+        die;
+    }
 
 	
 }

@@ -74,12 +74,12 @@ jQuery(document).ready(function($){
     }
 
     // Regenerate a specified image via AJAX
-    function reparse( page_id ) {
+    function reparse( page_id, postIds ) {
         $.ajax({
             type: 'POST',
             url: ajaxurl,
             dataType: "json",
-            data: { action: "yatco_reparse_data", page_id: page_id },
+            data: { action: "yatco_reparse_data", page_id: page_id, post_ids: postIds },
             success: function( response ) {
 
                 if ( response !== Object( response ) ) {
@@ -113,9 +113,38 @@ jQuery(document).ready(function($){
         });
     }
     $('#reparse-start').click(function(event) {
-        $('#loadvessel_progressbar').show();
-        $('#loadvessel-start').hide();
-        reparse( rt_count );
+
+
+        var postIds = $('#reparse-post-id').val().split(',');
+
+        rt_percent = 0;
+        rt_count = 1;
+
+        if (postIds.length && postIds[0] != '') {
+
+            $('#loadvessel_progressbar').show();
+            $('#loadvessel-start').hide();
+
+            rt_continue = false;
+            rt_record_count = postIds.length;
+            rt_total = 1;
+
+            reparse(rt_count, postIds);
+        } else {
+            rt_continue = true;
+            rt_record_count = parseInt($('#loadvessel_record_count').val());
+            rt_total      = parseInt($('#loadvessel_page_count').val());
+            if (confirm('Are you sure you want to run process on whole database?')) {
+                $('#loadvessel_progressbar').show();
+                $('#loadvessel-start').hide();
+                reparse( rt_count );
+            }
+        }
+
+
     });
+
+
+
 });
 // ]]>

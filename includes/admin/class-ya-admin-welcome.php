@@ -292,6 +292,7 @@ class YA_Admin_Welcome {
 		<hr>
 		<div class="changelog">
 			<h2><?php _e('Re-parse Data', 'yatco'); ?></h2>
+			<div id="parse-settings"><label for="reparse-post-id">Vessel page ID: </label><input type="text" name="reparse-post-id" id="reparse-post-id" placeholder="All" size="6"></div>
 			<div id="message" style="display: none;"></div>
 			<?php
 			$yatco_api_key = get_option('yatco_api_key');
@@ -318,7 +319,7 @@ class YA_Admin_Welcome {
 						$count_v = $api->get_missing_data_count();
 						?>
 						<input type="hidden" id="loadvessel_record_count" value="<?= $count_v ?>">
-						<input type="hidden" id="loadvessel_page_count" value="<?= $count_v ?>">
+						<input type="hidden" id="loadvessel_page_count" value="<?= ceil($count_v / 10) ?>">
 						<b><?php _e('Total', 'yatco'); ?></b>: <?php echo $count_v; ?><br>
 						<b><?php _e('Loaded', 'yatco'); ?></b>: <span id="loadvessel-debug-successcount">0</span><br>
 						<b><?php _e('Failure', 'yatco'); ?></b>: <span id="loadvessel-debug-failurecount">0</span>

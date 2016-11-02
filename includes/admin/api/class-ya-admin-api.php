@@ -295,7 +295,7 @@ class YA_Admin_API {
         }
     }
 
-    public function save_vessel($result = false)
+    public function save_vessel($result = false, $reloadIfExists=true)
     {
         global $ya_countries, $wpdb;
 
@@ -333,20 +333,22 @@ class YA_Admin_API {
 
         if($post_id = $this->vessel_exist($result->VesselID)) {
 
-            if( !$this->load_vessel_detail( $result->VesselID ) ) {
-                $this->deactivate_vessel($result->VesselID);
+            if ($reloadIfExists) {
+                if( !$this->load_vessel_detail( $result->VesselID ) ) {
+                    $this->deactivate_vessel($result->VesselID);
 
-            } else {
+                } else {
 
-                $post['ID']                = $post_id;
-                $post['post_modified']     = current_time( 'mysql' );
-                $post['post_modified_gmt'] = current_time( 'mysql', 1 );
+                    $post['ID']                = $post_id;
+                    $post['post_modified']     = current_time( 'mysql' );
+                    $post['post_modified_gmt'] = current_time( 'mysql', 1 );
 
-                wp_update_post($post);
+                    wp_update_post($post);
 
-                // Lets reset SFSyncVersion, so item will be synced to SF on next run
-                update_post_meta( $post_id, 'SFSyncVersion', '' );
-                update_post_meta( $post_id, 'SFSyncVersion_sandbox', '' );
+                    // Lets reset SFSyncVersion, so item will be synced to SF on next run
+                    update_post_meta( $post_id, 'SFSyncVersion', '' );
+                    update_post_meta( $post_id, 'SFSyncVersion_sandbox', '' );
+                }
             }
 
             $answer['status'] = 'updated';
@@ -555,6 +557,34 @@ $_value = '';*/
             strtoupper($unit)
         );
         return $_unit;
+    }
+
+    public function reParseVesselObject($postID)
+    {
+        if ($dataArr = get_post_meta($postID, 'vessel_detail', true)) {
+
+            $removedFields = ya_remove_api_filds();
+
+            foreach ($removedFields as $i => $fieldName) {
+                switch ($fieldName) {
+                    case 'VesselSections':
+                        $dataArr['VesselSections'] = null;
+                        unset ($removedFields[$i]);
+                        break;
+                    case 'Boatname':
+                        $dataArr['Boatname'] = get_the_title($postID);
+                        break;
+                }
+
+            }
+
+            $data = new YA_MetaObject($postID, $dataArr);
+
+            if ($data->VesselID) {
+                $this->save_vessel($data, false);
+            }
+
+        }
     }
 
 

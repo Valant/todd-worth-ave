@@ -174,3 +174,50 @@ function sf_synchronize_products( $mode, $version, $limit )
     }
 }
 add_action( 'salesforce_synchronize_products', 'sf_synchronize_products', 10, 3);
+
+
+
+/**
+ * Run Yatco API result parsing for existing post
+ * @param integer $postID
+ */
+function yatco_cron_reparse_vessel_page($postID)
+{
+
+    include_once( 'admin/class-ya-admin.php' );
+    include_once( 'admin/class-ya-metaobject.php' );
+    $api = new YA_Admin_API();
+    global $wpdb;
+
+    $api->reParseVesselObject($postID);
+
+}
+add_action( 'yatco_cron_reparse_vessel_page', 'yatco_cron_reparse_vessel_page', 10, 1);
+
+function yatco_cron_reparse_vessel_pages($limit=5)
+{
+
+    if ($limit === '') $limit = 5;
+
+    include_once( 'admin/class-ya-admin.php' );
+    include_once( 'admin/class-ya-metaobject.php' );
+    $api = new YA_Admin_API();
+    global $wpdb;
+
+    global $wpdb;
+    $sql = "SELECT posts.ID 
+        FROM {$wpdb->posts} posts
+        LEFT JOIN {$wpdb->postmeta} pm ON (pm.post_id=posts.ID AND pm.meta_key='FuelCapacity')
+        WHERE posts.post_type='vessel' 
+        AND pm.meta_key IS NULL 
+        ORDER BY posts.ID ASC
+        LIMIT " . (int)$limit;
+
+    $posts = $wpdb->get_results( $sql );
+
+    foreach ($posts as $post) {
+        $api->reParseVesselObject($post->ID);
+    }
+
+}
+add_action( 'yatco_cron_reparse_vessel_pages', 'yatco_cron_reparse_vessel_pages', 10, 1);

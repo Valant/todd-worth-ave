@@ -386,20 +386,29 @@ class YA_Admin_API {
             }
 
 
-
-            //Save post thumbnail
-            $old_thumbnail_id = get_post_thumbnail_id( $post_id );
-            if($old_thumbnail_id){
-                delete_post_thumbnail( $post_id );
-                wp_delete_attachment( $old_thumbnail_id, true );
-            }
+            $thumbnailUrl = false;
             if(isset($result->ProfileURL) && !empty($result->ProfileURL)){
-                $thumb_id = $this->save_attachment($result->ProfileURL, $post_id);
-                if($thumb_id && $thumb_id > 0){
-                    set_post_thumbnail( $post_id, $thumb_id );
+                $thumbnailUrl = $result->ProfileURL;
+            }
+            if (!$reloadIfExists && !$thumbnailUrl && isset($result->Gallery) && $result->Gallery) {
+                $thumbnailUrl = $result->Gallery[0]->url;
+            }
+            $saveThumbnail = !!$thumbnailUrl;
+
+            if ($saveThumbnail) {
+                //Save post thumbnail
+                $old_thumbnail_id = get_post_thumbnail_id( $post_id );
+                if($old_thumbnail_id){
+                    delete_post_thumbnail( $post_id );
+                    wp_delete_attachment( $old_thumbnail_id, true );
+                }
+                if($thumbnailUrl){
+                    $thumb_id = $this->save_attachment($thumbnailUrl, $post_id);
+                    if($thumb_id && $thumb_id > 0){
+                        set_post_thumbnail( $post_id, $thumb_id );
+                    }
                 }
             }
-
 
             //Save additional vessel images
             if( get_option('vessel_save_gallery') == 'wp_media'){

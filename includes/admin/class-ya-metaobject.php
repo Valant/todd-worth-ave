@@ -27,10 +27,8 @@ class YA_MetaObject {
     public function __get($key)
     {
         if (!property_exists($this, $key)) {
-            if ($this->__postMeta === null) {
-                $this->__postMeta = get_post_meta($this->__postID);
-            }
-            if (isset($this->__postMeta[$key])) {
+            $this->_checkMeta();
+            if (array_key_exists($this->__postMeta[$key])) {
                 if (is_array($this->__postMeta[$key]) && count($this->__postMeta[$key]) === 1) {
                     $this->$key = $this->__postMeta[$key][0];
                 } else {
@@ -42,4 +40,18 @@ class YA_MetaObject {
         }
         return $this->$key;
     }
+
+    private function _checkMeta()
+    {
+        if ($this->__postMeta === null) {
+            $this->__postMeta = get_post_meta($this->__postID);
+        }
+    }
+
+    public function __isset($key)
+    {
+        $this->_checkMeta();
+        return array_key_exists($this->__postMeta[$key]) || property_exists($this, $key);
+    }
+
 }

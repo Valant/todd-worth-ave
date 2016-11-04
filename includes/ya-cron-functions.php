@@ -24,7 +24,7 @@ function ya_load_modification_list()
 }
 add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list');
 
-function yatco_cron_recheck_vassel($limit)
+function yatco_cron_recheck_vassel($limit,$checkKey='is_reckeck_done')
 {
     include_once( 'admin/class-ya-admin.php' );
     $api = new YA_Admin_API();
@@ -37,7 +37,7 @@ function yatco_cron_recheck_vassel($limit)
     $query = "SELECT {$wpdb->posts}.ID as 'post_id',
                      m.meta_value FROM {$wpdb->posts}
                 LEFT JOIN {$wpdb->postmeta} m
-                    ON ( {$wpdb->posts}.ID = m.post_id AND m.meta_key = 'is_reckeck_done' )
+                    ON ( {$wpdb->posts}.ID = m.post_id AND m.meta_key = '" . esc_sql($checkKey) . "' )
                 WHERE
                     {$wpdb->posts}.post_type = 'vessel'
                 AND ( m.meta_value IS NULL OR m.meta_value<>'yes' )

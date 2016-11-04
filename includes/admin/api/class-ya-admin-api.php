@@ -295,15 +295,26 @@ class YA_Admin_API {
         }
     }
 
-    public function save_vessel($result = false, $reloadIfExists=true)
+    /**
+     * @param mixed $result taken from YATCO API
+     * @param bool $updatePost
+     * @return array|false
+     */
+    public function save_vessel($result = false, $updatePost=true)
     {
         global $ya_countries, $wpdb;
 
         if(!$result){
             $result = $this->vessel_detail;
+            $reloadIfExists = true;
+        } else {
+            $reloadIfExists = false;
         }
+
         if(!$result)
             return false;
+
+        $deactivateVessel = false;
 
         $answer = array();
         $VesselSections = $result->VesselSections;
@@ -336,19 +347,20 @@ class YA_Admin_API {
             if ($reloadIfExists) {
                 if( !$this->load_vessel_detail( $result->VesselID ) ) {
                     $this->deactivate_vessel($result->VesselID);
-
-                } else {
-
-                    $post['ID']                = $post_id;
-                    $post['post_modified']     = current_time( 'mysql' );
-                    $post['post_modified_gmt'] = current_time( 'mysql', 1 );
-
-                    wp_update_post($post);
-
-                    // Lets reset SFSyncVersion, so item will be synced to SF on next run
-                    update_post_meta( $post_id, 'SFSyncVersion', '' );
-                    update_post_meta( $post_id, 'SFSyncVersion_sandbox', '' );
+                    $deactivateVessel = true;
                 }
+            }
+
+            if ($updatePost && !$deactivateVessel) {
+                $post['ID']                = $post_id;
+                $post['post_modified']     = current_time( 'mysql' );
+                $post['post_modified_gmt'] = current_time( 'mysql', 1 );
+
+                wp_update_post($post);
+
+                // Lets reset SFSyncVersion, so item will be synced to SF on next run
+                update_post_meta( $post_id, 'SFSyncVersion', '' );
+                update_post_meta( $post_id, 'SFSyncVersion_sandbox', '' );
             }
 
             $answer['status'] = 'updated';
@@ -393,7 +405,31 @@ class YA_Admin_API {
             if (!$reloadIfExists && !$thumbnailUrl && isset($result->Gallery) && $result->Gallery) {
                 $thumbnailUrl = $result->Gallery[0]->url;
             }
-            $saveThumbnail = !!$thumbnailUrl;
+
+            if ($thumbnailUrl) {
+                $yatco_image_id = $this->get_yatco_image_id($thumbnailUrl);
+                if ($yatco_image_id) {
+                    $attach_id = $wpdb->get_var( "SELECT post_id from $wpdb->postmeta where meta_value = {$yatco_image_id} AND meta_key = 'yatco_image_id' LIMIT 1" );
+                    if( !$attach_id ){
+
+                        $sql = "SELECT thumb.meta_value FROM {$wpdb->postmeta} m
+                            LEFT JOIN {$wpdb->postmeta} thumb ON (thumb.post_id=m.meta_value AND thumb.meta_key='_wp_attached_file')
+                            WHERE m.post_id={$post_id} and m.meta_key='_thumbnail_id'";
+                        $currentFile = $wpdb->get_var($sql);
+                        if ($currentFile) {
+                            $current_image_id = $this->get_yatco_image_id($currentFile);
+                            $saveThumbnail = $current_image_id !== $yatco_image_id;
+                        } else {
+                            $saveThumbnail = true;
+                        }
+
+                    }
+                } else {
+                    $saveThumbnail = !!$thumbnailUrl;
+                }
+            } else {
+                $saveThumbnail = false;
+            }
 
             if ($saveThumbnail) {
                 //Save post thumbnail
@@ -416,9 +452,8 @@ class YA_Admin_API {
                 $new_images    = array();
                 if(isset($result->Gallery) && !empty($result->Gallery)){
                     foreach ($result->Gallery as $image) {
-                        $query = explode('?', $image->originalimageurl);
-                        parse_str($query[1], $data);
-                        $yatco_image_id = $data['id'];
+
+                        $yatco_image_id = $this->get_yatco_image_id($image->originalimageurl);
                         
                         $attach_id = $wpdb->get_var( "SELECT post_id from $wpdb->postmeta where meta_value = {$yatco_image_id} AND meta_key = 'yatco_image_id' LIMIT 1" );
                         if( !$attach_id ){
@@ -559,6 +594,21 @@ $_value = '';*/
         return false;
     }
 
+    private function get_yatco_image_id($imageUrl)
+    {
+        $query = explode('?', $imageUrl);
+        if (isset($query[1])) {
+            parse_str($query[1], $data);
+            if (isset($data['id'])) {
+                return (int)$data['id'];
+            }
+        }
+        if (preg_match('/\w+\_(\d+)\.jpg/', $imageUrl, $m)) {
+            return (int)$m[1];
+        }
+        return $imageUrl;
+    }
+
     private function get_unitnames($unit='')
     {
         $_unit = array(
@@ -568,7 +618,7 @@ $_value = '';*/
         return $_unit;
     }
 
-    public function reParseVesselObject($postID)
+    public function reParseVesselObject($postID, $reloadData=false)
     {
         include_once( __DIR__ . '/../class-ya-metaobject.php' );
 
@@ -592,7 +642,7 @@ $_value = '';*/
             $data = new YA_MetaObject($postID, $dataArr);
 
             if ($data->VesselID) {
-                return $this->save_vessel($data, false);
+                return $this->save_vessel($data, $reloadData);
             }
 
         }

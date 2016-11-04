@@ -24,8 +24,9 @@ function ya_load_modification_list()
 }
 add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list');
 
-function yatco_cron_recheck_vassel($limit,$checkKey='is_reckeck_done')
+function yatco_cron_recheck_vassel($limit,$updateData=false,$checkKey='is_reckeck_done')
 {
+
     include_once( 'admin/class-ya-admin.php' );
     $api = new YA_Admin_API();
     global $wpdb;
@@ -61,7 +62,11 @@ function yatco_cron_recheck_vassel($limit,$checkKey='is_reckeck_done')
             if ( function_exists("SimpleLogger") ) {
                 SimpleLogger()->info('LOG-recheck: vessels exists: '.$item->post_id);
             }
-            // do nothing
+            if ($updateData) {
+                $api->save_vessel($vessel_detail,true);
+            } else {
+                // do nothing
+            }
         }else{
 
             if ( function_exists("SimpleLogger") ) {
@@ -69,10 +74,10 @@ function yatco_cron_recheck_vassel($limit,$checkKey='is_reckeck_done')
             }
             $api->deactivate_vessel( $VesselID );
         }
-        update_post_meta( $item->post_id, 'is_reckeck_done', 'yes' );
+        update_post_meta( $item->post_id, $checkKey, 'yes' );
     }
 }
-add_action( 'yatco_cron_recheck_vassel', 'yatco_cron_recheck_vassel');
+add_action( 'yatco_cron_recheck_vassel', 'yatco_cron_recheck_vassel', 10, 3);
 
 function sf_synchronize_products( $mode, $version, $limit )
 {

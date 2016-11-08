@@ -36,6 +36,7 @@ class YA_Meta_Boxes {
 
 
 		add_action( 'save_post', array( __CLASS__, 'save' ), 777, 2 );		
+		add_action( 'save_post', array( __CLASS__, 'save_meta_box_vessel_status' ), 777, 2 );
 	}
 
 	public static function remove_meta_boxes()
@@ -64,6 +65,14 @@ class YA_Meta_Boxes {
 					,$post_type
 					,'side'
 					,'high'
+				);
+				add_meta_box(
+					'vesssel_status',
+					__('Status', 'yatco'),
+					array(__CLASS__, 'render_meta_box_vessel_status'),
+					$post_type,
+					'side',
+					'high'
 				);
 			}
 			add_meta_box(
@@ -163,6 +172,67 @@ class YA_Meta_Boxes {
 			<a href="<?php echo esc_url( add_query_arg( 'reload_vessel', $VesselID ) ); ?>" class="button button-primary button-large"><?php _e('Reload vessel', 'yatco'); ?></a>
 			<?php			
 		}
+	}
+
+	/**
+	 * Status checkboxes
+	 * @param WP_Post $post
+	 */
+	public static function render_meta_box_vessel_status($post)
+	{
+
+		$meta = get_post_meta( $post->ID );
+		$timesSoldMax = 4;
+
+		?>
+
+		<div class="misc-pub-section misc-pub-post-status">
+			<p>
+				<input type="checkbox" name="vessel_status_for_sale" id="vessel_status_for_sale" value="1" <?php if ( isset ( $meta['vessel_status_for_sale'] ) && $meta['vessel_status_for_sale'][0] ) echo 'checked'; ?> />
+				<label for="vessel_status_for_sale" class="vessel-status-row-title"><?php _e( 'For Sale', 'yatco' )?></label>
+				<br>
+				<input type="checkbox" name="vessel_status_for_charter" id="vessel_status_for_charter" value="1" <?php if ( isset ( $meta['vessel_status_for_charter'] ) && $meta['vessel_status_for_charter'][0] ) echo 'checked'; ?> />
+				<label for="vessel_status_for_charter" class="vessel-status-row-title"><?php _e( 'For Charter', 'yatco' )?></label>
+				<br>
+				<input type="checkbox" name="vessel_status_featured_for_sale" id="vessel_status_featured_for_sale" value="1" <?php if ( isset ( $meta['vessel_status_featured_for_sale'] ) && $meta['vessel_status_featured_for_sale'][0] ) echo 'checked'; ?> />
+				<label for="vessel_status_featured_for_sale" class="vessel-status-row-title"><?php _e( 'Featured For Sale', 'yatco' )?></label>
+				<br>
+				<input type="checkbox" name="vessel_status_featured_for_charter" id="vessel_status_featured_for_charter" value="1" <?php if ( isset ( $meta['vessel_status_featured_for_charter'] ) && $meta['vessel_status_featured_for_charter'][0] ) echo 'checked'; ?> />
+				<label for="vessel_status_featured_for_charter" class="vessel-status-row-title"><?php _e( 'Featured For Charter', 'yatco' )?></label>
+			</p>
+
+		</div>
+		<hr>
+		<h2 class="" style="font-weight: 600;"><span><?= __('Times Sold', 'yatco') ?></span></h2>
+		<hr>
+		<?php
+		for ($i=0;$i<=$timesSoldMax; $i++) : ?>
+		<input type="radio" name="times_sold" id="times_sold_<?= $i ?>" value="<?= $i ?>" <?php if (isset($meta['times_sold']) && $meta['times_sold'][0] == $i) echo 'checked'; ?> ><label for="times_sold_<?= $i ?>"><?= $i ?></label>&nbsp;&nbsp;&nbsp;
+		<?php endfor;
+	}
+
+	/**
+	 * @param integer $post_id
+	 * @param WP_Post $post
+	 */
+	public static function save_meta_box_vessel_status( $post_id, $post ) {
+
+		// Checks save status
+		$is_autosave = wp_is_post_autosave( $post_id );
+		$is_revision = wp_is_post_revision( $post_id );
+
+		// Exits script depending on save status
+		if ( $is_autosave || $is_revision ) {
+			return;
+		}
+
+		$metaKeys = array('vessel_status_for_sale', 'vessel_status_for_charter', 'vessel_status_featured_for_sale', 'vessel_status_featured_for_charter');
+
+		foreach ($metaKeys as $key) {
+			update_post_meta( $post_id, $key, (isset($_POST[$key]) &&  $_POST[$key]) ? 1 : 0);
+		}
+		update_post_meta( $post_id, 'times_sold', (isset($_POST['times_sold']) &&  $_POST['times_sold']) ? (int)$_POST['times_sold'] : 0);
+
 	}
 
 	/**

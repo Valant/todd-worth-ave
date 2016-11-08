@@ -292,6 +292,7 @@ class YA_Admin_API {
             // Lets reset SFSyncVersion, so item will be synced to SF on next run
             update_post_meta( $post_id, 'SFSyncVersion', '' );
             update_post_meta( $post_id, 'SFSyncVersion_sandbox', '' );
+            update_post_meta( $post_id, 'vessel_status_for_sale', 0 );
         }
     }
 

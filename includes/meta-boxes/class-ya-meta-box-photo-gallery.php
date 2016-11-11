@@ -56,6 +56,7 @@ class 	YA_Meta_Box_Photo_Gallery {
 								' . $attachment . '
 								<ul class="actions">
 									<li><a href="#" class="delete tips" data-tip="' . esc_attr__( 'Delete image', 'yatco' ) . '">' . __( 'Delete', 'yatco' ) . '</a></li>
+									<li>' . self::categoriesField($attachment_id) . '</li>
 								</ul>
 							</li>';
 
@@ -80,6 +81,26 @@ class 	YA_Meta_Box_Photo_Gallery {
 		<?php
 	}
 
+	public static function categoriesField($attachment_id)
+	{
+		ob_start();
+
+		$cats = ya_get_photo_categories();
+		$selected = get_post_meta($attachment_id, 'photo_categories', true);
+
+		echo '<div class="edit-photo-categories-dropdown">';
+		foreach ($cats as $k => $cat) {
+			?>
+			<input <?php if (in_array($k,$selected)) echo 'checked'; ?> id="photo_categories_<?=$attachment_id?>_<?=$k?>" type="checkbox" name="photo_categories[<?= $attachment_id ?>][]" value="<?=$k?>"><label for="photo_categories_<?=$attachment_id?>_<?=$k?>"><?=$cat?></label><br>
+			<?php
+		}
+		echo '</div>';
+
+		$html = ob_get_contents();
+		ob_end_clean();
+		return $html;
+	}
+
 	/**
 	 * Save meta box data.
 	 *
@@ -88,6 +109,12 @@ class 	YA_Meta_Box_Photo_Gallery {
 	 */
 	public static function save( $post_id, $post ) {
 		$attachment_ids = isset( $_POST['vessel_image_gallery'] ) ? array_filter( explode( ',', $_POST['vessel_image_gallery'] ) ) : array();
+
+		foreach ($attachment_ids as $attachment_id) {
+			if (isset($_POST['photo_categories'][$attachment_id])) {
+				update_post_meta($attachment_id, 'photo_categories', $_POST['photo_categories'][$attachment_id]);
+			}
+		}
 
 		update_post_meta( $post_id, '_vessel_image_gallery', implode( ',', $attachment_ids ) );
 	}

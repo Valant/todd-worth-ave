@@ -228,3 +228,17 @@ function ya_save_flags($list)
 {
     update_option('vessel_flags_list', $list);
 }
+
+function ya_get_photo_categories()
+{
+    return array(
+        'Exterior',
+        'Interior',
+        'Accomodations',
+        'Toys',
+        'Lifestyle',
+        'Epicure',
+        'Operations',
+        'Design Details',
+    );
+}

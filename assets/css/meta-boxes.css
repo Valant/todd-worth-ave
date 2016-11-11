@@ -132,6 +132,38 @@
 #photo_gallery .inside #vessel_images_container ul ul.actions li a.delete:hover:before {
   color: #a00;
 }
+#photo_gallery .inside #vessel_images_container ul ul.actions .edit-photo-categories-dropdown {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  width: 120px;
+  padding: 1em;
+  margin-right: -2em;
+  margin-top: 70px;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions .edit-photo-categories-dropdown:after,
+#photo_gallery .inside #vessel_images_container ul ul.actions .edit-photo-categories-dropdown:before {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions .edit-photo-categories-dropdown:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #ffffff;
+  border-width: 10px;
+  margin-left: -10px;
+}
+#photo_gallery .inside #vessel_images_container ul ul.actions .edit-photo-categories-dropdown:before {
+  border-color: rgba(204, 204, 204, 0);
+  border-bottom-color: #cccccc;
+  border-width: 11px;
+  margin-left: -11px;
+}
 #photo_gallery .inside #vessel_images_container ul li:hover ul.actions {
   display: block;
 }

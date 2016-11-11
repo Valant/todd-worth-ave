@@ -140,6 +140,7 @@
   padding: 1em;
   margin-right: -2em;
   margin-top: 70px;
+  z-index: 10;
 }
 #photo_gallery .inside #vessel_images_container ul ul.actions .edit-photo-categories-dropdown:after,
 #photo_gallery .inside #vessel_images_container ul ul.actions .edit-photo-categories-dropdown:before {

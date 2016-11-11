@@ -87,6 +87,7 @@ class 	YA_Meta_Box_Photo_Gallery {
 
 		$cats = ya_get_photo_categories();
 		$selected = get_post_meta($attachment_id, 'photo_categories', true);
+		if (!$selected) $selected = array();
 
 		echo '<div class="edit-photo-categories-dropdown">';
 		foreach ($cats as $k => $cat) {

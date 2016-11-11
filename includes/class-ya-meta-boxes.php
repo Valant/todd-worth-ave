@@ -37,6 +37,8 @@ class YA_Meta_Boxes {
 
 		add_action( 'save_post', array( __CLASS__, 'save' ), 777, 2 );		
 		add_action( 'save_post', array( __CLASS__, 'save_meta_box_vessel_status' ), 777, 2 );
+
+		add_action('updated_post_meta', array(__CLASS__), 'afterPostMeta', 10, 4);
 	}
 
 	public static function remove_meta_boxes()
@@ -321,6 +323,17 @@ class YA_Meta_Boxes {
 			'vessel_status_featured_for_charter' => 'Featured For Charter',
 			'vessel_status_sold_as_new' => 'Sold As New Construction',
 		);
+	}
+
+	public static function afterPostMeta($meta_id, $post_id, $meta_key, $meta_value)
+	{
+		if ($meta_key === 'Flag') {
+			$list = ya_get_flags();
+			if (!isset($list[$meta_value])) {
+				$list[$meta_value] = $meta_value;
+				ya_save_flags($list);
+			}
+		}
 	}
 
 }

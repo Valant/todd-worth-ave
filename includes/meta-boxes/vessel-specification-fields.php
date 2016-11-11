@@ -76,7 +76,8 @@ return array(
                 array(
                   'id'          => 'Flag',
                   'label'       => __( 'Flag', 'yatco' ),
-                  'type'        => 'text'
+                    'type'        => 'select',
+                    'options' => ya_get_flags(),
                 ),                
             ),
           array(

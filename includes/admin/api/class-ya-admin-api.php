@@ -499,7 +499,8 @@ class YA_Admin_API {
             
             $my_data = get_object_vars($result);
             update_post_meta( $post_id, 'vessel_detail', $my_data );
-            update_post_meta( $post_id, 'vessel_status_for_sale', $post->post_status === 'inactive' ? 0 : 1 );
+            $post_status = $wpdb->get_var("SELECT post_status FROM {$wpdb->posts} WHERE ID={$post_id}");
+            update_post_meta( $post_id, 'vessel_status_for_sale', ($post_status === 'inactive') ? 0 : 1 );
 
             if( !empty($result->LocationCountry) ){
                 $code = array_search($result->LocationCountry, $ya_countries);

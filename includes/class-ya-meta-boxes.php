@@ -38,7 +38,7 @@ class YA_Meta_Boxes {
 		add_action( 'save_post', array( __CLASS__, 'save' ), 777, 2 );		
 		add_action( 'save_post', array( __CLASS__, 'save_meta_box_vessel_status' ), 777, 2 );
 
-		add_action('updated_post_meta', array(__CLASS__), 'afterPostMeta', 10, 4);
+		add_action('updated_post_meta', array(__CLASS__, 'afterPostMeta'), 10, 4);
 	}
 
 	public static function remove_meta_boxes()

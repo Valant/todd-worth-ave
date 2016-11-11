@@ -364,6 +364,8 @@ return array(
                 array(
                   'id'          => 'HeadRoom',
                   'label'       => __( 'Interior Clearance', 'yatco' ),
+                  'type'        => 'units',
+                  'options'     => ya_get_length_units()
                 ),
                 array(
                   'id'          => 'LOD',

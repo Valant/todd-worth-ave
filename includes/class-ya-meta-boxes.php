@@ -183,24 +183,16 @@ class YA_Meta_Boxes {
 
 		$meta = get_post_meta( $post->ID );
 		$timesSoldMax = 4;
-
+		$fieldList = self::statusFields();
 		?>
 
 		<div class="misc-pub-section misc-pub-post-status">
-			<p>
-				<input type="checkbox" name="vessel_status_for_sale" id="vessel_status_for_sale" value="1" <?php if ( isset ( $meta['vessel_status_for_sale'] ) && $meta['vessel_status_for_sale'][0] ) echo 'checked'; ?> />
-				<label for="vessel_status_for_sale" class="vessel-status-row-title"><?php _e( 'For Sale', 'yatco' )?></label>
-				<br>
-				<input type="checkbox" name="vessel_status_for_charter" id="vessel_status_for_charter" value="1" <?php if ( isset ( $meta['vessel_status_for_charter'] ) && $meta['vessel_status_for_charter'][0] ) echo 'checked'; ?> />
-				<label for="vessel_status_for_charter" class="vessel-status-row-title"><?php _e( 'For Charter', 'yatco' )?></label>
-				<br>
-				<input type="checkbox" name="vessel_status_featured_for_sale" id="vessel_status_featured_for_sale" value="1" <?php if ( isset ( $meta['vessel_status_featured_for_sale'] ) && $meta['vessel_status_featured_for_sale'][0] ) echo 'checked'; ?> />
-				<label for="vessel_status_featured_for_sale" class="vessel-status-row-title"><?php _e( 'Featured For Sale', 'yatco' )?></label>
-				<br>
-				<input type="checkbox" name="vessel_status_featured_for_charter" id="vessel_status_featured_for_charter" value="1" <?php if ( isset ( $meta['vessel_status_featured_for_charter'] ) && $meta['vessel_status_featured_for_charter'][0] ) echo 'checked'; ?> />
-				<label for="vessel_status_featured_for_charter" class="vessel-status-row-title"><?php _e( 'Featured For Charter', 'yatco' )?></label>
-			</p>
-
+				<?php $c=0; ?>
+				<?php foreach ($fieldList as $fieldName => $fieldCaption) : $c++; ?>
+					<input type="checkbox" name="<?= $fieldName ?>" id="<?= $fieldName ?>" value="1" <?php if ( isset ( $meta[$fieldName] ) && $meta[$fieldName][0] ) echo 'checked'; ?> />
+					<label for="<?= $fieldName ?>" class="vessel-status-row-title"><?php _e( $fieldCaption, 'yatco' )?></label>
+					<?php if ($c<count($fieldList)) : ?><br><?php endif; ?>
+				<?php endforeach; ?>
 		</div>
 		<hr>
 		<h2 class="" style="font-weight: 600;"><span><?= __('Times Sold', 'yatco') ?></span></h2>
@@ -226,7 +218,7 @@ class YA_Meta_Boxes {
 			return;
 		}
 
-		$metaKeys = array('vessel_status_for_sale', 'vessel_status_for_charter', 'vessel_status_featured_for_sale', 'vessel_status_featured_for_charter');
+		$metaKeys = array_keys(self::statusFields());
 
 		foreach ($metaKeys as $key) {
 			update_post_meta( $post_id, $key, (isset($_POST[$key]) &&  $_POST[$key]) ? 1 : 0);
@@ -315,6 +307,22 @@ class YA_Meta_Boxes {
 	    <?php
 		}
 	}
+
+	/**
+	 * Vessel status check fields list
+	 * @return array
+	 */
+	public static function statusFields()
+	{
+		return array(
+			'vessel_status_for_sale' => 'For Sale',
+			'vessel_status_for_charter' => 'For Charter',
+			'vessel_status_featured_for_sale' => 'Featured For Sale',
+			'vessel_status_featured_for_charter' => 'Featured For Charter',
+			'vessel_status_sold_as_new' => 'Sold As New Construction',
+		);
+	}
+
 }
 
 YA_Meta_Boxes::init();

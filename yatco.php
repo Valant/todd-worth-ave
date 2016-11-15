@@ -28,14 +28,14 @@ if ( ! class_exists( 'Yatco' ) ) :
  * Main Yatco Class
  *
  * @class Yatco
- * @version 1.0.0
+ * @version 1.0.2
  */
 final class Yatco {
 
   /**
    * @var string
    */
-  public $version = '1.0.1';
+  public $version = '1.0.2';
 
 
   /**

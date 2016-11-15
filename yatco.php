@@ -161,7 +161,9 @@ final class Yatco {
         $this->token . '-enhanced-select',
         $this->token . '-conversion-functions'
       );
-      wp_enqueue_script( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'js/admin/meta-boxes' . $this->script_suffix . '.js' , $depth, $this->version );      
+      wp_register_script( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'js/admin/meta-boxes' . $this->script_suffix . '.js' , $depth, $this->version );
+      wp_localize_script( $this->token . '-meta-boxes', 'googleOptions', array('mapsKey' => get_option('google_api_maps_key')));
+      wp_enqueue_script( $this->token . '-meta-boxes' );
     }
 
   } // End enqueue_scripts ()

@@ -748,6 +748,17 @@ return array(
                   'id'          => 'LocationRegionName',
                   'label'       => __( 'Region Name', 'yatco' ),
                 ),
+                  array(
+                      'id'          => 'LocationLastKnownPoint',
+                      'label'       => __( 'Last Known Location', 'yatco' ),
+                      'wrapper_class' => 'col-2',
+                  ),
+                  array(
+                      'id'          => 'LocationLastKnownDate',
+                      'label'       => '',
+                      'style'       => 'border: none; background: inherit; box-shadow: none; color: #ccc;',
+                      'wrapper_class' => 'col-2',
+                  ),
           )
       ),
     'measurements' => array(

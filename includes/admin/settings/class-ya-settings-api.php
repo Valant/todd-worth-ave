@@ -82,6 +82,19 @@ class YA_Settings_Api extends YA_Settings_Page {
 
 			array( 'type' => 'sectionend', 'id' => 'salesforce_api_options'),
 
+            array( 'title' => __( 'Google Maps', 'yatco' ), 'type' => 'title', 'desc' => '', 'id' => 'google_api_options' ),
+
+            array(
+                'title'   => __( 'Maps API key', 'yatco' ),
+                'desc'    => '',
+                'id'      => 'google_api_maps_key',
+                'css'     => 'min-width: 350px;',
+                'default' => '',
+                'type'    => 'text'
+            ),
+
+            array( 'type' => 'sectionend', 'id' => 'google_api_options'),
+
 		);
 
 		return apply_filters( 'yatco_get_settings_' . $this->id, $settings );

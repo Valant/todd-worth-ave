@@ -71,6 +71,7 @@ class YA_REST_Authentication
 
     public function checkAPIKey($key)
     {
+        if (!class_exists('WP_REST_OAuth1_Client', false)) return true;
         $client = WP_REST_OAuth1_Client::get_by_key( $key );
         return $client instanceof WP_Post;
     }

@@ -2,11 +2,13 @@
 /**
  * Yatco Cron.
  */
-function ya_load_modification_list()
+function ya_load_modification_list($timeSpan=null)
 {
     include_once( 'admin/class-ya-admin.php' );
     $api = new YA_Admin_API();
-    $modification_list = $api->load_modification_list();
+    $timeSpan = (int)$timeSpan;
+    if (!$timeSpan) $timeSpan = null;
+    $modification_list = $api->load_modification_list($timeSpan);
     if ( $modification_list ) {
         foreach ( $modification_list as $VesselID ) {
 
@@ -22,7 +24,7 @@ function ya_load_modification_list()
         }
     }
 }
-add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list');
+add_action( 'yatco_cron_update_vassel', 'ya_load_modification_list', 10, 1);
 
 function yatco_cron_recheck_vassel($limit,$updateData=false,$checkKey='is_reckeck_done')
 {

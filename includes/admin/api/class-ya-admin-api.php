@@ -116,11 +116,15 @@ class YA_Admin_API {
         return $data->Vessels;
     }
 
-    public function load_modification_list()
+    public function load_modification_list($timeSpan=null)
     {
         if(empty($this->apikey)) return false;
 
-        $url  = 'http://data.yatco.com/dataservice/'.$this->apikey.'/VesselModificationList/'.$this->cron_recurrence;
+        if (!$timeSpan) {
+            $timeSpan = $this->cron_recurrence;
+        }
+
+        $url  = 'http://data.yatco.com/dataservice/'.$this->apikey.'/VesselModificationList/'.$timeSpan;
         $json_string = $this->createCURL($url);
         if($json_string === false) {
             return false;

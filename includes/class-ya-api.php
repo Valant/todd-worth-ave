@@ -44,9 +44,9 @@ class YA_API {
 	 */
 	private function rest_api_includes() {
 		// Authentication.
-		#include_once( 'api/class-ya-rest-authentication.php' );
+		include_once( 'api/class-ya-rest-authentication.php' );
 
-		#include_once( 'api/class-ya-rest-vessel-controller.php' );
+		include_once( 'api/class-ya-rest-vessel-controller.php' );
 		include_once( 'api/class-ya-rest-vessel-taxonomies-controller.php' );
 	}
 
@@ -55,8 +55,8 @@ class YA_API {
 	 */
 	public function register_rest_routes() {
 		$controllers = array(
-			//'YA_REST_Vessel_Controller'
-			'YA_REST_Vessel_Taxonomies_Controller'
+			'YA_REST_Vessel_Controller',
+			'YA_REST_Vessel_Taxonomies_Controller',
 		);
 
 		foreach ( $controllers as $controller ) {

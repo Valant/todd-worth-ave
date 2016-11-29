@@ -156,9 +156,11 @@ class YA_REST_Vessel_Controller {
         }
         $attachments         = array_filter( explode( ',', $vessel_image_gallery ) );
         foreach ($attachments as $a_id) {
+            $categories = get_post_meta($a_id, 'photo_categories', true);
             $photos[] = array(
                 'id' => $a_id,
                 'url' => wp_get_attachment_image_url($a_id, 'full'),
+                'categories' => $categories,
             );
         }
         return $photos;

@@ -48,12 +48,19 @@ class YA_Meta_Box_Vessel_Status
             return;
         }
 
-        $metaKeys = array_keys(self::statusFields());
+        $fields = self::statusFields();
+        $metaKeys = array_keys($fields);
+        $tags = array();
 
         foreach ($metaKeys as $key) {
-            update_post_meta( $post_id, $key, (isset($_POST[$key]) &&  $_POST[$key]) ? 1 : 0);
+            $val = (isset($_POST[$key]) &&  $_POST[$key]) ? 1 : 0;
+            update_post_meta( $post_id, $key, $val);
+            if ($val) {
+                $tags[] = $val;
+            }
         }
         update_post_meta( $post_id, 'times_sold', (isset($_POST['times_sold']) &&  $_POST['times_sold']) ? (int)$_POST['times_sold'] : 0);
+        wp_set_post_terms($post_id, $tags, 'vessel_sale_status', false);
 
     }
 

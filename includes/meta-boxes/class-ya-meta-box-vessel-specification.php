@@ -95,6 +95,15 @@ class 	YA_Meta_Box_Vessel_Specification {
 	public static function save( $post_id, $post ) {
 		global $wpdb;
 
+		// Checks save status
+		$is_autosave = wp_is_post_autosave( $post_id );
+		$is_revision = wp_is_post_revision( $post_id );
+
+		// Exits script depending on save status
+		if ( $is_autosave || $is_revision || !isset($_POST['VesselType']) ) {
+			return;
+		}
+
 		$specification_fields = get_vessel_specification_fields();
 
 		foreach ($specification_fields as $category => $groups) {

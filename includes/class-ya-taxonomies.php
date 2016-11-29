@@ -90,6 +90,39 @@ class YA_Taxonomies {
 	 * Register core taxonomies.
 	 */
 	public static function register_taxonomies() {
+
+        if ( taxonomy_exists( 'vessel_sale_status' ) ) {
+            return;
+        }
+
+        register_taxonomy( 'vessel_sale_status',
+            apply_filters( 'vessels_taxonomy_objects_vessel_sale_status', array( 'vessel' ) ),
+            apply_filters( 'vessels_taxonomy_args_vessel_sale_status', array(
+                'label'                 => __( 'Status', 'vessels' ),
+                'labels' => array(
+                    'name'              => __( 'Vessel Statuses', 'vessels' ),
+                    'singular_name'     => __( 'Vessel Statuses', 'vessels' ),
+                    'menu_name'         => _x( 'Statuses', 'Admin menu name', 'vessels' ),
+                    'search_items'      => __( 'Search Vessel Statuses', 'vessels' ),
+                    'all_items'         => __( 'All Vessel Statuses', 'vessels' ),
+                    'parent_item'       => __( 'Parent Vessel Status', 'vessels' ),
+                    'parent_item_colon' => __( 'Parent Vessel Status:', 'vessels' ),
+                    'edit_item'         => __( 'Edit Vessel Status', 'vessels' ),
+                    'update_item'       => __( 'Update Vessel Status', 'vessels' ),
+                    'add_new_item'      => __( 'Add New Vessel Status', 'vessels' ),
+                    'new_item_name'     => __( 'New Vessel Status Name', 'vessels' )
+                ),
+                'hierarchical'          => false,
+                'show_admin_column'     => true,
+                'show_ui'               => false,
+                'query_var'             => true,
+                'rewrite'               => false,
+                'show_in_rest'          => true,
+                'rest_base'             => 'vessel_status',
+                'rest_controller_class' => 'WP_REST_Terms_Controller',
+            ) )
+        );
+
 		if ( taxonomy_exists( 'vessel_company' ) ) {
 			return;
 		}

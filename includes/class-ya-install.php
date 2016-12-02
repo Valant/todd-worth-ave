@@ -40,7 +40,7 @@ class YA_Install {
 
 		// Register post types
 		YA_Post_types::register_post_types();
-		YA_Post_types::register_taxonomies();
+		YA_Taxonomies::register_taxonomies();
 
 		// Update version
 		delete_option( 'yatco_version' );

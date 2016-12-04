@@ -3,6 +3,17 @@
 class YA_Meta_Box_Vessel_Status
 {
 
+    const K_FOR_SALE = 'vessel_status_for_sale';
+    const T_FOR_SALE = 'For Sale';
+    const K_FOR_CHARTER = 'vessel_status_for_charter';
+    const T_FOR_CHARTER = 'For Charter';
+    const K_FEATURED_FOR_SALE = 'vessel_status_featured_for_sale';
+    const T_FEATURED_FOR_SALE = 'Featured For Sale';
+    const K_FEATURED_FOR_CHARTER = 'vessel_status_featured_for_charter';
+    const T_FEATURED_FOR_CHARTER = 'Featured For Charter';
+
+    const TAXONOMY = 'vessel_sale_status';
+
 
     /**
      * Status checkboxes
@@ -56,12 +67,30 @@ class YA_Meta_Box_Vessel_Status
             $val = (isset($_POST[$key]) &&  $_POST[$key]) ? 1 : 0;
             update_post_meta( $post_id, $key, $val);
             if ($val) {
-                $tags[] = $val;
+                $tags[] = $fields[$key];
             }
         }
         update_post_meta( $post_id, 'times_sold', (isset($_POST['times_sold']) &&  $_POST['times_sold']) ? (int)$_POST['times_sold'] : 0);
-        wp_set_post_terms($post_id, $tags, 'vessel_sale_status', false);
+        wp_set_post_terms($post_id, $tags, self::TAXONOMY, false);
 
+    }
+
+    /**
+     * Set taxonomy terms by existing post meta values
+     * @param $post_id
+     */
+    public static function setStatusTerms($post_id)
+    {
+        $fields = self::statusFields();
+        $metaKeys = array_keys($fields);
+        $tags = array();
+        foreach ($metaKeys as $key) {
+            $val = get_post_meta($post_id, $key, true);
+            if ($val) {
+                $tags[] = $fields[$key];
+            }
+        }
+        wp_set_post_terms($post_id, $tags, self::TAXONOMY, false);
     }
 
     /**
@@ -72,12 +101,22 @@ class YA_Meta_Box_Vessel_Status
     {
 
         return array(
-            'vessel_status_for_sale' => 'For Sale',
-            'vessel_status_for_charter' => 'For Charter',
-            'vessel_status_featured_for_sale' => 'Featured For Sale',
-            'vessel_status_featured_for_charter' => 'Featured For Charter',
+            self::K_FOR_SALE => self::T_FOR_SALE,
+            self::K_FOR_CHARTER => self::T_FOR_CHARTER,
+            self::K_FEATURED_FOR_SALE => self::T_FEATURED_FOR_SALE,
+            self::K_FEATURED_FOR_CHARTER => self::T_FEATURED_FOR_CHARTER,
             'vessel_status_sold_as_new' => 'Sold As New Construction',
         );
+    }
+
+    public static function setForSale($post_id, $for_sale)
+    {
+        update_post_meta( $post_id, self::K_FOR_SALE, $for_sale );
+        if ($for_sale) {
+            wp_set_post_terms($post_id, array(self::T_FOR_SALE), self::TAXONOMY, true);
+        } else {
+            wp_remove_object_terms($post_id, array(self::T_FOR_SALE), self::TAXONOMY);
+        }
     }
 
 }

@@ -296,7 +296,7 @@ class YA_Admin_API {
             // Lets reset SFSyncVersion, so item will be synced to SF on next run
             update_post_meta( $post_id, 'SFSyncVersion', '' );
             update_post_meta( $post_id, 'SFSyncVersion_sandbox', '' );
-            update_post_meta( $post_id, 'vessel_status_for_sale', 0 );
+            YA_Meta_Box_Vessel_Status::setForSale($post_id, 0);
         }
     }
 
@@ -504,7 +504,7 @@ class YA_Admin_API {
             $my_data = get_object_vars($result);
             update_post_meta( $post_id, 'vessel_detail', $my_data );
             $post_status = $wpdb->get_var("SELECT post_status FROM {$wpdb->posts} WHERE ID={$post_id}");
-            update_post_meta( $post_id, 'vessel_status_for_sale', ($post_status === 'inactive') ? 0 : 1 );
+            YA_Meta_Box_Vessel_Status::setForSale($post_id, ($post_status === 'inactive') ? 0 : 1);
 
             if( !empty($result->LocationCountry) ){
                 $code = array_search($result->LocationCountry, $ya_countries);

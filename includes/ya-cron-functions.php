@@ -221,3 +221,36 @@ function yatco_cron_reparse_vessel_pages($limit=5)
 
 }
 add_action( 'yatco_cron_reparse_vessel_pages', 'yatco_cron_reparse_vessel_pages', 10, 1);
+
+function yatco_cron_fix_vessel_statuses($limit=10)
+{
+
+    if ($limit === '') $limit = 10;
+
+    include_once( 'admin/class-ya-admin.php' );
+
+    $api = new YA_Admin_API();
+
+    global $wpdb;
+
+    $checkKey = 'is_status_done';
+
+    $query = "SELECT {$wpdb->posts}.ID as 'post_id',
+                     m.meta_value FROM {$wpdb->posts}
+                LEFT JOIN {$wpdb->postmeta} m
+                    ON ( {$wpdb->posts}.ID = m.post_id AND m.meta_key = '" . esc_sql($checkKey) . "' )
+                WHERE
+                    {$wpdb->posts}.post_type = 'vessel'
+                AND ( m.meta_value IS NULL OR m.meta_value<>'yes' )
+                GROUP BY {$wpdb->posts}.ID
+                ORDER BY {$wpdb->posts}.post_modified DESC
+                LIMIT ".$limit;
+
+    $vessels = $wpdb->get_results( $query );
+
+    foreach ($vessels as $vessel) {
+        YA_Meta_Box_Vessel_Status::setStatusTerms($vessel->post_id);
+        update_post_meta($vessel->ID, $checkKey, 'yes');
+    }
+}
+add_action( 'yatco_cron_fix_vessel_statuses', 'yatco_cron_fix_vessel_statuses', 10, 1);

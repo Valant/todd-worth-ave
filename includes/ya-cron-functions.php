@@ -250,7 +250,7 @@ function yatco_cron_fix_vessel_statuses($limit=10)
 
     foreach ($vessels as $vessel) {
         YA_Meta_Box_Vessel_Status::setStatusTerms($vessel->post_id);
-        update_post_meta($vessel->ID, $checkKey, 'yes');
+        update_post_meta($vessel->post_id, $checkKey, 'yes');
     }
 }
 add_action( 'yatco_cron_fix_vessel_statuses', 'yatco_cron_fix_vessel_statuses', 10, 1);

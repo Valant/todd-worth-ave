@@ -151,6 +151,7 @@ function sf_synchronize_products( $mode, $version, $limit )
                     update_post_meta( $item->post_id, $salesForceApi->getSyncIdKey(), $response['id'] );
                 } else {
                     update_post_meta( $item->post_id, $salesForceApi->getSyncVersionKey(), $salesForceApi->getSyncVersion() );
+                    update_post_meta( $item->post_id, 'sf_sync_error', json_encode($response) );
                     if ( function_exists("SimpleLogger") ) {
                         SimpleLogger()->info('LOG:error response (post_id='.$item->post_id.'): ', array('api_response'=>json_encode($response)));
                     }

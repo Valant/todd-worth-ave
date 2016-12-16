@@ -36,10 +36,10 @@ return array(
                   'id'          => 'AgreementType',
                   'label'       => __( 'Agreement Type', 'yatco' )
                 ),
-                array(
-                  'id'          => 'ApproxPriceFormatted',
-                  'label'       => __( 'Approx Price', 'yatco' )
-                ),
+//                array(
+//                  'id'          => 'ApproxPriceFormatted',
+//                  'label'       => __( 'Approx Price', 'yatco' )
+//                ),
                 array(
                   'id'          => 'Condition',
                   'label'       => __( 'Condition', 'yatco' ),
@@ -48,30 +48,6 @@ return array(
                     'Used' => __( 'Used', 'yatco' ),
                     'New'  => __( 'New', 'yatco' ),
                   ) 
-                ),
-                array(
-                  'id'          => 'CruiseSpeed',
-                  'label'       => __( 'Cruise Speed', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_speed_units()
-                ),
-                array(
-                  'id'          => 'CruiseSpeedRange',
-                  'label'       => __( 'Cruise Speed Range', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'MaxSpeed',
-                  'label'       => __( 'Max Speed', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_speed_units()
-                ),
-                array(
-                  'id'          => 'MaxSpeedRange',
-                  'label'       => __( 'Max Speed Range', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
                 ),
                 array(
                   'id'          => 'Flag',
@@ -105,6 +81,34 @@ return array(
                 ),
           ),
         ),
+    'speedrange' => array(
+        array(
+            array(
+                'id'          => 'CruiseSpeed',
+                'label'       => __( 'Cruise Speed', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_speed_units()
+            ),
+            array(
+                'id'          => 'CruiseSpeedRange',
+                'label'       => __( 'Cruise Speed Range', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'MaxSpeed',
+                'label'       => __( 'Max Speed', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_speed_units()
+            ),
+            array(
+                'id'          => 'MaxSpeedRange',
+                'label'       => __( 'Max Speed Range', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+        ),
+    ),
     'arrangement'  => array(
           array(
                 array(

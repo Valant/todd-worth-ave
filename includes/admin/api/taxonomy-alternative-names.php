@@ -70,7 +70,7 @@ return array(
         'Steam Room' => array(),
         'Swimming Pool' => array(),
         'Video On Demand' => array('VOD'),
-        ' WiFi' => array('wi-fi'),
+        'WiFi' => array('wi-fi'),
         'Zero Speed Stabilizers' => array('zero speed ride control', 'zero speed stabilization'),
     ),
 );

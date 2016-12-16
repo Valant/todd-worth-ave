@@ -24,6 +24,9 @@ class YA_Admin_API {
     protected $admin_id = 0;
     protected $vessel_detail = false;
 
+
+    protected $_termsList = array();
+
     /**
      * Constructor
      */
@@ -369,11 +372,17 @@ class YA_Admin_API {
             }
 
             $answer['status'] = 'updated';
+
+            $isNewPost = false;
+
         } else {
 
             $post_id = wp_insert_post($post);
 
             $answer['status'] = 'added';
+
+            $isNewPost = true;
+
         }
 
         if($post_id) {
@@ -594,6 +603,12 @@ $_value = '';*/
             foreach ($my_data as $key => $value) {
                 update_post_meta( $post_id, $key, $value );
             }
+
+            // save toys and amenities using description text
+            if ($isNewPost) {
+                $this->saveTagsFromText($post_id, $post_content);
+            }
+
             update_post_meta( $post_id, '_source', 'yatco' );
             
             return $answer;
@@ -678,6 +693,79 @@ $_value = '';*/
         $sql = "SELECT COUNT(*) as c " . $this->get_missing_data_sql();
         return $wpdb->get_var($sql);
     }
+
+    public function saveTagsFromText($post_id, $text)
+    {
+        $foundTags = $this->getTagsFromText($text);
+        if ($foundTags) {
+            foreach ($foundTags as $taxonomy => $tags) {
+                if ($tags) {
+
+                    $tagsid = array();
+                    foreach ($tags as $tag) {
+                        $id = $this->get_term_id($taxonomy,$tag);
+                        if (!$id) {
+                            $tinfo = wp_insert_term($tag, $taxonomy);
+                            if (is_array($tinfo)) {
+                                $id = $tinfo['term_id'];
+                                $this->_termsList[$taxonomy][$tag] = $id;
+                            }
+                        }
+                        if ($id) {
+                            $tagsid[] = $id;
+                        }
+                    }
+
+                    wp_set_post_terms($post_id, $tagsid, $taxonomy, false);
+
+                }
+            }
+        }
+    }
+
+    public function getTagsFromText($text)
+    {
+        $tags = array();
+        $lists = include __DIR__ . '/taxonomy-alternative-names.php';
+        $words = array_map('strtolower', explode(' ', $text));
+        foreach ($lists as $taxonomy => $list) {
+            $tags[$taxonomy] = array();
+            foreach ($list as $tag => $alternatives) {
+                $alternatives[] = $tag;
+                $alternatives = array_map('strtolower', $alternatives);
+                if (count(array_intersect($words, $alternatives)) > 0) {
+                    $tags[$taxonomy][] = $tag;
+                }
+            }
+        }
+        return $tags;
+    }
+
+    public function load_taxonomy($taxonomy)
+    {
+        if (is_array($taxonomy)) {
+            foreach ($taxonomy as $t)
+                $this->load_taxonomy($t);
+            return;
+        }
+        $t = get_terms(array(
+            'taxonomy' => $taxonomy,
+            'hide_empty' => false,
+        ));
+        $this->_termsList[$taxonomy] = array();
+        foreach ($t as $term) {
+            $this->_termsList[$term->name] = $term->term_id;
+        }
+    }
+
+    public function get_term_id($taxonomy,$name)
+    {
+        if (!array_key_exists($taxonomy, $this->_termsList)) {
+            $this->load_taxonomy($taxonomy);
+        }
+        return isset($this->_termsList[$name]) ? $this->_termsList[$name] : null;
+    }
+
 
 
 }

@@ -26,6 +26,7 @@ class YA_AJAX {
 		$ajax_events = array(
 			'load_vessels'                          => true,
 			'reparse_data'                          => true,
+			'parse_vessel_tags'                          => false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -125,6 +126,36 @@ class YA_AJAX {
         }
         wp_send_json( $answer );
         die;
+    }
+
+    public static function parse_vessel_tags()
+    {
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        --$page;
+        if ($page<0) $page = 1;
+        $result = array(
+            'total' => 0,
+            'totalpages' => 0,
+            'page' => $page,
+            'items' => array(),
+        );
+        include_once( __DIR__ . '/admin/class-ya-admin.php' );
+        $api = new YA_Admin_API();
+        global $wpdb;
+        $pageSize = 10;
+        $offset = $pageSize * $page;
+        $sql = " FROM {$wpdb->posts} WHERE post_type='vessel' ";
+        $result['total'] = (int)$wpdb->get_var("SELECT COUNT(*) " . $sql);
+        $result['totalpages'] = ceil($result['total'] / $pageSize);
+        $sql = "SELECT id,post_content" . $sql . " ORDER BY id ASC LIMIT {$offset},{$pageSize};";
+        $posts = $wpdb->get_results($sql);
+        foreach ($posts as $postinfo) {
+            $api->saveTagsFromText($postinfo->id, $postinfo->post_content);
+            $result['items'][] = array('id' => $postinfo->id);
+        }
+        $result['count'] = count($result['items']);
+        wp_send_json($result);
+        die();
     }
 
 	

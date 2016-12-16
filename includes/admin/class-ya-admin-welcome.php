@@ -51,6 +51,11 @@ class YA_Admin_Welcome {
 				add_action( 'admin_print_styles-' . $page, array( $this, 'admin_css' ) );
 				add_action( 'admin_print_scripts-' . $page, array( $this, 'admin_js' ) );
 				break;
+			case 'ya-data-actions' :
+				$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'ya-data-actions', array( $this, 'data_actions' ) );
+				add_action( 'admin_print_styles-' . $page, array( $this, 'admin_css' ) );
+				add_action( 'admin_print_scripts-' . $page, array( $this, 'admin_js' ) );
+				break;
 		}
 	}
 	/**
@@ -65,6 +70,7 @@ class YA_Admin_Welcome {
 	public function admin_js() {
 		wp_register_script( 'yatco-activation', YA()->plugin_url() . '/assets/js/admin/load-all-vessels.js', array('jquery'), YA_VERSION );
 		wp_register_script( 'yatco-reparse', YA()->plugin_url() . '/assets/js/admin/reparse-data.js', array('jquery'), YA_VERSION );
+		wp_register_script( 'yatco-data-actions', YA()->plugin_url() . '/assets/js/admin/data-actions.js', array('jquery'), YA_VERSION );
 		$translation_array = array(
 			'i18n_stopping'           => self::esc_quotes( __( 'Stopping...', 'yatco' ) ),
 			'i18n_failures'           => __( 'All done! %1$s vessel(s) were successfully loaded in %2$s seconds and there were %3$s failure(s).', 'yatco' ),
@@ -74,6 +80,7 @@ class YA_Admin_Welcome {
 		wp_localize_script( 'yatco-activation', 'yatco_opt', $translation_array );
 		wp_enqueue_script( 'yatco-activation');
 		wp_enqueue_script( 'yatco-reparse');
+		wp_enqueue_script( 'yatco-data-actions');
 	}
 	static function esc_quotes( $string ) {
     return str_replace( '"', '\"', $string );
@@ -312,6 +319,72 @@ class YA_Admin_Welcome {
 					</div>
 					<p>
 						<input id="loadvessel-stop" class="button hide-if-no-js" type="button" value="<?php _e('Abort', 'yatco'); ?>">
+					</p>
+					<h3 class="title"><?php _e('Debugging Information', 'yatco'); ?></h3>
+					<p>
+						<?php
+						$count_v = $api->get_missing_data_count();
+						?>
+						<input type="hidden" id="loadvessel_record_count" value="<?= $count_v ?>">
+						<input type="hidden" id="loadvessel_page_count" value="<?= ceil($count_v / 10) ?>">
+						<b><?php _e('Total', 'yatco'); ?></b>: <?php echo $count_v; ?><br>
+						<b><?php _e('Loaded', 'yatco'); ?></b>: <span id="loadvessel-debug-successcount">0</span><br>
+						<b><?php _e('Failure', 'yatco'); ?></b>: <span id="loadvessel-debug-failurecount">0</span>
+					</p>
+					<ol id="loadvessel-debuglist">
+					</ol>
+				</div>
+			<?php } else{ ?>
+				<form action="<?php echo admin_url( 'index.php' ); ?>" method="get">
+					<input type="hidden" name="page" value="ya-load-vessels">
+					<p>
+						<?php _e('Please enter YATCO API Key for start loading.', 'yatco'); ?>
+					</p>
+					<input type="text" name="yatco_api_key">
+					<p>
+						<input class="button button-primary hide-if-no-js" type="submit" value="<?php _e('Save', 'yatco'); ?>">
+					</p>
+				</form>
+			<?php }?>
+			<hr />
+		</div>
+		<?php
+	}
+
+	public function data_actions()
+	{
+		?>
+		<div class="wrap about-wrap">
+
+		<?php $this->intro(); ?>
+
+		<!--<div class="changelog point-releases"></div>-->
+		<hr>
+		<div class="changelog">
+			<h2><?php _e('Data Actions', 'yatco'); ?></h2>
+			<div id="data-actions-settings">
+				<input type="radio" name="action" value="yatco_parse_vessel_tags" data-type="cron">Parse Amenities and Toys</input>
+<!--				<input type="radio"  name="action" value="create_data_hashes"  data-type="cron">Create data hashes</option>-->
+			</div>
+			<div id="message" style="display: none;"></div>
+			<?php
+			$yatco_api_key = get_option('yatco_api_key');
+			$api = new YA_Admin_API();
+			if($yatco_api_key){
+				?>
+				<p>
+					<input id="data-action-start" class="button hide-if-no-js" type="button" value="<?php _e('Start', 'yatco'); ?>">
+				</p>
+				<div id="loadvessel_progressbar">
+					<p>
+						<?php _e('Please be patient while the vessels are loaded. This can take a while if your server is slow or if load many vessels and categories. Do not navigate away from this page until this script is done or the vessels will not be loaded. You will be notified via this page when the loading is completed.', 'yatco'); ?>
+					</p>
+					<div id="loadvessel-bar">
+						<div style="" id="loadvessel-bar-percent">0%</div>
+						<div id="loadvessel-progressbar-value" style="width: 0%;"></div>
+					</div>
+					<p>
+						<input id="data-action-stop" class="button hide-if-no-js" type="button" value="<?php _e('Abort', 'yatco'); ?>">
 					</p>
 					<h3 class="title"><?php _e('Debugging Information', 'yatco'); ?></h3>
 					<p>

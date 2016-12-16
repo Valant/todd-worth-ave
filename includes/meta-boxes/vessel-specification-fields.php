@@ -354,52 +354,79 @@ return array(
                 ),
           )
       ),
-    'dimensions'   => array(
-          array(
-                array(
-                  'id'          => 'Beam',
-                  'label'       => __( 'Beam', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_length_units()
-                ),
-                array(
-                  'id'          => 'HeadRoom',
-                  'label'       => __( 'Interior Clearance', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_length_units()
-                ),
-                array(
-                  'id'          => 'LOD',
-                  'label'       => __( 'Draft', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_length_units()
-                ),
-                array(
-                  'id'          => 'LWL',
-                  'label'       => __( 'Lentgh Waterline', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_length_units()
-                ),
-                array(
-                  'id'          => 'MaxDraft',
-                  'label'       => __( 'Max Draft', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_length_units()
-                ),
-                array(
-                  'id'          => 'MinDraft',
-                  'label'       => __( 'Min Draft', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_length_units()
-                ),
-                array(
-                  'id'          => 'LOA',
-                  'label'       => __( 'Length Overall', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_length_units()
-                ),
-            )
-      ),
+    'measurements' => array(
+        array(
+            array(
+                'id'          => 'LOA',
+                'label'       => __( 'Length Overall', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'BuilderLength',
+                'label'       => __( 'Build Length', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'LWL',
+                'label'       => __( 'Lentgh Waterline', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'Beam',
+                'label'       => __( 'Beam', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'LOD',
+                'label'       => __( 'Draft', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'MinDraft',
+                'label'       => __( 'Min Draft', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'MaxDraft',
+                'label'       => __( 'Max Draft', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'BridgeClearance',
+                'label'       => __( 'Air Draft', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'HeadRoom',
+                'label'       => __( 'Interior Clearance', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'Weight',
+                'label'       => __( 'Weight', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_weight_units()
+            ),
+            array(
+                'id'          => 'GrossTonnage',
+                'label'       => __( 'Gross Tonnage', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+
+
+
+        )
+    ),
     'engine'       => array(
           array(
                 array(
@@ -759,34 +786,6 @@ return array(
                       'style'       => 'border: none; background: inherit; box-shadow: none; color: #ccc;',
                       'wrapper_class' => 'col-2',
                   ),
-          )
-      ),
-    'measurements' => array(
-          array(
-                array(
-                  'id'          => 'GrossTonnage',
-                  'label'       => __( 'Gross Tonnage', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'BridgeClearance',
-                  'label'       => __( 'Air Draft', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_length_units()
-                ),
-                array(
-                  'id'          => 'BuilderLength',
-                  'label'       => __( 'Build Length', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_length_units()
-                ),
-                array(
-                  'id'          => 'Weight',
-                  'label'       => __( 'Weight', 'yatco' ),
-                  'type'        => 'units',
-                  'options'     => ya_get_weight_units()
-                ),
           )
       ),
     'media' => array(

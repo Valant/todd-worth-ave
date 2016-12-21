@@ -162,11 +162,11 @@ class 	YA_Meta_Box_Vessel_Specification {
 			            ucfirst($key),
 			            strtoupper($key)
 			        );
-			        $_value = ya_convert_measurement($value, $unit, $key);
-                    if( $_value && !empty($_value) ){
+			        $_value = ($key===$unit) ? $value : ya_convert_measurement($value, $unit, $key);
+			        if( $_value && !empty($_value) ){
 						update_post_meta( $post_id, $field_name . $_unit[0], $_value );
 						update_post_meta( $post_id, $field_name . $_unit[1], $_value );                    	
-						update_post_meta( $post_id, $field_name . $key, $value );                    	
+						update_post_meta( $post_id, $field_name . $key, $_value );
                     }
 				}
 				update_post_meta( $post_id, $field_name . '_unit', $unit );

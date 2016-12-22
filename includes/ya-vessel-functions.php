@@ -22,6 +22,7 @@ function get_vessel_specification_categories()
     'media'        => __( 'Media', 'yatco' ),
     'official_num' => __( 'Official Numbers', 'yatco' ),
     'sale'         => __( 'Sale Information', 'yatco' ),
+    'charter'         => __( 'Charter Information', 'yatco' ),
     'additional'   => __( 'Additional Information', 'yatco' ),
     'speedrange'   => __( 'Speed & Range', 'yatco' ),
     );

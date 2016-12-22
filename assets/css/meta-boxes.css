@@ -130,7 +130,7 @@
   color: #999;
 }
 #photo_gallery .inside #vessel_images_container ul ul.actions li a.delete:hover:before {
-  color: #a00;
+  color: #aa0000;
 }
 #photo_gallery .inside #vessel_images_container ul ul.actions .edit-photo-categories-dropdown {
   position: relative;
@@ -288,6 +288,9 @@
   content: "#";
 }
 #vessel_specification ul.ya-tabs li.sale_options a:before {
+  content: "\20AC";
+}
+#vessel_specification ul.ya-tabs li.charter_options a:before {
   content: "\20AC";
 }
 #vessel_specification ul.ya-tabs li.active a {

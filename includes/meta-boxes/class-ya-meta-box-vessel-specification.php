@@ -178,5 +178,13 @@ class 	YA_Meta_Box_Vessel_Specification {
 				break;
 		}
 		update_post_meta( $post_id, $field_name, $value );
+
+        do_action_ref_array('after_save_vessels_field_' . $field_name, array(
+            'post_id' => $post_id,
+            'field' => $field_name,
+            'value' => $value,
+            'unit' => isset($unit) ? $unit : null,
+        ));
+
 	}
 }

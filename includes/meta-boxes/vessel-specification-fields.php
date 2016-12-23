@@ -831,6 +831,46 @@ return array(
                 ),
           )
     ),
+    'charter' => array(
+        array(
+            array(
+                'id'          => 'WeeklyRateSummer',
+                'label'       => __( 'Weekly Rate Summer', 'yatco' )
+            ),
+            array(
+                'id'          => 'WeeklyRateSummerCurrency',
+                'label'       => __( 'Currency', 'yatco' ),
+                'type'        => 'select',
+                'options'     => $currency_code_options
+            ),
+            array(
+                'id'          => 'WeeklyRateWinter',
+                'label'       => __( 'Weekly Rate Winter', 'yatco' )
+            ),
+            array(
+                'id'          => 'WeeklyRateWinterCurrency',
+                'label'       => __( 'Currency', 'yatco' ),
+                'type'        => 'select',
+                'options'     => $currency_code_options
+            ),
+        ),
+        array(
+            array(
+                'id'    => 'SummerRegion',
+                'label' => 'Summer Region',
+            ),
+            array(
+                'id'    => 'WinterRegion',
+                'label' => 'Winter Region',
+            ),
+            array(
+                'id'          => 'MaximumNumOfGuests',
+                'label'       => __( 'Maximum # of Guests', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+        )
+    ),
     'sale' => array(
           array(
                 array(
@@ -907,46 +947,6 @@ return array(
                 ),
                 
           )
-    ),
-    'charter' => array(
-        array(
-            array(
-                'id'          => 'WeeklyRateSummer',
-                'label'       => __( 'Weekly Rate Summer', 'yatco' )
-            ),
-            array(
-                'id'          => 'WeeklyRateSummerCurrency',
-                'label'       => __( 'Currency', 'yatco' ),
-                'type'        => 'select',
-                'options'     => $currency_code_options
-            ),
-            array(
-                'id'          => 'WeeklyRateWinter',
-                'label'       => __( 'Weekly Rate Winter', 'yatco' )
-            ),
-            array(
-                'id'          => 'WeeklyRateWinterCurrency',
-                'label'       => __( 'Currency', 'yatco' ),
-                'type'        => 'select',
-                'options'     => $currency_code_options
-            ),
-        ),
-        array(
-            array(
-                'id'    => 'SummerRegion',
-                'label' => 'Summer Region',
-            ),
-            array(
-                'id'    => 'WinterRegion',
-                'label' => 'Winter Region',
-            ),
-            array(
-                'id'          => 'MaximumNumOfGuests',
-                'label'       => __( 'Maximum # of Guests', 'yatco' ),
-                'type'        => 'number',
-                'style'       => 'width: 150px;',
-            ),
-        )
     ),
     'additional'   => array(
         array(

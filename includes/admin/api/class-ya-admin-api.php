@@ -725,6 +725,7 @@ $_value = '';*/
 
     public function getTagsFromText($text)
     {
+        $_text = strtolower($text);
         $tags = array();
         $lists = include __DIR__ . '/taxonomy-alternative-names.php';
         $words = array_map('strtolower', explode(' ', $text));
@@ -733,8 +734,14 @@ $_value = '';*/
             foreach ($list as $tag => $alternatives) {
                 $alternatives[] = $tag;
                 $alternatives = array_map('strtolower', $alternatives);
-                if (count(array_intersect($words, $alternatives)) > 0) {
-                    $tags[$taxonomy][] = $tag;
+//                if (count(array_intersect($words, $alternatives)) > 0) {
+//                    $tags[$taxonomy][] = $tag;
+//                }
+                foreach ($alternatives as $searchWord) {
+                    if (strpos($_text, $searchWord) !== false) {
+                        $tags[$taxonomy][] = $tag;
+                        break;
+                    }
                 }
             }
         }

@@ -130,7 +130,7 @@
   color: #999;
 }
 #photo_gallery .inside #vessel_images_container ul ul.actions li a.delete:hover:before {
-  color: #aa0000;
+  color: #a00;
 }
 #photo_gallery .inside #vessel_images_container ul ul.actions .edit-photo-categories-dropdown {
   position: relative;

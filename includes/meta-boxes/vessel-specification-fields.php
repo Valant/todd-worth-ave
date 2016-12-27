@@ -81,34 +81,6 @@ return array(
                 ),
           ),
         ),
-    'speedrange' => array(
-        array(
-            array(
-                'id'          => 'CruiseSpeed',
-                'label'       => __( 'Cruise Speed', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_speed_units()
-            ),
-            array(
-                'id'          => 'CruiseSpeedRange',
-                'label'       => __( 'Cruise Speed Range', 'yatco' ),
-                'type'        => 'number',
-                'style'       => 'width: 150px;',
-            ),
-            array(
-                'id'          => 'MaxSpeed',
-                'label'       => __( 'Max Speed', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_speed_units()
-            ),
-            array(
-                'id'          => 'MaxSpeedRange',
-                'label'       => __( 'Max Speed Range', 'yatco' ),
-                'type'        => 'number',
-                'style'       => 'width: 150px;',
-            ),
-        ),
-    ),
     'arrangement'  => array(
           array(
                 array(
@@ -222,6 +194,116 @@ return array(
                 ),
           )
       ),
+    'historical'   => array(
+        array(
+            array(
+                'id'          => 'FormerNames',
+                'label'       => __( 'Former Names', 'yatco' ),
+            ),
+            array(
+                'id'          => 'FormerNameDateChange',
+                'label'       => __( 'Date', 'yatco' ),
+                'class'       => 'ya-datepicker',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'LastKnownFlag',
+                'label'       => __( 'Last Known Flag', 'yatco' ),
+            ),
+            array(
+                'id'          => 'HullProjectManager',
+                'label'       => __( 'Build Manager', 'yatco' ),
+            ),
+            array(
+                'id'          => 'RefitType',
+                'label'       => __( 'Refit Type', 'yatco' ),
+            ),
+            array(
+                'id'          => 'RefitYear',
+                'label'       => __( 'Refit Year', 'yatco' ),
+                'type'        => 'select',
+                'style'       => 'width: 200px;',
+                'options'     => $years_list,
+            ),
+            array(
+                'id'          => 'LastKnownCoordinatesAIS',
+                'label'       => __( 'Last Known Position', 'yatco' ),
+            ),
+        )
+    ),
+    'measurements' => array(
+        array(
+            array(
+                'id'          => 'LOA',
+                'label'       => __( 'Length Overall', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'BuilderLength',
+                'label'       => __( 'Build Length', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'LWL',
+                'label'       => __( 'Lentgh Waterline', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'Beam',
+                'label'       => __( 'Beam', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'LOD',
+                'label'       => __( 'Draft', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'MinDraft',
+                'label'       => __( 'Min Draft', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'MaxDraft',
+                'label'       => __( 'Max Draft', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'BridgeClearance',
+                'label'       => __( 'Air Draft', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'HeadRoom',
+                'label'       => __( 'Interior Clearance', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_length_units()
+            ),
+            array(
+                'id'          => 'Weight',
+                'label'       => __( 'Weight', 'yatco' ),
+                'type'        => 'units',
+                'options'     => ya_get_weight_units()
+            ),
+            array(
+                'id'          => 'GrossTonnage',
+                'label'       => __( 'Gross Tonnage', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+
+
+
+        )
+    ),
     'capacities'   => array(
         array(
                 array(
@@ -297,6 +379,421 @@ return array(
                 ),
           )
       ),
+        'speedrange' => array(
+            array(
+                array(
+                    'id'          => 'CruiseSpeed',
+                    'label'       => __( 'Cruise Speed', 'yatco' ),
+                    'type'        => 'units',
+                    'options'     => ya_get_speed_units()
+                ),
+                array(
+                    'id'          => 'CruiseSpeedRange',
+                    'label'       => __( 'Cruise Speed Range', 'yatco' ),
+                    'type'        => 'number',
+                    'style'       => 'width: 150px;',
+                ),
+                array(
+                    'id'          => 'MaxSpeed',
+                    'label'       => __( 'Max Speed', 'yatco' ),
+                    'type'        => 'units',
+                    'options'     => ya_get_speed_units()
+                ),
+                array(
+                    'id'          => 'MaxSpeedRange',
+                    'label'       => __( 'Max Speed Range', 'yatco' ),
+                    'type'        => 'number',
+                    'style'       => 'width: 150px;',
+                ),
+            ),
+        ),
+    'crew_areas'   => array(
+        array(
+            array(
+                'id'          => 'CaptainQuarters',
+                'label'       => __( 'Captain Quarters', 'yatco' ),
+                'type'        => 'radio',
+                'options' => array(
+                    'Yes' => __( 'Yes', 'yatco' ),
+                    'No'  => __( 'No', 'yatco' ),
+                )
+            ),
+            array(
+                'id'          => 'NumBerths',
+                'label'       => __( 'Guest Berths', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'NumCrewBerths',
+                'label'       => __( 'Crew Berths', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'NumCrewHeads',
+                'label'       => __( 'Crew Heads', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'NumCrewQuarters',
+                'label'       => __( 'Crew Quarters', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'NumCrewSleeps',
+                'label'       => __( 'Crew', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+        )
+    ),
+    'guest_area'   => array(
+        array(
+            array(
+                'id'          => 'NumHeads',
+                'label'       => __( 'Guest Heads', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'NumSleeps',
+                'label'       => __( 'Guests', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'StateRooms',
+                'label'       => __( 'State Rooms', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+        )
+    ),
+    'engine'       => array(
+        array(
+            array(
+                'id'          => 'EngineEngineCount',
+                'label'       => __( 'Engine Count', 'yatco' ),
+                'type'        => 'number',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineEngineModel',
+                'label'       => __( 'Engine Model', 'yatco' ),
+                'type'        => 'taxonomy',
+                'taxonomy'    => 'engine_model',
+                'style'             => 'width: 50%;',
+                'class'             => 'ya-enhanced-select',
+                'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Engine Model', 'yatco' ))
+            ),
+            array(
+                'id'          => 'EngineManufacturer',
+                'label'       => __( 'Engine Manufacturer', 'yatco' ),
+                'type'        => 'taxonomy',
+                'taxonomy'    => 'engine_manufacturer',
+                'style'             => 'width: 50%;',
+                'class'             => 'ya-enhanced-select',
+                'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Engine Manufacturer', 'yatco' ))
+            ),
+            array(
+                'id'          => 'EngineType',
+                'label'       => __( 'Engine Type', 'yatco' ),
+                'type'        => 'select',
+                'options'     => array(
+                    'I/O'         => __('I/O','yatco'),
+                    'Inboard'     => __('Inboard', 'yatco')
+                )
+            ),
+            array(
+                'id'          => 'PropulsionType',
+                'label'       => __( 'Propulsion Type', 'yatco' ),
+                'type'        => 'select',
+                'options'     => array(
+                    'Twin Screw'       => __('Twin Screw','yatco'),
+                    'Direct Drive'     => __('Direct Drive', 'yatco'),
+                    'Folding Prop'     => __('Folding Prop', 'yatco'),
+                )
+            ),
+            array(
+                'id'          => 'RPMCruiseSpeed',
+                'label'       => __( 'RPM Cruise Speed', 'yatco' ),
+            ),
+            array(
+                'id'          => 'RPMMaxSpeed',
+                'label'       => __( 'RPM Max Speedt', 'yatco' ),
+            ),
+        ),
+        array(
+            array(
+                'id'            => 'EngineDateHoursRegistered1',
+                'label'         => __( 'Engine Hours Date 1', 'yatco' ),
+                'type'          => 'number',
+                'wrapper_class' => 'col-2',
+                'style'         => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineDateHoursRegistered2',
+                'label'       => __( 'Engine Hours Date 2', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineDateHoursRegistered3',
+                'label'       => __( 'Engine Hours Date 3', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineDateHoursRegistered4',
+                'label'       => __( 'Engine Hours Date 4', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+        ),
+        array(
+            array(
+                'id'          => 'EngineDateOverhaul1',
+                'label'       => __( 'Engine 1 Overhaul Date', 'yatco' ),
+                'type'        => 'text',
+                'class'       => 'ya-datepicker',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineDateOverhaul2',
+                'label'       => __( 'Engine 2 Overhaul Date', 'yatco' ),
+                'type'        => 'text',
+                'class'       => 'ya-datepicker',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineDateOverhaul3',
+                'label'       => __( 'Engine 3 Overhaul Date', 'yatco' ),
+                'type'        => 'text',
+                'class'       => 'ya-datepicker',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineDateOverhaul4',
+                'label'       => __( 'Engine 4 Overhaul Date', 'yatco' ),
+                'type'        => 'text',
+                'class'       => 'ya-datepicker',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+        ),
+        array(
+            array(
+                'id'          => 'EngineHorsePower1',
+                'label'       => __( 'Engine 1 HP', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineHorsePower2',
+                'label'       => __( 'Engine 2 HP', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineHorsePower3',
+                'label'       => __( 'Engine 3 HP', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineHorsePower4',
+                'label'       => __( 'Engine 4 HP', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+        ),
+        array(
+            array(
+                'id'          => 'EngineHours1',
+                'label'       => __( 'Engine 1 Hours', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineHours2',
+                'label'       => __( 'Engine 2 Hours', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineHours3',
+                'label'       => __( 'Engine 3 Hours', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineHours4',
+                'label'       => __( 'Engine 4 Hours', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+        ),
+        array(
+            array(
+                'id'          => 'EngineOverhaulHours1',
+                'label'       => __( 'Engine 1 Overhaul Hours', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineOverhaulHours2',
+                'label'       => __( 'Engine 2 Overhaul Hours', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineOverhaulHours3',
+                'label'       => __( 'Engine 3 Overhaul Hours', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'EngineOverhaulHours4',
+                'label'       => __( 'Engine 4 Overhaul Hours', 'yatco' ),
+                'type'        => 'number',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 150px;',
+            ),
+        ),
+        array(
+            array(
+                'id'          => 'EngineSerialNumber1',
+                'label'       => __( 'Engine 1 Serial Number', 'yatco' ),
+                'wrapper_class' => 'col-2',
+            ),
+            array(
+                'id'          => 'EngineSerialNumber2',
+                'label'       => __( 'Engine 2 Serial Number', 'yatco' ),
+                'wrapper_class' => 'col-2',
+            ),
+            array(
+                'id'          => 'EngineSerialNumber3',
+                'label'       => __( 'Engine 3 Serial Number', 'yatco' ),
+                'wrapper_class' => 'col-2',
+            ),
+            array(
+                'id'          => 'EngineSerialNumber4',
+                'label'       => __( 'Engine 4 Serial Number', 'yatco' ),
+                'wrapper_class' => 'col-2',
+            ),
+        ),
+        array(
+            array(
+                'id'          => 'EngineYear1',
+                'label'       => __( 'Engine 1 Year', 'yatco' ),
+                'type'        => 'select',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 200px;',
+                'options'     => $years_list
+            ),
+            array(
+                'id'          => 'EngineYear2',
+                'label'       => __( 'Engine 2 Year', 'yatco' ),
+                'type'        => 'select',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 200px;',
+                'options'     => $years_list
+            ),
+            array(
+                'id'          => 'EngineYear3',
+                'label'       => __( 'Engine 3 Year', 'yatco' ),
+                'type'        => 'select',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 200px;',
+                'options'     => $years_list
+            ),
+            array(
+                'id'          => 'EngineYear4',
+                'label'       => __( 'Engine 4 Year', 'yatco' ),
+                'type'        => 'select',
+                'wrapper_class' => 'col-2',
+                'style'       => 'width: 200px;',
+                'options'     => $years_list
+            ),
+        )
+
+    ),
+    'official_num' => array(
+        array(
+            array(
+                'id'          => 'CoastGuardNumber',
+                'label'       => __( 'USCG No', 'yatco' )
+            ),
+            array(
+                'id'          => 'RegistrationNumber',
+                'label'       => __( 'Registration Number', 'yatco' )
+            ),
+            array(
+                'id'          => 'IMONumber',
+                'label'       => __( 'IMO Number', 'yatco' )
+            ),
+            array(
+                'id'          => 'MMSINumber',
+                'label'       => __( 'MMSI Number', 'yatco' )
+            ),
+        )
+    ),
+    'location'     => array(
+        array(
+            array(
+                'id'                => 'LocationCountry',
+                'label'             => __( 'Country', 'yatco' ),
+                'type'              => 'select',
+                'style'             => 'width: 50%;',
+                'class'             => 'ya-enhanced-select',
+                'options'           => array('' => '') + ya_get_countries(),
+                'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Country', 'yatco' ))
+            ),
+            array(
+                'id'          => 'LocationState',
+                'label'       => __( 'State', 'yatco' ),
+            ),
+            array(
+                'id'          => 'LocationCity',
+                'label'       => __( 'City', 'yatco' ),
+            ),
+            array(
+                'id'          => 'LocationRegionName',
+                'label'       => __( 'Region Name', 'yatco' ),
+            ),
+            array(
+                'id'          => 'LocationLastKnownPoint',
+                'label'       => __( 'Last Known Location', 'yatco' ),
+                'wrapper_class' => 'col-2',
+            ),
+            array(
+                'id'          => 'LocationLastKnownDate',
+                'label'       => '',
+                'style'       => 'border: none; background: inherit; box-shadow: none; color: #ccc;',
+                'wrapper_class' => 'col-2',
+            ),
+        )
+    ),
     'contact'      => array(
           array(
                 array(
@@ -315,522 +812,6 @@ return array(
                 ),
           )
       ),
-    'crew_areas'   => array(
-          array(
-                array(
-                  'id'          => 'CaptainQuarters',
-                  'label'       => __( 'Captain Quarters', 'yatco' ),
-                  'type'        => 'radio',
-                  'options' => array(
-                    'Yes' => __( 'Yes', 'yatco' ),
-                    'No'  => __( 'No', 'yatco' ),
-                  )
-                ),
-                array(
-                  'id'          => 'NumBerths',
-                  'label'       => __( 'Guest Berths', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'NumCrewBerths',
-                  'label'       => __( 'Crew Berths', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'NumCrewHeads',
-                  'label'       => __( 'Crew Heads', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'NumCrewQuarters',
-                  'label'       => __( 'Crew Quarters', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'NumCrewSleeps',
-                  'label'       => __( 'Crew', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-          )
-      ),
-    'measurements' => array(
-        array(
-            array(
-                'id'          => 'LOA',
-                'label'       => __( 'Length Overall', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_length_units()
-            ),
-            array(
-                'id'          => 'BuilderLength',
-                'label'       => __( 'Build Length', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_length_units()
-            ),
-            array(
-                'id'          => 'LWL',
-                'label'       => __( 'Lentgh Waterline', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_length_units()
-            ),
-            array(
-                'id'          => 'Beam',
-                'label'       => __( 'Beam', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_length_units()
-            ),
-            array(
-                'id'          => 'LOD',
-                'label'       => __( 'Draft', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_length_units()
-            ),
-            array(
-                'id'          => 'MinDraft',
-                'label'       => __( 'Min Draft', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_length_units()
-            ),
-            array(
-                'id'          => 'MaxDraft',
-                'label'       => __( 'Max Draft', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_length_units()
-            ),
-            array(
-                'id'          => 'BridgeClearance',
-                'label'       => __( 'Air Draft', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_length_units()
-            ),
-            array(
-                'id'          => 'HeadRoom',
-                'label'       => __( 'Interior Clearance', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_length_units()
-            ),
-            array(
-                'id'          => 'Weight',
-                'label'       => __( 'Weight', 'yatco' ),
-                'type'        => 'units',
-                'options'     => ya_get_weight_units()
-            ),
-            array(
-                'id'          => 'GrossTonnage',
-                'label'       => __( 'Gross Tonnage', 'yatco' ),
-                'type'        => 'number',
-                'style'       => 'width: 150px;',
-            ),
-
-
-
-        )
-    ),
-    'engine'       => array(
-          array(
-                array(
-                  'id'          => 'EngineEngineCount',
-                  'label'       => __( 'Engine Count', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineEngineModel',
-                  'label'       => __( 'Engine Model', 'yatco' ),
-                  'type'        => 'taxonomy',
-                  'taxonomy'    => 'engine_model',
-                  'style'             => 'width: 50%;',
-                  'class'             => 'ya-enhanced-select',
-                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Engine Model', 'yatco' ))
-                ),
-                array(
-                  'id'          => 'EngineManufacturer',
-                  'label'       => __( 'Engine Manufacturer', 'yatco' ),
-                  'type'        => 'taxonomy',
-                  'taxonomy'    => 'engine_manufacturer',
-                  'style'             => 'width: 50%;',
-                  'class'             => 'ya-enhanced-select',
-                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Engine Manufacturer', 'yatco' ))
-                ),
-                array(
-                  'id'          => 'EngineType',
-                  'label'       => __( 'Engine Type', 'yatco' ),
-                  'type'        => 'select',
-                  'options'     => array(
-                        'I/O'         => __('I/O','yatco'),
-                        'Inboard'     => __('Inboard', 'yatco')
-                    )
-                ),
-                array(
-                  'id'          => 'PropulsionType',
-                  'label'       => __( 'Propulsion Type', 'yatco' ),
-                  'type'        => 'select',
-                  'options'     => array(
-                        'Twin Screw'       => __('Twin Screw','yatco'),
-                        'Direct Drive'     => __('Direct Drive', 'yatco'),
-                        'Folding Prop'     => __('Folding Prop', 'yatco'),
-                    )
-                ),
-                array(
-                  'id'          => 'RPMCruiseSpeed',
-                  'label'       => __( 'RPM Cruise Speed', 'yatco' ),
-                ),
-                array(
-                  'id'          => 'RPMMaxSpeed',
-                  'label'       => __( 'RPM Max Speedt', 'yatco' ),
-                ),
-          ),
-          array(
-                array(
-                  'id'            => 'EngineDateHoursRegistered1',
-                  'label'         => __( 'Engine Hours Date 1', 'yatco' ),
-                  'type'          => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'         => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineDateHoursRegistered2',
-                  'label'       => __( 'Engine Hours Date 2', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineDateHoursRegistered3',
-                  'label'       => __( 'Engine Hours Date 3', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineDateHoursRegistered4',
-                  'label'       => __( 'Engine Hours Date 4', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),                
-          ),
-          array(
-                array(
-                  'id'          => 'EngineDateOverhaul1',
-                  'label'       => __( 'Engine 1 Overhaul Date', 'yatco' ),
-                  'type'        => 'text',
-                  'class'       => 'ya-datepicker',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineDateOverhaul2',
-                  'label'       => __( 'Engine 2 Overhaul Date', 'yatco' ),
-                  'type'        => 'text',
-                  'class'       => 'ya-datepicker',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineDateOverhaul3',
-                  'label'       => __( 'Engine 3 Overhaul Date', 'yatco' ),
-                  'type'        => 'text',
-                  'class'       => 'ya-datepicker',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineDateOverhaul4',
-                  'label'       => __( 'Engine 4 Overhaul Date', 'yatco' ),
-                  'type'        => 'text',
-                  'class'       => 'ya-datepicker',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-          ),
-          array(
-                array(
-                  'id'          => 'EngineHorsePower1',
-                  'label'       => __( 'Engine 1 HP', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineHorsePower2',
-                  'label'       => __( 'Engine 2 HP', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineHorsePower3',
-                  'label'       => __( 'Engine 3 HP', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineHorsePower4',
-                  'label'       => __( 'Engine 4 HP', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),                
-          ),
-          array(
-                array(
-                  'id'          => 'EngineHours1',
-                  'label'       => __( 'Engine 1 Hours', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineHours2',
-                  'label'       => __( 'Engine 2 Hours', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineHours3',
-                  'label'       => __( 'Engine 3 Hours', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineHours4',
-                  'label'       => __( 'Engine 4 Hours', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),                
-          ),
-          array(
-                array(
-                  'id'          => 'EngineOverhaulHours1',
-                  'label'       => __( 'Engine 1 Overhaul Hours', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineOverhaulHours2',
-                  'label'       => __( 'Engine 2 Overhaul Hours', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineOverhaulHours3',
-                  'label'       => __( 'Engine 3 Overhaul Hours', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'EngineOverhaulHours4',
-                  'label'       => __( 'Engine 4 Overhaul Hours', 'yatco' ),
-                  'type'        => 'number',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 150px;',
-                ),                
-          ),
-          array(
-                array(
-                  'id'          => 'EngineSerialNumber1',
-                  'label'       => __( 'Engine 1 Serial Number', 'yatco' ),
-                  'wrapper_class' => 'col-2',
-                ),
-                array(
-                  'id'          => 'EngineSerialNumber2',
-                  'label'       => __( 'Engine 2 Serial Number', 'yatco' ),
-                  'wrapper_class' => 'col-2',
-                ),
-                array(
-                  'id'          => 'EngineSerialNumber3',
-                  'label'       => __( 'Engine 3 Serial Number', 'yatco' ),
-                  'wrapper_class' => 'col-2',
-                ),
-                array(
-                  'id'          => 'EngineSerialNumber4',
-                  'label'       => __( 'Engine 4 Serial Number', 'yatco' ),
-                  'wrapper_class' => 'col-2',
-                ),                
-          ),
-          array(
-                array(
-                  'id'          => 'EngineYear1',
-                  'label'       => __( 'Engine 1 Year', 'yatco' ),
-                  'type'        => 'select',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 200px;',
-                  'options'     => $years_list
-                ),
-                array(
-                  'id'          => 'EngineYear2',
-                  'label'       => __( 'Engine 2 Year', 'yatco' ),
-                  'type'        => 'select',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 200px;',
-                  'options'     => $years_list
-                ),
-                array(
-                  'id'          => 'EngineYear3',
-                  'label'       => __( 'Engine 3 Year', 'yatco' ),
-                  'type'        => 'select',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 200px;',
-                  'options'     => $years_list
-                ),
-                array(
-                  'id'          => 'EngineYear4',
-                  'label'       => __( 'Engine 4 Year', 'yatco' ),
-                  'type'        => 'select',
-                  'wrapper_class' => 'col-2',
-                  'style'       => 'width: 200px;',
-                  'options'     => $years_list
-                ),
-          )
-
-      ),
-    'guest_area'   => array(
-          array(
-                array(
-                  'id'          => 'NumHeads',
-                  'label'       => __( 'Guest Heads', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'NumSleeps',
-                  'label'       => __( 'Guests', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'StateRooms',
-                  'label'       => __( 'State Rooms', 'yatco' ),
-                  'type'        => 'number',
-                  'style'       => 'width: 150px;',
-                ),
-            )
-      ),
-    'historical'   => array(
-          array(
-                array(
-                  'id'          => 'FormerNames',
-                  'label'       => __( 'Former Names', 'yatco' ),
-                ),
-                array(
-                  'id'          => 'FormerNameDateChange',
-                  'label'       => __( 'Date', 'yatco' ),                  
-                  'class'       => 'ya-datepicker',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'LastKnownFlag',
-                  'label'       => __( 'Last Known Flag', 'yatco' ),
-                ),
-                array(
-                  'id'          => 'HullProjectManager',
-                  'label'       => __( 'Build Manager', 'yatco' ),
-                ),
-                array(
-                  'id'          => 'RefitType',
-                  'label'       => __( 'Refit Type', 'yatco' ),
-                ),
-                array(
-                  'id'          => 'RefitYear',
-                  'label'       => __( 'Refit Year', 'yatco' ),
-                  'type'        => 'select',
-                  'style'       => 'width: 200px;',
-                  'options'     => $years_list,
-                ),
-                array(
-                  'id'          => 'LastKnownCoordinatesAIS',
-                  'label'       => __( 'Last Known Position', 'yatco' ),
-                ),
-            )
-      ),
-    'location'     => array(
-          array(
-                array(
-                  'id'                => 'LocationCountry',
-                  'label'             => __( 'Country', 'yatco' ),
-                  'type'              => 'select',
-                  'style'             => 'width: 50%;',
-                  'class'             => 'ya-enhanced-select',
-                  'options'           => array('' => '') + ya_get_countries(),
-                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Country', 'yatco' ))
-                ),
-                array(
-                  'id'          => 'LocationState',
-                  'label'       => __( 'State', 'yatco' ),
-                ),
-                array(
-                  'id'          => 'LocationCity',
-                  'label'       => __( 'City', 'yatco' ),
-                ),
-                array(
-                  'id'          => 'LocationRegionName',
-                  'label'       => __( 'Region Name', 'yatco' ),
-                ),
-                  array(
-                      'id'          => 'LocationLastKnownPoint',
-                      'label'       => __( 'Last Known Location', 'yatco' ),
-                      'wrapper_class' => 'col-2',
-                  ),
-                  array(
-                      'id'          => 'LocationLastKnownDate',
-                      'label'       => '',
-                      'style'       => 'border: none; background: inherit; box-shadow: none; color: #ccc;',
-                      'wrapper_class' => 'col-2',
-                  ),
-          )
-      ),
-    'media' => array(
-          array(
-                array(
-                  'id'          => 'ExternalLink',
-                  'label'       => __( 'More Info', 'yatco' ),
-                  'type'        => 'url'
-                ),
-                array(
-                  'id'          => 'PDFUrl',
-                  'label'       => __( 'PDF URL', 'yatco' ),
-                  'type'        => 'url'
-                ),
-                array(
-                  'id'          => 'VirutalTourURL',
-                  'label'       => __( 'Virtual Tour', 'yatco' ),
-                  'type'        => 'url'
-                ),
-          )
-    ),
-    'official_num' => array(
-          array(
-                array(
-                  'id'          => 'CoastGuardNumber',
-                  'label'       => __( 'USCG No', 'yatco' )
-                ),
-                array(
-                  'id'          => 'RegistrationNumber',
-                  'label'       => __( 'Registration Number', 'yatco' )
-                ),
-                array(
-                  'id'          => 'IMONumber',
-                  'label'       => __( 'IMO Number', 'yatco' )
-                ),
-                array(
-                  'id'          => 'MMSINumber',
-                  'label'       => __( 'MMSI Number', 'yatco' )
-                ),
-          )
-    ),
     'charter' => array(
         array(
             array(
@@ -872,80 +853,99 @@ return array(
         )
     ),
     'sale' => array(
-          array(
-                array(
-                  'id'          => 'AskingPrice',
-                  'label'       => __( 'Asking Price', 'yatco' )
-                ),
-                array(
-                  'id'          => 'Currency',
-                  'label'       => __( 'Currency', 'yatco' ),
-                  'type'        => 'select',
-                  'options'     => $currency_code_options
-                ),                
-                array(
-                  'id'          => 'DescriptionShowingInstructions',
-                  'label'       => __( 'Showing Description', 'yatco' ),
-                  'type'        => 'textarea'
-                ),
-                array(
-                  'id'          => 'DockMasterName',
-                  'label'       => __( 'Dockmaster', 'yatco' ),
-                  'type'        => 'textarea'
-                ),
-                array(
-                  'id'          => 'ListingDate',
-                  'label'       => __( 'Listing Date', 'yatco' ),
-                  'type'        => 'text',
-                  'class'       => 'ya-datepicker',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'ExpirationDate',
-                  'label'       => __( 'Listing Expiration', 'yatco' ),
-                  'type'        => 'text',
-                  'class'       => 'ya-datepicker',
-                  'style'       => 'width: 150px;',
-                ),
-                array(
-                  'id'          => 'NotForSaleInUS',
-                  'label'       => __( 'Available in US', 'yatco' ),
-                  'type'        => 'checkbox',
-                  'description' => __( 'Enable if the vessel is not available in US.', 'yatco' )
-                ),
-                array(
-                  'id'          => 'TaxPaid',
-                  'label'       => __( 'Tax Paid', 'yatco' ),
-                  'type'        => 'radio',
-                  'options' => array(
+        array(
+            array(
+                'id'          => 'AskingPrice',
+                'label'       => __( 'Asking Price', 'yatco' )
+            ),
+            array(
+                'id'          => 'Currency',
+                'label'       => __( 'Currency', 'yatco' ),
+                'type'        => 'select',
+                'options'     => $currency_code_options
+            ),
+            array(
+                'id'          => 'DescriptionShowingInstructions',
+                'label'       => __( 'Showing Description', 'yatco' ),
+                'type'        => 'textarea'
+            ),
+            array(
+                'id'          => 'DockMasterName',
+                'label'       => __( 'Dockmaster', 'yatco' ),
+                'type'        => 'textarea'
+            ),
+            array(
+                'id'          => 'ListingDate',
+                'label'       => __( 'Listing Date', 'yatco' ),
+                'type'        => 'text',
+                'class'       => 'ya-datepicker',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'ExpirationDate',
+                'label'       => __( 'Listing Expiration', 'yatco' ),
+                'type'        => 'text',
+                'class'       => 'ya-datepicker',
+                'style'       => 'width: 150px;',
+            ),
+            array(
+                'id'          => 'NotForSaleInUS',
+                'label'       => __( 'Available in US', 'yatco' ),
+                'type'        => 'checkbox',
+                'description' => __( 'Enable if the vessel is not available in US.', 'yatco' )
+            ),
+            array(
+                'id'          => 'TaxPaid',
+                'label'       => __( 'Tax Paid', 'yatco' ),
+                'type'        => 'radio',
+                'options' => array(
                     'Yes' => __( 'Yes', 'yatco' ),
                     'No'  => __( 'No', 'yatco' ),
-                  ) 
-                ),
-          ),
+                )
+            ),
+        ),
+        array(
+            array(
+                'id'          => 'DescriptionBrokerTeaser',
+                'label'       => __( 'Sales Description', 'yatco' ),
+                'type'        => 'textarea'
+            ),
+            array(
+                'id'          => 'SalesPerson',
+                'label'       => __( 'Sales Agent', 'yatco' ),
+            ),
+            array(
+                'id'          => 'SalesPersonCellPhone',
+                'label'       => __( 'Sales Agent Cell', 'yatco' ),
+            ),
+            array(
+                'id'          => 'SalesPersonEmail',
+                'label'       => __( 'Sales Agent Email', 'yatco' ),
+            ),
+            array(
+                'id'          => 'SalesPersonPhone',
+                'label'       => __( 'Sales Agent Direct Phone', 'yatco' ),
+            ),
+
+        )
+    ),
+    'media' => array(
           array(
                 array(
-                  'id'          => 'DescriptionBrokerTeaser',
-                  'label'       => __( 'Sales Description', 'yatco' ),
-                  'type'        => 'textarea'
+                  'id'          => 'ExternalLink',
+                  'label'       => __( 'More Info', 'yatco' ),
+                  'type'        => 'url'
                 ),
                 array(
-                  'id'          => 'SalesPerson',
-                  'label'       => __( 'Sales Agent', 'yatco' ),
+                  'id'          => 'PDFUrl',
+                  'label'       => __( 'PDF URL', 'yatco' ),
+                  'type'        => 'url'
                 ),
                 array(
-                  'id'          => 'SalesPersonCellPhone',
-                  'label'       => __( 'Sales Agent Cell', 'yatco' ),
+                  'id'          => 'VirutalTourURL',
+                  'label'       => __( 'Virtual Tour', 'yatco' ),
+                  'type'        => 'url'
                 ),
-                array(
-                  'id'          => 'SalesPersonEmail',
-                  'label'       => __( 'Sales Agent Email', 'yatco' ),
-                ),
-                array(
-                  'id'          => 'SalesPersonPhone',
-                  'label'       => __( 'Sales Agent Direct Phone', 'yatco' ),
-                ),
-                
           )
     ),
     'additional'   => array(

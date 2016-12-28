@@ -723,6 +723,19 @@ $_value = '';*/
         }
     }
 
+    public function matchText(&$text, $searchWord)
+    {
+
+        if (
+            preg_match('/[\W]' . $searchWord . '[\W]/g', $text)
+            || preg_match('/^' . $searchWord . '[\W]/g', $text)
+            || preg_match('/' . $searchWord . '$/g', $text)
+        ) {
+            return true;
+        }
+        return false;
+    }
+
     public function getTagsFromText($text)
     {
         $_text = strtolower($text);
@@ -734,11 +747,13 @@ $_value = '';*/
             foreach ($list as $tag => $alternatives) {
                 $alternatives[] = $tag;
                 $alternatives = array_map('strtolower', $alternatives);
+                $alternatives = array_map('trim', $alternatives);
 //                if (count(array_intersect($words, $alternatives)) > 0) {
 //                    $tags[$taxonomy][] = $tag;
 //                }
                 foreach ($alternatives as $searchWord) {
-                    if (strpos($_text, $searchWord) !== false) {
+//                    if (strpos($_text, $searchWord) !== false) {
+                    if ($this->matchText($_text, $searchWord)) {
                         $tags[$taxonomy][] = $tag;
                         break;
                     }

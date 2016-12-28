@@ -727,9 +727,9 @@ $_value = '';*/
     {
         $sepGroup = '[\s\n\,\.\:\;]';
         if (
-            preg_match('/' . $sepGroup . $searchWord . $sepGroup . '/g', $text)
-            || preg_match('/^' . $searchWord . $sepGroup . '/g', $text)
-            || preg_match('/' . $sepGroup . $searchWord . '$/g', $text)
+            preg_match('/' . $sepGroup . $searchWord . $sepGroup . '/', $text)
+            || preg_match('/^' . $searchWord . $sepGroup . '/', $text)
+            || preg_match('/' . $sepGroup . $searchWord . '$/', $text)
         ) {
             return true;
         }

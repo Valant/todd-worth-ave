@@ -387,6 +387,9 @@ class YA_Admin_API {
 
         if($post_id) {
 
+            // save ID before any other data
+            update_post_meta( $post_id, 'VesselID', $result->VesselID );
+
             if(isset($result->MainCategory) && !empty($result->MainCategory) ){
                 $SubCategory = '';
                 if(isset($result->SubCategory) && !empty($result->SubCategory) )
@@ -509,7 +512,7 @@ class YA_Admin_API {
                     unset($result->$field);
                 }
             }
-            
+
             $my_data = get_object_vars($result);
             update_post_meta( $post_id, 'vessel_detail', $my_data );
             $post_status = $wpdb->get_var("SELECT post_status FROM {$wpdb->posts} WHERE ID={$post_id}");

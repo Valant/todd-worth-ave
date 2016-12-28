@@ -725,11 +725,11 @@ $_value = '';*/
 
     public function matchText(&$text, $searchWord)
     {
-
+        $sepGroup = '[\s\n\,\.\:\;]';
         if (
-            preg_match('/[\W]' . $searchWord . '[\W]/g', $text)
-            || preg_match('/^' . $searchWord . '[\W]/g', $text)
-            || preg_match('/' . $searchWord . '$/g', $text)
+            preg_match('/' . $sepGroup . $searchWord . $sepGroup . '/g', $text)
+            || preg_match('/^' . $searchWord . $sepGroup . '/g', $text)
+            || preg_match('/' . $sepGroup . $searchWord . '$/g', $text)
         ) {
             return true;
         }

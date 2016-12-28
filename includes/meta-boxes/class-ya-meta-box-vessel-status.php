@@ -12,7 +12,14 @@ class YA_Meta_Box_Vessel_Status
     const K_FEATURED_FOR_CHARTER = 'vessel_status_featured_for_charter';
     const T_FEATURED_FOR_CHARTER = 'Featured For Charter';
 
+    const K_SOLD_AS_NEW_CONSTRUCTION = 'vessel_status_sold_as_new';
+    const T_SOLD_AS_NEW_CONSTRUCTION = 'Sold As New Construction';
+    const K_NEW_CONSTRUCTION = 'vessel_status_new_construction';
+    const T_NEW_CONSTRUCTION = 'New Construction';
+
     const TAXONOMY = 'vessel_sale_status';
+
+    const META_YEAR_BUILT  = 'YearBuilt';
 
 
     /**
@@ -65,6 +72,15 @@ class YA_Meta_Box_Vessel_Status
 
         foreach ($metaKeys as $key) {
             $val = (isset($_POST[$key]) &&  $_POST[$key]) ? 1 : 0;
+            if (!$val && $key === self::K_NEW_CONSTRUCTION) {
+                $m_val = get_post_meta($post_id, $key, true);
+                if ($m_val === '') {
+                    $year = (int)get_post_meta($post_id, self::META_YEAR_BUILT, true);
+                    if ($year && $year >= date('Y')) {
+                        $val = 1;
+                    }
+                }
+            }
             update_post_meta( $post_id, $key, $val);
             if ($val) {
                 $tags[] = $fields[$key];
@@ -105,7 +121,8 @@ class YA_Meta_Box_Vessel_Status
             self::K_FOR_CHARTER => self::T_FOR_CHARTER,
             self::K_FEATURED_FOR_SALE => self::T_FEATURED_FOR_SALE,
             self::K_FEATURED_FOR_CHARTER => self::T_FEATURED_FOR_CHARTER,
-            'vessel_status_sold_as_new' => 'Sold As New Construction',
+            self::K_NEW_CONSTRUCTION => self::T_NEW_CONSTRUCTION,
+            self::K_SOLD_AS_NEW_CONSTRUCTION => self::T_SOLD_AS_NEW_CONSTRUCTION,
         );
     }
 

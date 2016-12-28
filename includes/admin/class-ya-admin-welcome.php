@@ -364,6 +364,7 @@ class YA_Admin_Welcome {
 			<h2><?php _e('Data Actions', 'yatco'); ?></h2>
 			<div id="data-actions-settings">
 				<input type="radio" name="action" value="yatco_parse_vessel_tags" data-type="cron">Parse Amenities and Toys</input>
+				<input type="radio" name="action" value="yatco_save_vessel_new_construction" data-type="cron">Save New Construction status</input>
 <!--				<input type="radio"  name="action" value="create_data_hashes"  data-type="cron">Create data hashes</option>-->
 			</div>
 			<div id="message" style="display: none;"></div>

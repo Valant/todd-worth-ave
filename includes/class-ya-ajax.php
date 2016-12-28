@@ -27,6 +27,7 @@ class YA_AJAX {
 			'load_vessels'                          => true,
 			'reparse_data'                          => true,
 			'parse_vessel_tags'                          => false,
+			'save_vessel_new_construction'                          => false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -151,6 +152,44 @@ class YA_AJAX {
         $posts = $wpdb->get_results($sql);
         foreach ($posts as $postinfo) {
             $api->saveTagsFromText($postinfo->id, $postinfo->post_content);
+            $result['items'][] = array('id' => $postinfo->id);
+        }
+        $result['count'] = count($result['items']);
+        wp_send_json($result);
+        die();
+    }
+
+    public static function save_vessel_new_construction()
+    {
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        --$page;
+        if ($page<0) $page = 1;
+        $result = array(
+            'total' => 0,
+            'totalpages' => 0,
+            'page' => $page,
+            'items' => array(),
+        );
+        include_once( __DIR__ . '/admin/class-ya-admin.php' );
+        $api = new YA_Admin_API();
+        global $wpdb;
+        $pageSize = 10;
+        $offset = $pageSize * $page;
+        $sql = " FROM {$wpdb->posts} WHERE post_type='vessel' ";
+        $result['total'] = (int)$wpdb->get_var("SELECT COUNT(*) " . $sql);
+        $result['totalpages'] = ceil($result['total'] / $pageSize);
+        $sql = "SELECT id " . $sql . " ORDER BY id ASC LIMIT {$offset},{$pageSize};";
+        $posts = $wpdb->get_results($sql);
+        $currentYear = (int)date('Y');
+        foreach ($posts as $postinfo) {
+
+            $year = (int)get_post_meta($postinfo->id, YA_Meta_Box_Vessel_Status::META_YEAR_BUILT, true);
+            $val = (int)($year && $year >= $currentYear);
+            update_post_meta( $postinfo->id, YA_Meta_Box_Vessel_Status::K_NEW_CONSTRUCTION, $val);
+            if ($val) {
+                wp_set_post_terms($postinfo->id, array(YA_Meta_Box_Vessel_Status::T_NEW_CONSTRUCTION), YA_Meta_Box_Vessel_Status::TAXONOMY, true);
+            }
+
             $result['items'][] = array('id' => $postinfo->id);
         }
         $result['count'] = count($result['items']);

@@ -163,11 +163,14 @@ jQuery( function( $ ) {
 	// Location map
 	var input = $('input#LocationLastKnownPoint');
 
+	$('<div class="clearfix">').insertAfter(input);
+
 	var container = input.parent();
 	var locationCoords = null;
 	var map;
 	var geocoder;
-	var mapContainer = $('<div id="last-location-map">').css({width: '430px','height': '430px','margin-top': '1em'}).appendTo(container).hide();
+	var mapContainer = $('<div id="last-location-map">').css({width: '430px','height': '430px','margin-top': '30px'}).appendTo(container).hide();
+
 
 	var apiLoaded = false;
 	var wT = null;

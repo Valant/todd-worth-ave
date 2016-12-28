@@ -3,7 +3,7 @@
  * Plugin Name: Yatco
  * Plugin URI: http://valant.com.ua
  * Description: 
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: Valant
  * Author URI: http://valant.com.ua
  * Requires at least: 4.1.0.0
@@ -35,7 +35,7 @@ final class Yatco {
   /**
    * @var string
    */
-  public $version = '1.0.3';
+  public $version = '1.0.4';
 
 
   /**

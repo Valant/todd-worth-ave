@@ -133,6 +133,7 @@ class 	YA_Meta_Box_Vessel_Specification {
 					$value = isset( $_POST[$field_name] ) ? $_POST[$field_name]: '';
 					if( is_array($value) ){
 			            $value = array_map( 'intval', $value );
+			            $value = array_unique( $value );
 			        }else{
 			        	$value = intval( $value );
 			        }

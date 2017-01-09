@@ -186,7 +186,14 @@ function ya_wp_taxonomy( $field ) {
 		}		
 		$post_terms = get_the_terms( $thepostid, $field['taxonomy'] );
 		if( $post_terms && !empty($post_terms) ){
-			$post_term = $post_terms[0]->term_id;
+			if( isset($field['custom_attributes']['multiple'] )){
+				$post_term = array();
+				foreach ($post_terms as $term) {
+					$post_term[] = $term->term_id;
+				}
+			}else{
+				$post_term = $post_terms[0]->term_id;				
+			}
 		}
 	}
 
@@ -239,7 +246,7 @@ function ya_wp_select( $field ) {
 			echo '<option value="' . esc_attr( $key ) . '" ' . selected( esc_attr( $field['value'] ), esc_attr( $key ), false ) . '>' . esc_html( $value ) . '</option>';			
 		}
 	}
-	if( !empty($field['value']) && !isset( $field['options'][$field['value']]) ){
+	if( !is_array($field['value']) && !empty($field['value']) && !isset( $field['options'][$field['value']]) ){
 		echo '<option value="' . esc_attr( $field['value'] ) . '" selected="selected" >' . esc_html( $field['value'] ) . '</option>';			
 	}
 

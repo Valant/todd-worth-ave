@@ -157,7 +157,7 @@ return array(
                   'taxonomy'    => 'vessel_builder',
                   'style'             => 'width: 50%;',
                   'class'             => 'ya-enhanced-select',
-                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Builder', 'yatco' ))
+                  'custom_attributes' => array('data-allow_clear' => 'true', 'data-placeholder' => __( 'Select Builder', 'yatco' ), 'multiple' => 'true')
                 ),  
 
         ),

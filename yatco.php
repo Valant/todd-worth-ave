@@ -3,7 +3,7 @@
  * Plugin Name: Yatco
  * Plugin URI: http://valant.com.ua
  * Description: 
- * Version: 1.0.4
+ * Version: 1.0.5
  * Author: Valant
  * Author URI: http://valant.com.ua
  * Requires at least: 4.1.0.0
@@ -162,8 +162,10 @@ final class Yatco {
         $this->token . '-conversion-functions'
       );
       wp_register_script( $this->token . '-meta-boxes', esc_url( $this->assets_url ) . 'js/admin/meta-boxes' . $this->script_suffix . '.js' , $depth, $this->version );
-      wp_localize_script( $this->token . '-meta-boxes', 'googleOptions', array('mapsKey' => get_option('google_api_maps_key')));
       wp_enqueue_script( $this->token . '-meta-boxes' );
+
+      wp_enqueue_script( $this->token . '-meta-boxes-map', esc_url( $this->assets_url ) . 'js/admin/location-map' . $this->script_suffix . '.js' , array(), $this->version );
+      wp_localize_script( $this->token . '-meta-boxes-map', 'googleOptions', array('mapsKey' => get_option('google_api_maps_key')));
     }
 
   } // End enqueue_scripts ()

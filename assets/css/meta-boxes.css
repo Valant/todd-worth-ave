@@ -492,14 +492,14 @@
   margin: 3px 0;
   vertical-align: middle;
 }
-#vessel_video tr input {
+.yatco_options_panel .ya-repeater-table tr input {
   width: 100%;
 }
-#vessel_video tr .actions {
+.yatco_options_panel .ya-repeater-table tr .actions {
   width: 20px;
   vertical-align: middle !important;
 }
-#vessel_video tr .actions a {
+.yatco_options_panel .ya-repeater-table tr .actions a {
   display: block;
   font-size: 1.2em;
   height: 1em;
@@ -507,7 +507,7 @@
   text-indent: -9999px;
   width: 1em;
 }
-#vessel_video tr .actions a:before {
+.yatco_options_panel .ya-repeater-table tr .actions a:before {
   color: #999;
   content: "\f153";
   font-family: Dashicons;
@@ -524,7 +524,7 @@
   top: 0;
   width: 100%;
 }
-#vessel_video tr .actions a:hover:before {
+.yatco_options_panel .ya-repeater-table tr .actions a:hover:before {
   color: #a00;
 }
 @media only screen and (max-width: 500px) {

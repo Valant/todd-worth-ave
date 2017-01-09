@@ -238,5 +238,11 @@ jQuery( function( $ ) {
 			$( 'input.ya-datepicker' ).filter( ':not(.enhanced)' ).datepicker().addClass( 'enhanced' );
 		})
 		.trigger( 'ya-datepicker-init' );
+
+	$( document.body )
+
+		.on( 'ya-repeater-row-added', function() {
+			$( document.body ).trigger( 'ya-datepicker-init' );
+		});
 		
 });

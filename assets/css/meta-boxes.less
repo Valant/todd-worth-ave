@@ -589,48 +589,50 @@
   }
 }
 
-.yatco_options_panel .checkbox{
-  width: auto;
-  margin: 3px 0;
-  vertical-align: middle;
-}
+.yatco_options_panel{
+  .checkbox{
+    width: auto;
+    margin: 3px 0;
+    vertical-align: middle;
+  }
 
-#vessel_video{
-  tr{
-    input{
-      width: 100%;
-    }
-    .actions{
-      width: 20px;
-      vertical-align: middle !important;
-      a{
-        display: block;
-        font-size: 1.2em;
-        height: 1em;
-        position: relative;
-        text-indent: -9999px;
-        width: 1em;
-        &:before{
-          color: #999;
-          content: "\f153";
-          font-family: Dashicons;
-          font-variant: normal;
-          font-weight: 400;
-          height: 100%;
-          left: 0;
-          line-height: 1;
-          margin: 0;
-          position: absolute;
-          text-align: center;
-          text-indent: 0;
-          text-transform: none;
-          top: 0;
-          width: 100%;
-        }
-        &:hover{
+  .ya-repeater-table{
+    tr{
+      input{
+        width: 100%;
+      }
+      .actions{
+        width: 20px;
+        vertical-align: middle !important;
+        a{
+          display: block;
+          font-size: 1.2em;
+          height: 1em;
+          position: relative;
+          text-indent: -9999px;
+          width: 1em;
           &:before{
-            color: #a00;
-          }          
+            color: #999;
+            content: "\f153";
+            font-family: Dashicons;
+            font-variant: normal;
+            font-weight: 400;
+            height: 100%;
+            left: 0;
+            line-height: 1;
+            margin: 0;
+            position: absolute;
+            text-align: center;
+            text-indent: 0;
+            text-transform: none;
+            top: 0;
+            width: 100%;
+          }
+          &:hover{
+            &:before{
+              color: #a00;
+            }          
+          }
         }
       }
     }

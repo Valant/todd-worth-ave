@@ -63,19 +63,7 @@ class 	YA_Meta_Box_Vessel_Specification {
 							<?php
 							}
 						}
-						if( $category == 'media'){
-							?>
-							<div class="options_group" id="vessel_video" >
-							<div class="form-field downloadable_files">
-								<label><?php _e('Video', 'yatco'); ?></label>
-								<?php
-
-								 YA_Meta_Box_Videos::output($post);
-								?>
-							</div>
-							</div>
-							<?php
-						}
+						do_action('vessel_specification_category_' . $category, $post);
 						?>					
 				</div>
 				<?php

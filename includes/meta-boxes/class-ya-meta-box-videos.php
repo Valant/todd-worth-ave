@@ -34,39 +34,46 @@ class YA_Meta_Box_Videos {
 				)
 			);
 		?>
-		<table class="wp-list-table widefat fixed" >
-			<thead>
-				<tr>
-					<td><?php _e('Caption', 'yatco'); ?></td>
-					<td><?php _e('URL', 'yatco'); ?></td>
-					<td class="actions"></td>
-				</tr>
-			</thead>
-			<tbody id="vessel_video_list">
-				<?php $i = 0; foreach ($video_urls as $video) {
-					?>
-					<tr data-index="<?php echo $i; ?>">
-						<td><input type="text" name="vessel_video[<?php echo $i; ?>][VideoCaption]" value="<?php echo $video['VideoCaption']; ?>"></td>
-						<td><input type="text" name="vessel_video[<?php echo $i; ?>][VideoURL]" value="<?php echo $video['VideoURL']; ?>"></td>
-						<td class="actions"><a href="#" class="remove_video_row" title="<?php _e('Remove', 'yatco'); ?>">&times;</a></td>
+		<div class="options_group ya-repeater-table" id="vessel_video" >
+			<div class="form-field downloadable_files">
+				<label><?php _e('Video', 'yatco'); ?></label>
+				<table class="wp-list-table widefat fixed" >
+					<thead>
+						<tr>
+							<td><?php _e('Caption', 'yatco'); ?></td>
+							<td><?php _e('URL', 'yatco'); ?></td>
+							<td class="actions"></td>
+						</tr>
+					</thead>
+					<tbody class="ya-repeater-tbody">
+						<?php $i = 0; foreach ($video_urls as $video) {
+							?>
+							<tr data-index="<?php echo $i; ?>">
+								<td><input type="text" name="vessel_video[<?php echo $i; ?>][VideoCaption]" value="<?php echo $video['VideoCaption']; ?>"></td>
+								<td><input type="text" name="vessel_video[<?php echo $i; ?>][VideoURL]" value="<?php echo $video['VideoURL']; ?>"></td>
+								<td class="actions"><a href="#" class="ya-repeater-remove-row" title="<?php _e('Remove', 'yatco'); ?>">&times;</a></td>
+							</tr>
+							<?php
+							$i++;
+						} ?>				
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="3">
+								<a href="#" data-tmpl="tmpl-video-row" class="button button-large alignright ya-repeater-add-row"><?php _e('Add row', 'yatco'); ?></a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+				<script type="text/template" id="tmpl-video-row">
+					<tr data-index="__index__">
+						<td><input type="text" name="vessel_video[__index__][VideoCaption]" value=""></td>
+						<td><input type="text" name="vessel_video[__index__][VideoURL]" value=""></td>
+						<td class="actions"><a href="#" class="ya-repeater-remove-row" title="<?php _e('Remove', 'yatco'); ?>">&times;</a></td>
 					</tr>
-					<?php
-					$i++;
-				} ?>				
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="3"> <a href="#" class="button button-large alignright" id="add_video_row"><?php _e('Add row', 'yatco'); ?></a> </td>
-				</tr>
-			</tfoot>
-		</table>
-		<script type="text/template" id="tmpl-video-row">
-			<tr data-index="__index__">
-				<td><input type="text" name="vessel_video[__index__][VideoCaption]" value=""></td>
-				<td><input type="text" name="vessel_video[__index__][VideoURL]" value=""></td>
-				<td class="actions"><a href="#" class="remove_video_row" title="<?php _e('Remove', 'yatco'); ?>">&times;</a></td>
-			</tr>
-		</script>
+				</script>
+			</div>
+		</div>
 		<?php
 	}
 

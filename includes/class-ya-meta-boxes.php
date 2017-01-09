@@ -22,10 +22,13 @@ class YA_Meta_Boxes {
 	 * Hook in methods.
 	 */
 	public static function init() {
+		add_action( 'vessel_specification_category_media',      array( 'YA_Meta_Box_Videos', 'output' ), 10, 1 );
+		add_action( 'vessel_specification_category_historical', array( 'YA_Meta_Box_Last_Position', 'output' ), 10, 1 );
+
 		add_action( 'add_meta_boxes' , array( __CLASS__, 'remove_meta_boxes' ), 99 );
-		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ), 100, 1 );
-		add_action( 'admin_init', array( __CLASS__, 'reload_vessel' ), 100 );
-		add_action( 'admin_notices', array( __CLASS__, 'admin_notices' ), 100 );
+		add_action( 'add_meta_boxes',  array( __CLASS__, 'add_meta_box' ), 100, 1 );
+		add_action( 'admin_init',      array( __CLASS__, 'reload_vessel' ), 100 );
+		add_action( 'admin_notices',   array( __CLASS__, 'admin_notices' ), 100 );
 
 		foreach (array('vessel_amenities', 'vessel_toys') as $t_key) {
 			add_action( $t_key . '_add_form_fields', array( __CLASS__, 'taxonomy_add_image_url' ), 10 );
@@ -111,6 +114,7 @@ class YA_Meta_Boxes {
 		
 		YA_Meta_Box_Photo_Gallery::save($post_id, $post);
 		YA_Meta_Box_Videos::save($post_id, $post);
+		YA_Meta_Box_Last_Position::save($post_id, $post);
 		YA_Meta_Box_Vessel_Specification::save($post_id, $post);
 		YA_Meta_Box_Vessel_Status::save($post_id, $post);
 	}

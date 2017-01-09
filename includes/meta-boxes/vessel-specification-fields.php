@@ -225,10 +225,10 @@ return array(
                 'style'       => 'width: 200px;',
                 'options'     => $years_list,
             ),
-            array(
+            /*array(
                 'id'          => 'LastKnownCoordinatesAIS',
                 'label'       => __( 'Last Known Position', 'yatco' ),
-            ),
+            ),*/
         )
     ),
     'measurements' => array(

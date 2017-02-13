@@ -157,11 +157,28 @@ class YA_REST_Vessel_Controller {
         $attachments         = array_filter( explode( ',', $vessel_image_gallery ) );
         foreach ($attachments as $a_id) {
             $categories = get_post_meta($a_id, 'photo_categories', true);
-            $photos[] = array(
+            $meta = get_post_meta($a_id, '_wp_attachment_metadata', true);
+
+            $photo = array(
+                'width' => $meta['width'],
+                'height' => $meta['height'],
                 'id' => $a_id,
                 'url' => wp_get_attachment_image_url($a_id, 'full'),
                 'categories' => $categories,
+                'mime-type' => get_post_mime_type($a_id),
             );
+            if ($meta['sizes']) {
+                $photo['sizes'] = array();
+                foreach ($meta['sizes'] as $sz=>$info) {
+                    $photo['sizes'][$sz] = array(
+                        'file' => $info['file'],
+                        'width' => $info['width'],
+                        'height' => $info['height'],
+                        'mime-type' => $info['mime-type'],
+                    );
+                }
+            }
+            $photos[] = $photo;
         }
         return $photos;
     }

@@ -155,6 +155,10 @@ class YA_REST_Vessel_Controller {
             $vessel_image_gallery = implode( ',', $attachment_ids );
         }
         $attachments         = array_filter( explode( ',', $vessel_image_gallery ) );
+        $thumb_id = (int)get_post_thumbnail_id($object['id']);
+        if ($thumb_id) {
+            array_unshift($attachments,$thumb_id);
+        }
         foreach ($attachments as $a_id) {
             $categories = get_post_meta($a_id, 'photo_categories', true);
             $meta = get_post_meta($a_id, '_wp_attachment_metadata', true);
@@ -162,10 +166,11 @@ class YA_REST_Vessel_Controller {
             $photo = array(
                 'width' => $meta['width'],
                 'height' => $meta['height'],
-                'id' => $a_id,
+                'id' => (int)$a_id,
                 'url' => wp_get_attachment_image_url($a_id, 'full'),
                 'categories' => $categories,
                 'mime-type' => get_post_mime_type($a_id),
+                'placement' => ($thumb_id && $thumb_id == $a_id) ? 'main' : 'gallery',
             );
             if ($meta['sizes']) {
                 $photo['sizes'] = array();

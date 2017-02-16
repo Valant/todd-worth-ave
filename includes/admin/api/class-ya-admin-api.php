@@ -440,7 +440,7 @@ class YA_Admin_API {
                     if (!$old_thumbnail_id) {
                         $saveThumbnail = true;
                     } else {
-                        $old_thumbnail_yatco_id = $wpdb->get_var("SELECT meta_value FROM {$wpdb->postmeta} WHERE post_id={$old_thumbnail_id} AND meta_value='yatco_image_id'");
+                        $old_thumbnail_yatco_id = get_post_meta($old_thumbnail_id, 'yatco_image_id', true);
                         if (!$old_thumbnail_yatco_id) {
                             $saveThumbnail = true;
                         } else {
@@ -465,6 +465,9 @@ class YA_Admin_API {
                     $thumb_id = $this->save_attachment($thumbnailUrl, $post_id);
                     if($thumb_id && $thumb_id > 0){
                         set_post_thumbnail( $post_id, $thumb_id );
+                        if (isset($yatco_image_id) && $yatco_image_id) {
+                            update_post_meta($thumb_id, 'yatco_image_id', $yatco_image_id);
+                        }
                     }
                 }
             }

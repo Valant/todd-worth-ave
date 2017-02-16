@@ -257,7 +257,8 @@ class YA_Admin_API {
     {
         if( empty($thumb_url) || !$post_id ) return false;
 
-        $tmp = download_url( $thumb_url );
+        // download original image
+        $tmp = download_url( $this->getFullSizedURL($thumb_url) );
 
         preg_match('/[^\?]+\.(jpg|JPG|jpe|JPE|jpeg|JPEG|gif|GIF|png|PNG)/', $thumb_url, $matches);
         
@@ -424,23 +425,24 @@ class YA_Admin_API {
             }
 
             if ($thumbnailUrl) {
+
+                $old_thumbnail_id = get_post_thumbnail_id( $post_id );
+
                 $yatco_image_id = $this->get_yatco_image_id($thumbnailUrl);
                 if ($yatco_image_id) {
-                    $attach_id = $wpdb->get_var( "SELECT post_id from $wpdb->postmeta where meta_value = '{$yatco_image_id}' AND meta_key = 'yatco_image_id' LIMIT 1" );
-                    if( !$attach_id ){
-                        $sql = "SELECT thumb.meta_value FROM {$wpdb->postmeta} m
-                            LEFT JOIN {$wpdb->postmeta} thumb ON (thumb.post_id=m.meta_value AND thumb.meta_key='_wp_attached_file')
-                            WHERE m.post_id={$post_id} and m.meta_key='_thumbnail_id'";
-                        $currentFile = $wpdb->get_var($sql);
-                        if ($currentFile) {
-                            $current_image_id = $this->get_yatco_image_id($currentFile);
-                            $saveThumbnail = $current_image_id !== $yatco_image_id;
-                        } else {
-                            $saveThumbnail = true;
-                        }
+
+
+                    if (!$old_thumbnail_id) {
+                        $saveThumbnail = true;
                     } else {
-                        $saveThumbnail = false;
+                        $old_thumbnail_yatco_id = $wpdb->get_var("SELECT meta_value FROM {$wpdb->postmeta} WHERE post_id={$old_thumbnail_id} AND meta_value='yatco_image_id'");
+                        if (!$old_thumbnail_yatco_id) {
+                            $saveThumbnail = true;
+                        } else {
+                            $saveThumbnail = ($yatco_image_id != $yatco_image_id);
+                        }
                     }
+
                 } else {
                     $saveThumbnail = !!$thumbnailUrl;
                 }
@@ -450,7 +452,6 @@ class YA_Admin_API {
 
             if ($saveThumbnail) {
                 //Save post thumbnail
-                $old_thumbnail_id = get_post_thumbnail_id( $post_id );
                 if($old_thumbnail_id){
                     delete_post_thumbnail( $post_id );
                     wp_delete_attachment( $old_thumbnail_id, true );
@@ -791,6 +792,17 @@ $_value = '';*/
         return isset($this->_termsList[$name]) ? $this->_termsList[$name] : null;
     }
 
-
+    /**
+     * Get original image URL instead of CDN downscaled
+     * @param string $url
+     * @return string
+     */
+    public function getFullSizedURL($url)
+    {
+        if (preg_match('/cdn.yatco.com.*?\w+\_(\d+)/', $url, $m)) {
+            $url = 'http://media.yatco.com/imageviewer.ashx?type=vessel&id=' . $m[1] . '&original=1';
+        }
+        return $url;
+    }
 
 }

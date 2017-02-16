@@ -426,9 +426,8 @@ class YA_Admin_API {
             if ($thumbnailUrl) {
                 $yatco_image_id = $this->get_yatco_image_id($thumbnailUrl);
                 if ($yatco_image_id) {
-                    $attach_id = $wpdb->get_var( "SELECT post_id from $wpdb->postmeta where meta_value = {$yatco_image_id} AND meta_key = 'yatco_image_id' LIMIT 1" );
+                    $attach_id = $wpdb->get_var( "SELECT post_id from $wpdb->postmeta where meta_value = '{$yatco_image_id}' AND meta_key = 'yatco_image_id' LIMIT 1" );
                     if( !$attach_id ){
-
                         $sql = "SELECT thumb.meta_value FROM {$wpdb->postmeta} m
                             LEFT JOIN {$wpdb->postmeta} thumb ON (thumb.post_id=m.meta_value AND thumb.meta_key='_wp_attached_file')
                             WHERE m.post_id={$post_id} and m.meta_key='_thumbnail_id'";
@@ -439,7 +438,8 @@ class YA_Admin_API {
                         } else {
                             $saveThumbnail = true;
                         }
-
+                    } else {
+                        $saveThumbnail = false;
                     }
                 } else {
                     $saveThumbnail = !!$thumbnailUrl;
@@ -472,7 +472,7 @@ class YA_Admin_API {
 
                         $yatco_image_id = $this->get_yatco_image_id($image->originalimageurl);
                         
-                        $attach_id = $wpdb->get_var( "SELECT post_id from $wpdb->postmeta where meta_value = {$yatco_image_id} AND meta_key = 'yatco_image_id' LIMIT 1" );
+                        $attach_id = $wpdb->get_var( "SELECT post_id from $wpdb->postmeta where meta_value = '{$yatco_image_id}' AND meta_key = 'yatco_image_id' LIMIT 1" );
                         if( !$attach_id ){
                             $attach_id = $this->save_attachment( $image->url, $post_id, $image->caption );
                         }
@@ -631,7 +631,7 @@ $_value = '';*/
         if (preg_match('/\w+\_(\d+)\.jpg/', $imageUrl, $m)) {
             return (int)$m[1];
         }
-        return $imageUrl;
+        return false;
     }
 
     private function get_unitnames($unit='')

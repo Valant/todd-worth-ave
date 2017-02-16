@@ -376,6 +376,8 @@ class YA_Admin_API {
 
             $isNewPost = false;
 
+            SimpleLogger()->info('LOG-yatco: saving vessel #' . $result->VesselID . ' data to post #' . $post['ID']);
+
         } else {
 
             $post_id = wp_insert_post($post);
@@ -384,12 +386,15 @@ class YA_Admin_API {
 
             $isNewPost = true;
 
+            SimpleLogger()->info('LOG-yatco: adding vessel #' . $result->VesselID . ' data as new post #' . $post_id);
+
         }
 
         if($post_id) {
 
             // save ID before any other data
             update_post_meta( $post_id, 'VesselID', $result->VesselID );
+            update_post_meta( $post_id, '_source', 'yatco' );
 
             if(isset($result->MainCategory) && !empty($result->MainCategory) ){
                 $SubCategory = '';
@@ -613,7 +618,7 @@ $_value = '';*/
                 $this->saveTagsFromText($post_id, $post_content);
             }
 
-            update_post_meta( $post_id, '_source', 'yatco' );
+            SimpleLogger()->info('LOG-yatco: saved vessel #' . $result->VesselID . ' as post #' . $post_id);
             
             return $answer;
         }

@@ -444,7 +444,7 @@ class YA_Admin_API {
                         if (!$old_thumbnail_yatco_id) {
                             $saveThumbnail = true;
                         } else {
-                            $saveThumbnail = ($yatco_image_id != $yatco_image_id);
+                            $saveThumbnail = ($yatco_image_id != $old_thumbnail_yatco_id);
                         }
                     }
 

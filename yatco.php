@@ -261,6 +261,7 @@ final class Yatco {
     include_once( 'includes/class-ya-post-types.php' );                               // Registers post types
     include_once( 'includes/class-ya-meta-boxes.php' );                               // Add metaboxes
     include_once( 'includes/class-ya-taxonomies.php' );                               // Register taxonomies
+    include_once( 'includes/class-ya-export.php' );
 
     $this->api   = new YA_API();
 

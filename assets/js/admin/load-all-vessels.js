@@ -2,8 +2,12 @@
   jQuery(document).ready(function($){
     var i;
     var rt_record_count = parseInt($('#loadvessel_record_count').val());
-    var rt_total      = parseInt($('#loadvessel_page_count').val());
-    var rt_count      = 1;
+    var rt_total        = parseInt($('#loadvessel_page_count').val());
+    var rt_count        = 1;
+
+    var bar_total       = parseInt($('#loadvessel_page_count').val());
+    var bar_count       = 1;
+
     var rt_percent    = 0;
     var rt_successes  = 0;
     var rt_errors     = 0;
@@ -12,7 +16,7 @@
     var rt_timestart  = new Date().getTime();
     var rt_timeend    = 0;
     var rt_totaltime  = 0;
-    var rt_continue   = true;
+    var rt_continue   = true;    
 
     // Create the progress bar
     $("#loadvessel-bar-percent").html( "0%" );
@@ -28,10 +32,12 @@
 
     // Called after each resize. Updates debug information and the progress bar.
     function loadvesselUpdateStatus( page_id, success, response ) {
-      var percent =  Math.round( ( rt_count / rt_total ) * 1000 ) / 10 + "%";
+
+      var percent =  Math.round( ( bar_count / bar_total ) * 1000 ) / 10 + "%";
       $("#loadvessel-progressbar-value").width( percent );
       $("#loadvessel-bar-percent").html( percent );
-      rt_count = rt_count + 1;
+      rt_count++;
+      bar_count++;
 
       if ( !success ) {
         rt_errors = rt_errors + 1;
@@ -113,6 +119,18 @@
     $('#loadvessel-start').click(function(event) {
       $('#loadvessel_progressbar').show();
       $('#loadvessel-start').hide();
+      $('#loadvessel-offset, #loadvessel-limit').attr('disabled', 'disabled');
+
+      var rt_offset     = $('#loadvessel-offset').val() != '' ? parseInt($('#loadvessel-offset').val()) : 0;
+      var rt_limit      = $('#loadvessel-limit').val() != '' ? parseInt($('#loadvessel-limit').val()) : 0;
+      var max_page      = rt_offset + rt_limit;
+
+      bar_total         = rt_limit > 0 ? rt_limit+0 : bar_total;
+
+      rt_total          = max_page > 0 && max_page < rt_total ? max_page : rt_total;
+      rt_count          = rt_offset > 0 ? rt_offset : rt_count;
+
+
       loadvessel( rt_count );
     });
   });

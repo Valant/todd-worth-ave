@@ -240,10 +240,14 @@ class YA_Admin_Welcome {
 				<div id="message" style="display: none;"></div>
 				<?php 
 				$yatco_api_key = get_option('yatco_api_key');
-				$api = new YA_Admin_API();
+				$api           = new YA_Admin_API();
+				$count_v       = $api->get_total_count();
 				if($yatco_api_key){
 					?>
 					<p>
+						<?php _e('Pages:', 'yatco'); ?>
+						<input type="number" min="0" max="<?php echo $count_v['PageCount']; ?>" step="1" id="loadvessel-offset" placeholder="<?php _e('Offset', 'yatco'); ?>">
+						<input type="number" min="0" max="<?php echo $count_v['PageCount']; ?>" step="1" id="loadvessel-limit" placeholder="<?php _e('Limit', 'yatco'); ?>">
 						<input id="loadvessel-start" class="button hide-if-no-js" type="button" value="<?php _e('Start', 'yatco'); ?>">
 					</p>
 					<div id="loadvessel_progressbar">
@@ -257,19 +261,20 @@ class YA_Admin_Welcome {
 		        <p>
 						<input id="loadvessel-stop" class="button hide-if-no-js" type="button" value="<?php _e('Abort', 'yatco'); ?>">
 						</p>
+						
+					</div>
+					<div id="">
 						<h3 class="title"><?php _e('Debugging Information', 'yatco'); ?></h3>
-						<p>
-							<?php
-							$count_v = $api->get_total_count(); 
-							?>
+						<p>							
 							<input type="hidden" id="loadvessel_record_count" value="<?php echo $count_v['RecordCount']; ?>">
 							<input type="hidden" id="loadvessel_page_count" value="<?php echo $count_v['PageCount']; ?>">
-		          <b><?php _e('Total', 'yatco'); ?></b>: <?php echo $count_v['RecordCount']; ?><br>
-		          <b><?php _e('Loaded', 'yatco'); ?></b>: <span id="loadvessel-debug-successcount">0</span><br>
-		          <b><?php _e('Failure', 'yatco'); ?></b>: <span id="loadvessel-debug-failurecount">0</span>
-		        </p>
-		        <ol id="loadvessel-debuglist">
-		        </ol>
+				          <b><?php _e('Record Count', 'yatco'); ?></b>: <?php echo $count_v['RecordCount']; ?><br>
+				          <b><?php _e('Page Count', 'yatco'); ?></b>: <?php echo $count_v['PageCount']; ?><br>
+				          <b><?php _e('Loaded', 'yatco'); ?></b>: <span id="loadvessel-debug-successcount">0</span><br>
+				          <b><?php _e('Failure', 'yatco'); ?></b>: <span id="loadvessel-debug-failurecount">0</span>
+				        </p>
+				        <ol id="loadvessel-debuglist">
+				        </ol>
 					</div>
 				<?php } else{ ?>
 				<form action="<?php echo admin_url( 'index.php' ); ?>" method="get">

@@ -33,7 +33,7 @@
     // Called after each resize. Updates debug information and the progress bar.
     function loadvesselUpdateStatus( page_id, success, response ) {
 
-      var percent =  Math.round( ( bar_count / bar_total ) * 1000 ) / 10 + "%";
+      var percent =  Math.round( ( bar_count / bar_total ) * 1000 ) / 10 + "%"; 
       $("#loadvessel-progressbar-value").width( percent );
       $("#loadvessel-bar-percent").html( percent );
       rt_count++;
@@ -46,7 +46,8 @@
         $("#loadvessel-debuglist").append("<li>" + response.error + "</li>");
       }
       else {
-        rt_successes = rt_successes + 10;
+        
+        rt_successes = rt_successes + response.length;
         $("#loadvessel-debug-successcount").html(rt_successes);
         $.each(response, function(index, val) {
           if(val.status == 'failed')
@@ -125,7 +126,7 @@
       var rt_limit      = $('#loadvessel-limit').val() != '' ? parseInt($('#loadvessel-limit').val()) : 0;
       var max_page      = rt_offset + rt_limit;
 
-      bar_total         = rt_limit > 0 ? rt_limit+0 : bar_total;
+      bar_total         = rt_limit > 0 ? rt_limit : bar_total;
 
       rt_total          = max_page > 0 && max_page < rt_total ? max_page : rt_total;
       rt_count          = rt_offset > 0 ? rt_offset : rt_count;

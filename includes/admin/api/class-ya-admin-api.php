@@ -102,7 +102,7 @@ class YA_Admin_API {
 
     public function get_total_count()
     {
-        $url  = 'http://data.yatco.com/dataservice/'.$this->apikey.'/search?Format=json&PageIndex=1&PageSize=10';
+        $url  = 'http://data.yatco.com/dataservice/'.$this->apikey.'/search?Format=json&PageIndex=1&PageSize=1';
         $json_string = $this->createCURL($url);
         $data        = json_decode($json_string);
         $count       = array();
@@ -113,7 +113,7 @@ class YA_Admin_API {
 
     public function load_page($page_id = 1)
     {
-        $url  = 'http://data.yatco.com/dataservice/'.$this->apikey.'/search?Format=json&PageIndex='.$page_id.'&PageSize=10';
+        $url  = 'http://data.yatco.com/dataservice/'.$this->apikey.'/search?Format=json&PageIndex='.$page_id.'&PageSize=1';
         $json_string = $this->createCURL($url);
         $data = json_decode($json_string);
         return $data->Vessels;
@@ -592,13 +592,11 @@ class YA_Admin_API {
                                     $_value = $my_data[$key . $unit_keys[1]];
                                     $_uk = $unit_keys[1];
                                 }
-/*var_dump($_value . ' ' .$_uk);
-$_value = '';*/
+
                                 if( empty($_value) && !empty($_uk) ){
                                     $_value = ya_convert_measurement($value, $unit, $uk);
                                     if( $_value && !empty($_value) ){
                                         $my_data[$key . $_uk] = $_value;
-#var_dump( $value .''. $unit . ' to '. $uk . ' = ' . $_value . ' ( '.$key . $_uk. ')');                                        
                                     }
                                 }
 
@@ -622,6 +620,8 @@ $_value = '';*/
             }
 
             SimpleLogger()->info('LOG-yatco: saved vessel #' . $result->VesselID . ' as post #' . $post_id);
+
+            do_action('ya_vessel_saved', $post_id);
             
             return $answer;
         }
